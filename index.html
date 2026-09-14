@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zhee Store IDN</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4A90E2">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f9;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+        button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Selamat Datang di Zhee Store IDN!</h1>
+        <p>Ini adalah aplikasi web yang dipasang dari layar utama.</p>
+        <button onclick="alert('Aplikasi berjalan dengan lancar!')">Klik Saya</button>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
