@@ -42,7 +42,7 @@
       z-index: -1;
     }
     
-    /* === FLOATING CAPSULE NAVBAR (EFEK DANZ CLEAN) === */
+    /* === FLOATING CAPSULE NAVBAR === */
     .navbar-wrapper {
       position: fixed; top: 14px; left: 0; right: 0;
       display: flex; justify-content: center; z-index: 100; padding: 0 14px;
@@ -63,6 +63,7 @@
     /* LOGO MP4 NO BACKGROUND (HEADER) */
     .brand-logo-mp4 {
       width: 32px; height: 32px; object-fit: contain;
+      mix-blend-mode: screen;
       opacity: 0; transform: scale(0.5);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -161,6 +162,7 @@
     /* BERANDA HERO MP4 NO BACKGROUND */
     .brand-hero-mp4 {
       width: 90px; height: 90px; object-fit: contain;
+      mix-blend-mode: screen;
       margin: 0 auto 0.6rem auto; display: block;
       transition: all 0.3s ease;
     }
@@ -190,14 +192,14 @@
     .catalog-name { font-size: 0.83rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .catalog-price { font-size: 0.78rem; color: #38bdf8; font-weight: 700; margin-top: 2px; }
 
-    /* CUSTOM PROFIL GRUP WA (URL AVATAR LINGKARAN NEON) */
+    /* CUSTOM PROFIL GRUP WA */
     .wa-avatar-custom {
       width: 42px; height: 42px; border-radius: 50%;
       object-fit: cover; border: 1.5px solid #22c55e;
       box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
     }
 
-    /* BOOKING FILTERS (FEE 1K & 2K) */
+    /* BOOKING FILTERS */
     .filter-container { margin-bottom: 1rem; }
     .filter-label { font-size: 0.73rem; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; }
     .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
@@ -309,9 +311,9 @@
 </head>
 <body>
 
-  <!-- BACKGROUND VIDEO ANIME PARALLAX -->
+  <!-- BACKGROUND VIDEO ANIME DARI GITHUB KHUSUS KAMU -->
   <video id="bg-video" autoplay loop muted playsinline>
-    <source src="https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-in-neon-lights-40142-large.mp4" type="video/mp4">
+    <source src="bg-anime.mp4" type="video/mp4">
   </video>
   <div class="glass-overlay"></div>
 
@@ -319,9 +321,9 @@
   <div class="navbar-wrapper">
     <header class="navbar-capsule">
       <a href="#" class="brand-box" onclick="switchPage('home')">
-        <!-- VIDEO MP4 NO BACKGROUND (GANTI SRC DENGAN MP4 ALIGHT MOTION) -->
+        <!-- LOGO MP4 ALIGHT MOTION DARI GITHUB KHUSUS KAMU -->
         <video class="brand-logo-mp4" id="header-logo-mp4" autoplay loop muted playsinline>
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-41483-large.mp4" type="video/mp4">
+          <source src="logo-zs.mp4" type="video/mp4">
         </video>
         <div class="logo-text" id="header-logo-text">Zhee<span>Store</span></div>
       </a>
@@ -342,8 +344,8 @@
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
   <div class="sidebar" id="sidebar">
     <div class="brand-box" style="margin-bottom: 8px;">
-      <video style="width:36px; height:36px; object-fit:contain;" autoplay loop muted playsinline>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-41483-large.mp4" type="video/mp4">
+      <video style="width:36px; height:36px; object-fit:contain; mix-blend-mode:screen;" autoplay loop muted playsinline>
+        <source src="logo-zs.mp4" type="video/mp4">
       </video>
       <div class="logo-text visible">Zhee<span>Store</span></div>
     </div>
@@ -388,9 +390,9 @@
     <!-- 1. BERANDA (SHOWCASE + 2 KOLOM KETERANGAN DETAIL) -->
     <section id="home" class="page-view active">
       <div class="glass-card" style="text-align: center; padding: 1.8rem 1rem;">
-        <!-- VIDEO MP4 HERO BERANDA (NO BACKGROUND ALIGHT MOTION) -->
+        <!-- LOGO MP4 ALIGHT MOTION HERO BERANDA -->
         <video class="brand-hero-mp4" id="hero-logo-mp4" autoplay loop muted playsinline>
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-41483-large.mp4" type="video/mp4">
+          <source src="logo-zs.mp4" type="video/mp4">
         </video>
         <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem;">
           <i class="fa-solid fa-circle-check"></i> Official Zhee Store
@@ -613,7 +615,7 @@
     </div>
   </div>
 
-  <!-- MODAL LINK KOMUNITAS (DENGAN INPUT URL AVATAR CUSTOM PROFIL GRUP) -->
+  <!-- MODAL LINK KOMUNITAS -->
   <div id="comm-modal" class="modal">
     <div class="bottom-sheet">
       <div class="sheet-handle"></div>
@@ -639,7 +641,7 @@
         <button type="submit" class="btn-save">Simpan Link Grup</button>
       </form>
     </div>
-  </div>
+   </div>
 
     <!-- FIREBASE SDK V10 -->
   <script type="module">
@@ -732,7 +734,6 @@
     const feesList = ['1K', '2K'];
     const modesList = ['1V1', '2V2', '3V3', '4V4'];
 
-    // SIDEBAR ACCORDION LOGIC
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
     document.getElementById('menu-toggle').addEventListener('click', () => {
@@ -760,7 +761,6 @@
       const headerText = document.getElementById('header-logo-text');
       const bgVideo = document.getElementById('bg-video');
 
-      // Parallax Zoom Video
       if(bgVideo) {
         const scaleVal = 1 + (scrollPos * 0.0005);
         const blurVal = Math.min(scrollPos * 0.015, 8);
@@ -768,7 +768,6 @@
         bgVideo.style.filter = `brightness(0.45) contrast(1.1) blur(${blurVal}px)`;
       }
 
-      // Morphing Logo ke Header Capsule
       if(scrollPos > 60) {
         headerLogo.classList.add('visible');
         headerText.classList.add('visible');
@@ -868,7 +867,6 @@
       });
     }
 
-    // RENDER GRUP WA DENGAN CUSTOM URL AVATAR PROFIR LINGKARAN
     function renderCommLinks() {
       const container = document.getElementById('community-links-container');
       container.innerHTML = '';
