@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Zhee Store - Official Arena & Graphic Studio</title>
+  <title>Zhee Store - Esports Arena & Graphic Studio</title>
 
   <link rel="icon" type="image/png" href="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,165 +11,175 @@
   
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-tap-highlight-color: transparent !important;
-      outline: none !important;
-      user-select: none;
+      outline: none !important; user-select: none;
     }
     
-    body {
-      background: #04060a;
+    html, body {
+      background-color: #04060a;
       color: #f8fafc;
       min-height: 100vh;
       padding-bottom: 90px;
       overflow-x: hidden;
-      position: relative;
     }
 
-    /* === BACKGROUND VIDEO ANIME === */
+    /* === BACKGROUND PARALLAX VIDEO === */
     #bg-video {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      object-fit: cover;
-      z-index: -2;
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      object-fit: cover; z-index: -2;
       filter: brightness(0.45) contrast(1.1);
+      transition: transform 0.1s linear, filter 0.1s linear;
     }
 
     .glass-overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 40%),
                   radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.12), transparent 40%),
                   rgba(4, 6, 10, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       z-index: -1;
     }
     
-    /* === HEADER & LOGO ANIMASI MP4 === */
-    .navbar {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 65px;
+    /* === FLOATING CAPSULE NAVBAR (EFEK DANZ CLEAN) === */
+    .navbar-wrapper {
+      position: fixed; top: 14px; left: 0; right: 0;
+      display: flex; justify-content: center; z-index: 100; padding: 0 14px;
+    }
+
+    .navbar-capsule {
+      width: 100%; max-width: 500px; height: 56px;
       background: rgba(10, 15, 26, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 1.2rem; z-index: 100;
+      padding: 0 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
 
-    .brand-box {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none;
-    }
+    .brand-box { display: flex; align-items: center; gap: 8px; text-decoration: none; }
 
+    /* LOGO MP4 NO BACKGROUND (HEADER) */
     .brand-logo-mp4 {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid #38bdf8;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+      width: 32px; height: 32px; object-fit: contain;
+      opacity: 0; transform: scale(0.5);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    .brand-logo-mp4.visible { opacity: 1; transform: scale(1); }
 
-    .logo-text { font-size: 1.2rem; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; }
+    .logo-text {
+      font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;
+      opacity: 0; transform: translateX(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .logo-text.visible { opacity: 1; transform: translateX(0); }
     .logo-text span { color: #38bdf8; }
 
-    .header-right { display: flex; align-items: center; gap: 10px; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
 
     .nav-auth-btn {
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.2);
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.2);
       background: rgba(30, 41, 59, 0.6);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; overflow: hidden; transition: all 0.2s;
     }
     .nav-auth-btn img { width: 100%; height: 100%; object-fit: cover; }
-    .nav-auth-btn i { color: #94a3b8; font-size: 1rem; }
+    .nav-auth-btn i { color: #94a3b8; font-size: 0.95rem; }
     .nav-auth-btn.logged-in { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
 
     .icon-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #fff; width: 38px; height: 38px;
-      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: transform 0.2s ease;
     }
     .icon-btn:active { transform: scale(0.9); }
 
-    /* === SIDEBAR GLASS === */
+    /* === ACCORDION SIDEBAR === */
     .sidebar {
-      position: fixed; top: 0; left: -280px; width: 270px; height: 100vh;
-      background: rgba(8, 12, 22, 0.92);
+      position: fixed; top: 0; left: -290px; width: 280px; height: 100vh;
+      background: rgba(8, 12, 22, 0.94);
       backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
       border-right: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 200; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      padding: 24px 18px; display: flex; flex-direction: column; gap: 20px;
+      padding: 24px 16px; display: flex; flex-direction: column; gap: 16px;
+      overflow-y: auto;
     }
     .sidebar.active { left: 0; }
 
     .sidebar-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(6px); z-index: 190; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
 
-    .menu-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .menu-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    
     .menu-item {
       padding: 12px 14px; border-radius: 14px;
       background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex; align-items: center; gap: 12px;
-      font-size: 0.9rem; color: #cbd5e1; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.88rem; color: #cbd5e1; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
     }
+    .menu-item-main { display: flex; align-items: center; gap: 10px; }
     .menu-item:active, .menu-item.active {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(168, 85, 247, 0.18));
       border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;
     }
 
+    .arrow-icon { transition: transform 0.3s ease; font-size: 0.75rem; color: #64748b; }
+    .menu-item.open .arrow-icon { transform: rotate(180deg); color: #38bdf8; }
+
+    /* SUB MENU ACCORDION */
+    .sub-menu {
+      display: none; flex-direction: column; gap: 4px; padding-left: 12px; margin-top: 4px;
+    }
+    .sub-menu.open { display: flex; }
+
+    .sub-menu-item {
+      padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; color: #94a3b8;
+      display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;
+    }
+    .sub-menu-item:active { background: rgba(255, 255, 255, 0.06); color: #38bdf8; }
+
     /* === CONTAINER & PAGES === */
-    .main-content { max-width: 600px; margin: 80px auto 0; padding: 0 1rem; }
-    .page-view { display: none; animation: fadeIn 0.3s ease-in-out; }
+    .main-content { max-width: 500px; margin: 90px auto 0; padding: 0 14px; }
+    .page-view { display: none; animation: fadeIn 0.35s ease-in-out; }
     .page-view.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .glass-card {
       background: rgba(15, 23, 42, 0.45);
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px; padding: 1.2rem;
+      border-radius: 20px; padding: 1.2rem;
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
       margin-bottom: 1.2rem; position: relative;
     }
 
+    /* BERANDA HERO MP4 NO BACKGROUND */
     .brand-hero-mp4 {
-      width: 85px; height: 85px;
-      border-radius: 50%; object-fit: cover;
-      border: 3px solid #38bdf8;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-      margin: 0 auto 0.8rem auto; display: block;
+      width: 90px; height: 90px; object-fit: contain;
+      margin: 0 auto 0.6rem auto; display: block;
+      transition: all 0.3s ease;
     }
 
-    .dual-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1rem; }
+    /* DUAL GATES SHOWCASE */
+    .dual-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
     .gate-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px; padding: 16px 14px; text-align: left;
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px; padding: 14px 12px; text-align: left;
       cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: space-between;
     }
-    .gate-card:active {
-      transform: scale(0.96);
-      background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3);
-    }
-    .gate-icon { font-size: 1.5rem; color: #38bdf8; margin-bottom: 8px; }
-    .gate-title { font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
-    .gate-sub { font-size: 0.75rem; color: #94a3b8; line-height: 1.4; margin-bottom: 10px; }
-    .gate-btn { font-size: 0.75rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 4px; }
+    .gate-card:active { transform: scale(0.96); background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); }
+    .gate-icon { font-size: 1.4rem; color: #38bdf8; margin-bottom: 8px; }
+    .gate-title { font-size: 0.9rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .gate-sub { font-size: 0.73rem; color: #94a3b8; line-height: 1.35; margin-bottom: 8px; }
+    .gate-btn { font-size: 0.73rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 4px; }
 
-    .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    /* KATALOG DESAIN */
+    .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .catalog-item {
       background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform 0.2s ease;
@@ -177,25 +187,33 @@
     .catalog-item:active { transform: scale(0.96); }
     .catalog-img { width: 100%; height: 110px; object-fit: cover; background: rgba(0,0,0,0.3); }
     .catalog-info { padding: 10px; }
-    .catalog-name { font-size: 0.85rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .catalog-name { font-size: 0.83rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .catalog-price { font-size: 0.78rem; color: #38bdf8; font-weight: 700; margin-top: 2px; }
 
+    /* CUSTOM PROFIL GRUP WA (URL AVATAR LINGKARAN NEON) */
+    .wa-avatar-custom {
+      width: 42px; height: 42px; border-radius: 50%;
+      object-fit: cover; border: 1.5px solid #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+
+    /* BOOKING FILTERS (FEE 1K & 2K) */
     .filter-container { margin-bottom: 1rem; }
-    .filter-label { font-size: 0.75rem; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; }
-    .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+    .filter-label { font-size: 0.73rem; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; }
+    .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .filter-scroll::-webkit-scrollbar { display: none; }
     
     .pill-btn {
       background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #94a3b8; padding: 0.5rem 1.2rem; border-radius: 20px;
-      font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+      color: #94a3b8; padding: 0.45rem 1.1rem; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 6px;
     }
     .pill-btn.active { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; border-color: transparent; }
     
     .pill-sub-btn {
       background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.05);
-      color: #64748b; padding: 0.4rem 0.9rem; border-radius: 12px;
+      color: #64748b; padding: 0.4rem 0.85rem; border-radius: 12px;
       font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 6px;
     }
@@ -208,19 +226,19 @@
     .room-list { display: flex; flex-direction: column; gap: 10px; }
     .room-card {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0.9rem 1rem; background: rgba(30, 41, 59, 0.4);
+      padding: 0.85rem 1rem; background: rgba(30, 41, 59, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px;
     }
     .room-info { display: flex; align-items: center; gap: 12px; }
     .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
     .status-dot.online { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
     .status-dot.offline { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
-    .room-details h4 { font-size: 0.9rem; font-weight: 800; color: #f8fafc; }
+    .room-details h4 { font-size: 0.88rem; font-weight: 800; color: #f8fafc; }
     .room-details p { font-size: 0.72rem; color: #94a3b8; }
     
     .btn-booking {
       background: linear-gradient(135deg, #38bdf8, #6366f1); color: white; border: none;
-      padding: 0.5rem 1rem; border-radius: 10px; font-weight: 700; font-size: 0.78rem;
+      padding: 0.45rem 0.95rem; border-radius: 10px; font-weight: 700; font-size: 0.78rem;
       cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
     }
     .btn-booking.full { background: linear-gradient(135deg, #ec4899, #8b5cf6) !important; color: white !important; cursor: not-allowed !important; pointer-events: none !important; }
@@ -232,14 +250,15 @@
       display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
     }
 
+    /* === FAB SPEED DIAL OWNER === */
     .owner-only { display: none !important; }
     body.is-owner .owner-only { display: flex !important; }
 
     .fab-wrapper { position: fixed; bottom: 25px; right: 20px; z-index: 150; display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 10px; }
     .fab-main {
-      width: 50px; height: 50px; border-radius: 50%;
+      width: 48px; height: 48px; border-radius: 50%;
       background: linear-gradient(135deg, #38bdf8, #8b5cf6); color: white; border: none;
-      font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
       box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4); cursor: pointer;
       transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
@@ -253,14 +272,15 @@
     .fab-wrapper.active .fab-menu { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
 
     .fab-icon-btn {
-      width: 44px; height: 44px; border-radius: 50%;
+      width: 42px; height: 42px; border-radius: 50%;
       background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);
       color: #38bdf8; display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; cursor: pointer; backdrop-filter: blur(10px);
+      font-size: 1rem; cursor: pointer; backdrop-filter: blur(10px);
       box-shadow: 0 6px 16px rgba(0,0,0,0.4); transition: transform 0.15s;
     }
     .fab-icon-btn:active { transform: scale(0.9); }
 
+    /* MODAL BOTTOM SHEET */
     .modal {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
@@ -268,11 +288,11 @@
     }
     .modal.show { display: flex; }
     .bottom-sheet {
-      width: 100%; max-width: 500px; background: rgba(15, 23, 42, 0.95);
+      width: 100%; max-width: 480px; background: rgba(15, 23, 42, 0.96);
       border-top: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px 24px 0 0;
       padding: 20px 20px 30px; position: relative;
     }
-    .sheet-handle { width: 40px; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 2px; margin: 0 auto 16px; }
+    .sheet-handle { width: 36px; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 2px; margin: 0 auto 16px; }
     
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label { display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 0.4rem; font-weight: 600; }
@@ -289,56 +309,75 @@
 </head>
 <body>
 
-  <!-- VIDEO BACKGROUND ANIME -->
+  <!-- BACKGROUND VIDEO ANIME PARALLAX -->
   <video id="bg-video" autoplay loop muted playsinline>
     <source src="https://assets.mixkit.co/videos/preview/mixkit-cyberpunk-city-street-in-neon-lights-40142-large.mp4" type="video/mp4">
   </video>
   <div class="glass-overlay"></div>
 
-  <!-- HEADER HEADER WITH MP4 LOGO & GOOGLE AUTH -->
-  <header class="navbar">
-    <a href="#" class="brand-box" onclick="switchPage('home')">
-      <video class="brand-logo-mp4" autoplay loop muted playsinline>
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-41483-large.mp4" type="video/mp4">
-      </video>
-      <div class="logo-text">Zhee<span>Store</span></div>
-    </a>
-    
-    <div class="header-right">
-      <div class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">
-        <i class="fa-solid fa-user" id="navUserIcon"></i>
-        <img src="" id="navUserImg" style="display:none;" alt="User">
+  <!-- FLOATING CAPSULE HEADER -->
+  <div class="navbar-wrapper">
+    <header class="navbar-capsule">
+      <a href="#" class="brand-box" onclick="switchPage('home')">
+        <!-- VIDEO MP4 NO BACKGROUND (GANTI SRC DENGAN MP4 ALIGHT MOTION) -->
+        <video class="brand-logo-mp4" id="header-logo-mp4" autoplay loop muted playsinline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-41483-large.mp4" type="video/mp4">
+        </video>
+        <div class="logo-text" id="header-logo-text">Zhee<span>Store</span></div>
+      </a>
+      
+      <div class="header-right">
+        <div class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">
+          <i class="fa-solid fa-user" id="navUserIcon"></i>
+          <img src="" id="navUserImg" style="display:none;" alt="User">
+        </div>
+        <button class="icon-btn" id="menu-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
-      <button class="icon-btn" id="menu-toggle">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-    </div>
-  </header>
+    </header>
+  </div>
 
-  <!-- SIDEBAR GLASS -->
+  <!-- ACCORDION SIDEBAR GLASS -->
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
   <div class="sidebar" id="sidebar">
-    <div class="brand-box" style="margin-bottom: 10px;">
-      <video class="brand-logo-mp4" autoplay loop muted playsinline>
+    <div class="brand-box" style="margin-bottom: 8px;">
+      <video style="width:36px; height:36px; object-fit:contain;" autoplay loop muted playsinline>
         <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-41483-large.mp4" type="video/mp4">
       </video>
-      <div class="logo-text">Zhee<span>Store</span></div>
+      <div class="logo-text visible">Zhee<span>Store</span></div>
     </div>
+
     <ul class="menu-list">
+      <!-- 1. BERANDA -->
       <li class="menu-item active" onclick="switchPage('home', this)">
-        <i class="fa-solid fa-house"></i> Beranda
+        <div class="menu-item-main"><i class="fa-solid fa-house"></i> Beranda</div>
       </li>
-      <li class="menu-item" onclick="switchPage('desain', this)">
-        <i class="fa-solid fa-palette"></i> Desainer Grafis
+
+      <!-- 2. JASA DESAINER (ACCORDION) -->
+      <li class="menu-item" onclick="toggleAccordion('acc-desain', this)">
+        <div class="menu-item-main"><i class="fa-solid fa-palette"></i> Jasa Desainer</div>
+        <i class="fa-solid fa-chevron-down arrow-icon"></i>
       </li>
-      <li class="menu-item" onclick="switchPage('booking', this)">
-        <i class="fa-solid fa-trophy"></i> Fastour CS FF
+      <div class="sub-menu" id="acc-desain">
+        <div class="sub-menu-item" onclick="switchPage('desain-preview')"><i class="fa-solid fa-image"></i> Preview Desain</div>
+        <div class="sub-menu-item" onclick="switchPage('desain-admin')"><i class="fa-solid fa-user-gear"></i> Admin Desain</div>
+      </div>
+
+      <!-- 3. FASTOUR GAME (ACCORDION) -->
+      <li class="menu-item" onclick="toggleAccordion('acc-fastour', this)">
+        <div class="menu-item-main"><i class="fa-solid fa-gamepad"></i> Fastour Game</div>
+        <i class="fa-solid fa-chevron-down arrow-icon"></i>
       </li>
-      <li class="menu-item" onclick="switchPage('rules', this)">
-        <i class="fa-solid fa-scroll"></i> Rules Match
-      </li>
-      <li class="menu-item" onclick="switchPage('community', this)">
-        <i class="fa-solid fa-comments"></i> Komunitas & CS
+      <div class="sub-menu" id="acc-fastour">
+        <div class="sub-menu-item" onclick="switchPage('community')"><i class="fa-solid fa-users"></i> Group & Saluran FT CS</div>
+        <div class="sub-menu-item" onclick="switchPage('booking')"><i class="fa-solid fa-trophy"></i> Booking FT CS FF</div>
+        <div class="sub-menu-item" onclick="switchPage('rules')"><i class="fa-solid fa-scroll"></i> Rules FT CS</div>
+      </div>
+
+      <!-- 4. CS ZHEE STORE -->
+      <li class="menu-item" onclick="switchPage('cs-store', this)">
+        <div class="menu-item-main"><i class="fa-solid fa-headset"></i> CS Zhee Store</div>
       </li>
     </ul>
   </div>
@@ -346,28 +385,30 @@
   <!-- MAIN CONTAINER -->
   <main class="main-content">
     
-    <!-- 1. BERANDA (LIVE COMMAND HUB - DUAL GATES) -->
+    <!-- 1. BERANDA (SHOWCASE + 2 KOLOM KETERANGAN DETAIL) -->
     <section id="home" class="page-view active">
-      <div class="glass-card" style="text-align: center; padding: 2rem 1.2rem;">
-        <video class="brand-hero-mp4" autoplay loop muted playsinline>
+      <div class="glass-card" style="text-align: center; padding: 1.8rem 1rem;">
+        <!-- VIDEO MP4 HERO BERANDA (NO BACKGROUND ALIGHT MOTION) -->
+        <video class="brand-hero-mp4" id="hero-logo-mp4" autoplay loop muted playsinline>
           <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-41483-large.mp4" type="video/mp4">
         </video>
-        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem;">
+        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem;">
           <i class="fa-solid fa-circle-check"></i> Official Zhee Store
         </span>
-        <h1 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.6rem;">Welcome to Zhee Store</h1>
-        <p style="color: #94a3b8; font-size: 0.85rem; line-height: 1.6;">Platform Fastour CS Free Fire Terpercaya & Studio Desain Grafis Esports Profesional.</p>
+        <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem;">Welcome to Zhee Store</h1>
+        <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.5;">Pusat Layanan Fastour Game Esports & Jasa Desain Grafis Profesional.</p>
 
+        <!-- DUAL GATES SHOWCASE -->
         <div class="dual-gates">
           <div class="gate-card" onclick="switchPage('booking')">
             <div>
               <i class="fa-solid fa-gamepad gate-icon"></i>
-              <div class="gate-title">Fastour CS</div>
+              <div class="gate-title">Fastour Game</div>
               <div class="gate-sub">Arena Match CS 4v4 Instan & Transparan</div>
             </div>
             <div class="gate-btn">Masuk Arena <i class="fa-solid fa-chevron-right"></i></div>
           </div>
-          <div class="gate-card" onclick="switchPage('desain')">
+          <div class="gate-card" onclick="switchPage('desain-preview')">
             <div>
               <i class="fa-solid fa-paint-brush gate-icon" style="color:#a855f7;"></i>
               <div class="gate-title">Graphic Studio</div>
@@ -377,12 +418,23 @@
           </div>
         </div>
       </div>
+
+      <!-- 2 KOLOM KETERANGAN DETAIL DI BERANDA -->
+      <div class="glass-card">
+        <h3 style="font-size: 0.95rem; color: #a855f7; margin-bottom: 0.5rem;"><i class="fa-solid fa-palette"></i> Tentang Jasa Desainer Grafis</h3>
+        <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.6;">Layanan pembuatan identitas visual esports profesional. Kami melayani pembuatan Logo Mascot Guild, Banner Tournament, dan Poster Esports dengan revisi ramah serta pengerjaan cepat.</p>
+      </div>
+
+      <div class="glass-card">
+        <h3 style="font-size: 0.95rem; color: #38bdf8; margin-bottom: 0.5rem;"><i class="fa-solid fa-gamepad"></i> Tentang Fastour Game</h3>
+        <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.6;">Wadah turnamen mini Clash Squad (CS) cepat & intens. Menggunakan sistem room kuota real-time yang transparan, jadwal fleksibel, dan hasil pertandingan yang terpercaya oleh Zhefanya.</p>
+      </div>
     </section>
 
-    <!-- 2. DESAINER GRAFIS -->
-    <section id="desain" class="page-view">
+    <!-- 2. JASA DESAINER (PREVIEW & ADMIN) -->
+    <section id="desain-preview" class="page-view">
       <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 1rem;"><i class="fa-solid fa-palette"></i> Katalog Desain Grafis</h3>
+        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 1rem;"><i class="fa-solid fa-palette"></i> Preview Katalog Desain</h3>
         <div class="catalog-grid">
           <div class="catalog-item" onclick="openOrderModal('Logo Mascot Guild', 'Rp 25.000')">
             <img src="https://via.placeholder.com/300/0f172a/ffffff?text=Logo+Guild" class="catalog-img">
@@ -402,10 +454,19 @@
       </div>
     </section>
 
-    <!-- 3. BOOKING FASTOUR -->
+    <section id="desain-admin" class="page-view">
+      <div class="glass-card" style="text-align: center;">
+        <i class="fa-solid fa-user-gear" style="font-size: 2.2rem; color: #a855f7; margin-bottom: 10px;"></i>
+        <h3 style="font-size: 1.1rem; color: #fff; margin-bottom: 6px;">Admin Desainer Grafis</h3>
+        <p style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 16px;">Konsultasi konsep desain kustom atau cek antrean pesanan langsung dengan Admin Desain.</p>
+        <button class="btn-save" style="background: linear-gradient(135deg, #a855f7, #6366f1);" onclick="window.open('https://wa.me/6281234567890?text=Halo%20Admin%20Desain%20Zhee%20Store')">Chat Admin Desain WA</button>
+      </div>
+    </section>
+
+    <!-- 3. FASTOUR GAME (BOOKING) -->
     <section id="booking" class="page-view">
       <div class="glass-card" style="margin-bottom: 1rem;">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-trophy"></i> Fastour Booking</h3>
+        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-trophy"></i> Booking FT CS FF</h3>
         
         <div class="filter-container">
           <div class="filter-label">1. PILIH FEE MATCH</div>
@@ -421,7 +482,7 @@
       <div id="room-container" class="room-list"></div>
     </section>
 
-    <!-- 4. RULES -->
+    <!-- 4. RULES MATCH -->
     <section id="rules" class="page-view">
       <div class="glass-card">
         <h3 style="font-size: 1.05rem; color: #f43f5e; margin-bottom: 0.8rem;"><i class="fa-solid fa-scroll"></i> Rules FT CS</h3>
@@ -429,11 +490,43 @@
       </div>
     </section>
 
-    <!-- 5. KOMUNITAS & CS -->
+    <!-- 5. GROUP & SALURAN FT CS -->
     <section id="community" class="page-view">
       <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-comments"></i> Saluran & CS Official</h3>
+        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-comments"></i> Group & Saluran FT CS</h3>
         <div id="community-links-container"></div>
+      </div>
+    </section>
+
+    <!-- 6. CS ZHEE STORE (2 NOMOR ADMIN) -->
+    <section id="cs-store" class="page-view">
+      <div class="glass-card">
+        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem; text-align: center;"><i class="fa-solid fa-headset"></i> Customer Service Zhee Store</h3>
+        <p style="color: #94a3b8; font-size: 0.82rem; text-align: center; margin-bottom: 1rem;">Hubungi Customer Service resmi kami di bawah ini jika ada kendala slot atau pemesanan:</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div class="room-card">
+            <div class="room-info">
+              <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.4rem;"></i>
+              <div class="room-details">
+                <h4>CS Main Admin (Zhefanya)</h4>
+                <p>Layanan Booking & Fastour CS</p>
+              </div>
+            </div>
+            <a href="https://wa.me/6281234567890" target="_blank" class="btn-booking">Chat CS 1</a>
+          </div>
+
+          <div class="room-card">
+            <div class="room-info">
+              <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.4rem;"></i>
+              <div class="room-details">
+                <h4>CS Graphic & Bantuan</h4>
+                <p>Layanan Desain & Kendala Web</p>
+              </div>
+            </div>
+            <a href="https://wa.me/6289876543210" target="_blank" class="btn-booking" style="background: linear-gradient(135deg, #a855f7, #6366f1);">Chat CS 2</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -454,13 +547,11 @@
       <div class="sheet-handle"></div>
       <span class="close-modal" onclick="closeAuthModal()">&times;</span>
       <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color:#38bdf8; text-align:center;">Akun Pengguna</h3>
-      
       <div id="loggedOutView">
         <button class="btn-save" style="background:#ffffff; color:#0f172a; margin-top:1rem;" onclick="loginWithGoogle()">
           <i class="fa-brands fa-google" style="color:#ea4335; margin-right:8px;"></i> Masuk dengan Google
         </button>
       </div>
-
       <div id="loggedInView" style="display:none; text-align:center;">
         <p style="color:#f8fafc; font-weight:700; margin-bottom:0.2rem;" id="userDisplayName">-</p>
         <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:1.2rem;" id="userDisplayEmail">-</p>
@@ -522,7 +613,7 @@
     </div>
   </div>
 
-  <!-- MODAL LINK KOMUNITAS -->
+  <!-- MODAL LINK KOMUNITAS (DENGAN INPUT URL AVATAR CUSTOM PROFIL GRUP) -->
   <div id="comm-modal" class="modal">
     <div class="bottom-sheet">
       <div class="sheet-handle"></div>
@@ -531,22 +622,26 @@
       <form onsubmit="saveCommLinkConfig(event)">
         <div class="form-group">
           <label>Nama Layanan / Grup</label>
-          <input type="text" id="modal-comm-title" placeholder="Contoh: Saluran WA Fastour" required>
+          <input type="text" id="modal-comm-title" placeholder="Contoh: GB FT BY ZHEFANYA #1" required>
         </div>
         <div class="form-group">
           <label>Keterangan Singkat</label>
-          <input type="text" id="modal-comm-sub" placeholder="Contoh: Join saluran resmi" required>
+          <input type="text" id="modal-comm-sub" placeholder="Contoh: Grup Kuota Fastour" required>
+        </div>
+        <div class="form-group">
+          <label>URL Gambar Profil Grup WA (Kosongkan jika default)</label>
+          <input type="text" id="modal-comm-img" placeholder="https://domain.com/foto-grup.jpg">
         </div>
         <div class="form-group">
           <label>URL Link WA / Saluran</label>
           <input type="text" id="modal-comm-url" placeholder="https://chat.whatsapp.com/..." required>
         </div>
-        <button type="submit" class="btn-save">Simpan Link</button>
+        <button type="submit" class="btn-save">Simpan Link Grup</button>
       </form>
     </div>
-    </div>
+  </div>
 
-  <!-- FIREBASE SDK V10 -->
+    <!-- FIREBASE SDK V10 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -573,15 +668,10 @@
       try {
         await signInWithPopup(auth, googleProvider);
         closeAuthModal();
-      } catch (e) {
-        alert("Gagal Login: " + e.message);
-      }
+      } catch (e) { alert("Gagal Login: " + e.message); }
     };
 
-    window.logoutOwner = () => {
-      signOut(auth);
-      closeAuthModal();
-    };
+    window.logoutOwner = () => { signOut(auth); closeAuthModal(); };
 
     onAuthStateChanged(auth, (user) => {
       const navBtn = document.getElementById('navAuthBtn');
@@ -589,8 +679,7 @@
       const img = document.getElementById('navUserImg');
 
       if (user) {
-        navBtn.classList.add('logged-in');
-        icon.style.display = "none";
+        navBtn.classList.add('logged-in'); icon.style.display = "none";
         img.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName)}`;
         img.style.display = "block";
 
@@ -599,98 +688,100 @@
         document.getElementById('userDisplayName').innerText = user.displayName || "Pengguna";
         document.getElementById('userDisplayEmail').innerText = user.email || "";
 
-        if (user.email === OWNER_EMAIL) {
-          document.body.classList.add('is-owner');
-        } else {
-          document.body.classList.remove('is-owner');
-        }
+        if (user.email === OWNER_EMAIL) { document.body.classList.add('is-owner'); } 
+        else { document.body.classList.remove('is-owner'); }
       } else {
         document.body.classList.remove('is-owner');
         navBtn.classList.remove('logged-in');
-        icon.style.display = "block";
-        img.style.display = "none";
-
+        icon.style.display = "block"; img.style.display = "none";
         document.getElementById('loggedOutView').style.display = "block";
         document.getElementById('loggedInView').style.display = "none";
       }
-      renderRooms();
-      renderCommLinks();
+      renderRooms(); renderCommLinks();
     });
 
     onSnapshot(doc(db, "app_data", "rooms"), (docSnap) => {
-      if (docSnap.exists()) {
-        window.roomsDatabase = docSnap.data();
-        renderFilters();
-        renderRooms();
-      }
+      if (docSnap.exists()) { window.roomsDatabase = docSnap.data(); renderFilters(); renderRooms(); }
     });
 
     onSnapshot(doc(db, "app_data", "fee_status"), (docSnap) => {
-      if (docSnap.exists()) {
-        window.feeStatuses = docSnap.data();
-        renderFilters();
-        renderRooms();
-      }
+      if (docSnap.exists()) { window.feeStatuses = docSnap.data(); renderFilters(); renderRooms(); }
     });
 
     onSnapshot(doc(db, "app_data", "comm_links"), (docSnap) => {
-      if (docSnap.exists() && docSnap.data().links) {
-        window.commLinks = docSnap.data().links;
-        renderCommLinks();
-      }
+      if (docSnap.exists() && docSnap.data().links) { window.commLinks = docSnap.data().links; renderCommLinks(); }
     });
 
-    window.saveRoomsToFirestore = async function() {
-      await setDoc(doc(db, "app_data", "rooms"), window.roomsDatabase);
-    };
-
-    window.saveFeeStatusToFirestore = async function() {
-      await setDoc(doc(db, "app_data", "fee_status"), window.feeStatuses);
-    };
-
-    window.saveCommToFirestore = async function() {
-      await setDoc(doc(db, "app_data", "comm_links"), { links: window.commLinks });
-    };
+    window.saveRoomsToFirestore = async function() { await setDoc(doc(db, "app_data", "rooms"), window.roomsDatabase); };
+    window.saveFeeStatusToFirestore = async function() { await setDoc(doc(db, "app_data", "fee_status"), window.feeStatuses); };
+    window.saveCommToFirestore = async function() { await setDoc(doc(db, "app_data", "comm_links"), { links: window.commLinks }); };
   </script>
 
-  <!-- APP SCRIPT -->
+  <!-- APP INTERACTIVE SCRIPT -->
   <script>
     let currentFee = '1K';
     let currentMode = '1V1';
     let targetEditRoomNum = 1;
-    let targetEditCommId = null;
 
     window.roomsDatabase = {};
     window.feeStatuses = { '1K': 'open', '2K': 'open' };
     window.commLinks = [
-      { id: 1, title: 'Saluran WhatsApp Official', sub: 'Join saluran resmi info slot', url: 'https://whatsapp.com/channel/example' }
+      { id: 1, title: 'GB FT BY ZHEFANYA #1', sub: 'Grup Kuota Fastour', img: '', url: 'https://chat.whatsapp.com/example' }
     ];
 
     const feesList = ['1K', '2K'];
     const modesList = ['1V1', '2V2', '3V3', '4V4'];
 
+    // SIDEBAR ACCORDION LOGIC
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
     document.getElementById('menu-toggle').addEventListener('click', () => {
-      sidebar.classList.add('active');
-      overlay.classList.add('active');
+      sidebar.classList.add('active'); overlay.classList.add('active');
     });
     overlay.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
+      sidebar.classList.remove('active'); overlay.classList.remove('active');
+    });
+
+    function toggleAccordion(accId, element) {
+      const target = document.getElementById(accId);
+      const isOpen = target.classList.contains('open');
+      document.querySelectorAll('.sub-menu').forEach(s => s.classList.remove('open'));
+      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('open'));
+      if(!isOpen) {
+        target.classList.add('open');
+        element.classList.add('open');
+      }
+    }
+
+    // MORPHING LOGO & PARALLAX ZOOM SCROLL EFFECT
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY;
+      const headerLogo = document.getElementById('header-logo-mp4');
+      const headerText = document.getElementById('header-logo-text');
+      const bgVideo = document.getElementById('bg-video');
+
+      // Parallax Zoom Video
+      if(bgVideo) {
+        const scaleVal = 1 + (scrollPos * 0.0005);
+        const blurVal = Math.min(scrollPos * 0.015, 8);
+        bgVideo.style.transform = `scale(${scaleVal})`;
+        bgVideo.style.filter = `brightness(0.45) contrast(1.1) blur(${blurVal}px)`;
+      }
+
+      // Morphing Logo ke Header Capsule
+      if(scrollPos > 60) {
+        headerLogo.classList.add('visible');
+        headerText.classList.add('visible');
+      } else {
+        headerLogo.classList.remove('visible');
+        headerText.classList.remove('visible');
+      }
     });
 
     function generateRoomsFor(fee, mode) {
       let arr = [];
       for (let i = 1; i <= 5; i++) {
-        arr.push({
-          roomNum: i,
-          name: `ROOM ${i}`,
-          slot: 0,
-          maxSlot: 4,
-          status: 'online',
-          link: `https://wa.me/628123456789?text=Halo%20CS,%20mau%20booking%20Room%20${i}`
-        });
+        arr.push({ roomNum: i, name: `ROOM ${i}`, slot: 0, maxSlot: 4, status: 'online', link: `https://wa.me/628123456789?text=Booking%20Room%20${i}` });
       }
       return arr;
     }
@@ -699,31 +790,24 @@
       feesList.forEach(fee => {
         modesList.forEach(mode => {
           const key = `${fee}_${mode}`;
-          if (!window.roomsDatabase[key]) {
-            window.roomsDatabase[key] = generateRoomsFor(fee, mode);
-          }
+          if (!window.roomsDatabase[key]) window.roomsDatabase[key] = generateRoomsFor(fee, mode);
         });
       });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      initDefaultRooms();
-      renderFilters();
-      renderRooms();
-      renderCommLinks();
+      initDefaultRooms(); renderFilters(); renderRooms(); renderCommLinks();
     });
 
-    function toggleFab() {
-      document.getElementById('fabWrapper').classList.toggle('active');
-    }
+    function toggleFab() { document.getElementById('fabWrapper').classList.toggle('active'); }
 
     function switchPage(pageId, element) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-      document.getElementById(pageId).classList.add('active');
+      const activePage = document.getElementById(pageId);
+      if(activePage) activePage.classList.add('active');
       if(element) element.classList.add('active');
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
+      sidebar.classList.remove('active'); overlay.classList.remove('active');
       document.getElementById('fabWrapper').classList.remove('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -736,10 +820,8 @@
         const activeClass = fee === currentFee ? 'active' : '';
         feeContainer.innerHTML += `
           <button class="pill-btn ${activeClass}" onclick="setFee('${fee}')">
-            <span class="btn-dot ${isOnline ? 'online' : 'offline'}"></span>
-            FEE ${fee}
-          </button>
-        `;
+            <span class="btn-dot ${isOnline ? 'online' : 'offline'}"></span> FEE ${fee}
+          </button>`;
       });
 
       const modeContainer = document.getElementById('mode-buttons-container');
@@ -747,10 +829,7 @@
       modesList.forEach(mode => {
         const activeClass = mode === currentMode ? 'active' : '';
         modeContainer.innerHTML += `
-          <button class="pill-sub-btn ${activeClass}" onclick="setMode('${mode}')">
-            MODE ${mode}
-          </button>
-        `;
+          <button class="pill-sub-btn ${activeClass}" onclick="setMode('${mode}')">MODE ${mode}</button>`;
       });
     }
 
@@ -760,7 +839,6 @@
     function renderRooms() {
       const container = document.getElementById('room-container');
       container.innerHTML = '';
-
       const key = `${currentFee}_${currentMode}`;
       let roomList = window.roomsDatabase[key] || generateRoomsFor(currentFee, currentMode);
       const isFeeOff = window.feeStatuses[currentFee] === 'off';
@@ -768,10 +846,7 @@
       roomList.forEach(room => {
         const isFull = room.slot >= room.maxSlot;
         const isOffline = room.status === 'offline' || isFeeOff;
-
-        let btnText = "BOOKING";
-        let btnClass = "btn-booking";
-
+        let btnText = "BOOKING"; let btnClass = "btn-booking";
         if (isOffline) { btnText = "OFFLINE"; btnClass += " disabled"; }
         else if (isFull) { btnText = "FULL"; btnClass += " full"; }
 
@@ -788,29 +863,29 @@
           <div style="display:flex; align-items:center; gap:8px;">
             <a href="${room.link}" target="_blank" class="${btnClass}">${btnText}</a>
             <button class="btn-owner-dots owner-only" onclick="openRoomModal(${room.roomNum})">⋮</button>
-          </div>
-        `;
+          </div>`;
         container.appendChild(roomCard);
       });
     }
 
+    // RENDER GRUP WA DENGAN CUSTOM URL AVATAR PROFIR LINGKARAN
     function renderCommLinks() {
       const container = document.getElementById('community-links-container');
       container.innerHTML = '';
       window.commLinks.forEach(item => {
+        const avatarSrc = item.img && item.img.trim() !== '' ? item.img : 'https://via.placeholder.com/100/22c55e/ffffff?text=WA';
         const commCard = document.createElement('div');
         commCard.className = 'room-card';
         commCard.style.marginBottom = '10px';
         commCard.innerHTML = `
           <div class="room-info">
-            <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.2rem;"></i>
+            <img src="${avatarSrc}" class="wa-avatar-custom" onerror="this.src='https://via.placeholder.com/100/22c55e/ffffff?text=WA';">
             <div class="room-details">
               <h4>${item.title}</h4>
               <p>${item.sub}</p>
             </div>
           </div>
-          <a href="${item.url}" target="_blank" class="btn-booking">Buka</a>
-        `;
+          <a href="${item.url}" target="_blank" class="btn-booking">Buka</a>`;
         container.appendChild(commCard);
       });
     }
@@ -840,7 +915,6 @@
         window.roomsDatabase[key][roomIndex].status = document.getElementById('modal-room-status').value;
         window.roomsDatabase[key][roomIndex].slot = parseInt(document.getElementById('modal-room-slot').value);
         window.roomsDatabase[key][roomIndex].link = document.getElementById('modal-room-link').value;
-
         if (window.saveRoomsToFirestore) await window.saveRoomsToFirestore();
         renderFilters(); renderRooms(); closeRoomModal();
       }
@@ -871,9 +945,10 @@
       e.preventDefault();
       const title = document.getElementById('modal-comm-title').value;
       const sub = document.getElementById('modal-comm-sub').value;
+      const img = document.getElementById('modal-comm-img').value;
       const url = document.getElementById('modal-comm-url').value;
       const newId = window.commLinks.length > 0 ? Math.max(...window.commLinks.map(c => c.id)) + 1 : 1;
-      window.commLinks.push({ id: newId, title, sub, url });
+      window.commLinks.push({ id: newId, title, sub, img, url });
       if (window.saveCommToFirestore) await window.saveCommToFirestore();
       renderCommLinks(); closeCommModal();
     }
