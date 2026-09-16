@@ -42,20 +42,22 @@
       z-index: -1;
     }
     
-    /* === FLOATING CAPSULE NAVBAR === */
+    /* === FLOATING CAPSULE NAVBAR (Z-INDEX 999 PREVENT OVERLAP) === */
     .navbar-wrapper {
-      position: fixed; top: 14px; left: 0; right: 0;
-      display: flex; justify-content: center; z-index: 100; padding: 0 14px;
+      position: fixed; top: 12px; left: 0; right: 0;
+      display: flex; justify-content: center; z-index: 999; padding: 0 14px;
+      pointer-events: none;
     }
 
     .navbar-capsule {
       width: 100%; max-width: 500px; height: 56px;
-      background: rgba(10, 15, 26, 0.65);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 15, 26, 0.85);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 28px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      padding: 0 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      pointer-events: auto;
     }
 
     .brand-box { display: flex; align-items: center; gap: 8px; text-decoration: none; }
@@ -90,7 +92,7 @@
     .nav-auth-btn.logged-in { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
 
     .icon-btn {
-      background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
       color: #fff; width: 36px; height: 36px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: transform 0.2s ease;
@@ -100,18 +102,18 @@
     /* === ACCORDION SIDEBAR === */
     .sidebar {
       position: fixed; top: 0; left: -290px; width: 280px; height: 100vh;
-      background: rgba(8, 12, 22, 0.94);
+      background: rgba(8, 12, 22, 0.96);
       backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
       border-right: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 200; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       padding: 24px 16px; display: flex; flex-direction: column; gap: 16px;
       overflow-y: auto;
     }
     .sidebar.active { left: 0; }
 
     .sidebar-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(6px); z-index: 190; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
 
@@ -132,7 +134,6 @@
     .arrow-icon { transition: transform 0.3s ease; font-size: 0.75rem; color: #64748b; }
     .menu-item.open .arrow-icon { transform: rotate(180deg); color: #38bdf8; }
 
-    /* SUB MENU ACCORDION */
     .sub-menu {
       display: none; flex-direction: column; gap: 4px; padding-left: 12px; margin-top: 4px;
     }
@@ -144,18 +145,18 @@
     }
     .sub-menu-item:active { background: rgba(255, 255, 255, 0.06); color: #38bdf8; }
 
-    /* === CONTAINER & PAGES === */
-    .main-content { max-width: 500px; margin: 90px auto 0; padding: 0 14px; }
+    /* === MAIN CONTENT FIX MARGIN TOP (110PX TO PREVENT KETIMPA) === */
+    .main-content { max-width: 500px; margin: 110px auto 0; padding: 0 14px; }
     .page-view { display: none; animation: fadeIn 0.35s ease-in-out; }
     .page-view.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     .glass-card {
-      background: rgba(15, 23, 42, 0.45);
+      background: rgba(15, 23, 42, 0.55);
       backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 20px; padding: 1.2rem;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
       margin-bottom: 1.2rem; position: relative;
     }
 
@@ -167,7 +168,6 @@
       transition: all 0.3s ease;
     }
 
-    /* DUAL GATES SHOWCASE */
     .dual-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
     .gate-card {
       background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -180,7 +180,6 @@
     .gate-sub { font-size: 0.73rem; color: #94a3b8; line-height: 1.35; margin-bottom: 8px; }
     .gate-btn { font-size: 0.73rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 4px; }
 
-    /* KATALOG DESAIN */
     .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .catalog-item {
       background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -192,14 +191,12 @@
     .catalog-name { font-size: 0.83rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .catalog-price { font-size: 0.78rem; color: #38bdf8; font-weight: 700; margin-top: 2px; }
 
-    /* CUSTOM PROFIL GRUP WA */
     .wa-avatar-custom {
       width: 42px; height: 42px; border-radius: 50%;
       object-fit: cover; border: 1.5px solid #22c55e;
       box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
     }
 
-    /* BOOKING FILTERS */
     .filter-container { margin-bottom: 1rem; }
     .filter-label { font-size: 0.73rem; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; }
     .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
@@ -252,11 +249,10 @@
       display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
     }
 
-    /* === FAB SPEED DIAL OWNER === */
     .owner-only { display: none !important; }
     body.is-owner .owner-only { display: flex !important; }
 
-    .fab-wrapper { position: fixed; bottom: 25px; right: 20px; z-index: 150; display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 10px; }
+    .fab-wrapper { position: fixed; bottom: 25px; right: 20px; z-index: 950; display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 10px; }
     .fab-main {
       width: 48px; height: 48px; border-radius: 50%;
       background: linear-gradient(135deg, #38bdf8, #8b5cf6); color: white; border: none;
@@ -282,11 +278,10 @@
     }
     .fab-icon-btn:active { transform: scale(0.9); }
 
-    /* MODAL BOTTOM SHEET */
     .modal {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
-      z-index: 300; align-items: flex-end; justify-content: center;
+      z-index: 1050; align-items: flex-end; justify-content: center;
     }
     .modal.show { display: flex; }
     .bottom-sheet {
@@ -309,11 +304,12 @@
     .close-modal { position: absolute; top: 1.2rem; right: 1.2rem; cursor: pointer; font-size: 1.2rem; color: #94a3b8; }
   </style>
 </head>
+
 <body>
 
-  <!-- BACKGROUND VIDEO ANIME DARI GITHUB KHUSUS KAMU -->
-  <video id="bg-video" autoplay loop muted playsinline>
-    <source src="bg-anime.mp4" type="video/mp4">
+  <!-- BACKGROUND VIDEO ANIME (PATH ./ FIX UNTUK VERCEL) -->
+  <video id="bg-video" autoplay loop muted playsinline webkit-playsinline>
+    <source src="./bg-anime.mp4" type="video/mp4">
   </video>
   <div class="glass-overlay"></div>
 
@@ -321,9 +317,8 @@
   <div class="navbar-wrapper">
     <header class="navbar-capsule">
       <a href="#" class="brand-box" onclick="switchPage('home')">
-        <!-- LOGO MP4 ALIGHT MOTION DARI GITHUB KHUSUS KAMU -->
-        <video class="brand-logo-mp4" id="header-logo-mp4" autoplay loop muted playsinline>
-          <source src="logo-zs.mp4" type="video/mp4">
+        <video class="brand-logo-mp4" id="header-logo-mp4" autoplay loop muted playsinline webkit-playsinline>
+          <source src="./logo-zs.mp4" type="video/mp4">
         </video>
         <div class="logo-text" id="header-logo-text">Zhee<span>Store</span></div>
       </a>
@@ -344,19 +339,17 @@
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
   <div class="sidebar" id="sidebar">
     <div class="brand-box" style="margin-bottom: 8px;">
-      <video style="width:36px; height:36px; object-fit:contain; mix-blend-mode:screen;" autoplay loop muted playsinline>
-        <source src="logo-zs.mp4" type="video/mp4">
+      <video style="width:36px; height:36px; object-fit:contain; mix-blend-mode:screen;" autoplay loop muted playsinline webkit-playsinline>
+        <source src="./logo-zs.mp4" type="video/mp4">
       </video>
       <div class="logo-text visible">Zhee<span>Store</span></div>
     </div>
 
     <ul class="menu-list">
-      <!-- 1. BERANDA -->
       <li class="menu-item active" onclick="switchPage('home', this)">
         <div class="menu-item-main"><i class="fa-solid fa-house"></i> Beranda</div>
       </li>
 
-      <!-- 2. JASA DESAINER (ACCORDION) -->
       <li class="menu-item" onclick="toggleAccordion('acc-desain', this)">
         <div class="menu-item-main"><i class="fa-solid fa-palette"></i> Jasa Desainer</div>
         <i class="fa-solid fa-chevron-down arrow-icon"></i>
@@ -366,7 +359,6 @@
         <div class="sub-menu-item" onclick="switchPage('desain-admin')"><i class="fa-solid fa-user-gear"></i> Admin Desain</div>
       </div>
 
-      <!-- 3. FASTOUR GAME (ACCORDION) -->
       <li class="menu-item" onclick="toggleAccordion('acc-fastour', this)">
         <div class="menu-item-main"><i class="fa-solid fa-gamepad"></i> Fastour Game</div>
         <i class="fa-solid fa-chevron-down arrow-icon"></i>
@@ -377,7 +369,6 @@
         <div class="sub-menu-item" onclick="switchPage('rules')"><i class="fa-solid fa-scroll"></i> Rules FT CS</div>
       </div>
 
-      <!-- 4. CS ZHEE STORE -->
       <li class="menu-item" onclick="switchPage('cs-store', this)">
         <div class="menu-item-main"><i class="fa-solid fa-headset"></i> CS Zhee Store</div>
       </li>
@@ -387,12 +378,11 @@
   <!-- MAIN CONTAINER -->
   <main class="main-content">
     
-    <!-- 1. BERANDA (SHOWCASE + 2 KOLOM KETERANGAN DETAIL) -->
+    <!-- 1. BERANDA -->
     <section id="home" class="page-view active">
       <div class="glass-card" style="text-align: center; padding: 1.8rem 1rem;">
-        <!-- LOGO MP4 ALIGHT MOTION HERO BERANDA -->
-        <video class="brand-hero-mp4" id="hero-logo-mp4" autoplay loop muted playsinline>
-          <source src="logo-zs.mp4" type="video/mp4">
+        <video class="brand-hero-mp4" id="hero-logo-mp4" autoplay loop muted playsinline webkit-playsinline>
+          <source src="./logo-zs.mp4" type="video/mp4">
         </video>
         <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem;">
           <i class="fa-solid fa-circle-check"></i> Official Zhee Store
@@ -400,7 +390,6 @@
         <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem;">Welcome to Zhee Store</h1>
         <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.5;">Pusat Layanan Fastour Game Esports & Jasa Desain Grafis Profesional.</p>
 
-        <!-- DUAL GATES SHOWCASE -->
         <div class="dual-gates">
           <div class="gate-card" onclick="switchPage('booking')">
             <div>
@@ -421,7 +410,6 @@
         </div>
       </div>
 
-      <!-- 2 KOLOM KETERANGAN DETAIL DI BERANDA -->
       <div class="glass-card">
         <h3 style="font-size: 0.95rem; color: #a855f7; margin-bottom: 0.5rem;"><i class="fa-solid fa-palette"></i> Tentang Jasa Desainer Grafis</h3>
         <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.6;">Layanan pembuatan identitas visual esports profesional. Kami melayani pembuatan Logo Mascot Guild, Banner Tournament, dan Poster Esports dengan revisi ramah serta pengerjaan cepat.</p>
@@ -433,7 +421,7 @@
       </div>
     </section>
 
-    <!-- 2. JASA DESAINER (PREVIEW & ADMIN) -->
+    <!-- 2. JASA DESAINER -->
     <section id="desain-preview" class="page-view">
       <div class="glass-card">
         <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 1rem;"><i class="fa-solid fa-palette"></i> Preview Katalog Desain</h3>
@@ -465,22 +453,19 @@
       </div>
     </section>
 
-    <!-- 3. FASTOUR GAME (BOOKING) -->
+    <!-- 3. FASTOUR GAME -->
     <section id="booking" class="page-view">
       <div class="glass-card" style="margin-bottom: 1rem;">
         <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-trophy"></i> Booking FT CS FF</h3>
-        
         <div class="filter-container">
           <div class="filter-label">1. PILIH FEE MATCH</div>
           <div class="filter-scroll" id="fee-buttons-container"></div>
         </div>
-
         <div class="filter-container">
           <div class="filter-label">2. PILIH MODE MATCH</div>
           <div class="filter-scroll" id="mode-buttons-container"></div>
         </div>
       </div>
-
       <div id="room-container" class="room-list"></div>
     </section>
 
@@ -500,12 +485,11 @@
       </div>
     </section>
 
-    <!-- 6. CS ZHEE STORE (2 NOMOR ADMIN) -->
+    <!-- 6. CS ZHEE STORE -->
     <section id="cs-store" class="page-view">
       <div class="glass-card">
         <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem; text-align: center;"><i class="fa-solid fa-headset"></i> Customer Service Zhee Store</h3>
         <p style="color: #94a3b8; font-size: 0.82rem; text-align: center; margin-bottom: 1rem;">Hubungi Customer Service resmi kami di bawah ini jika ada kendala slot atau pemesanan:</p>
-        
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <div class="room-card">
             <div class="room-info">
@@ -517,7 +501,6 @@
             </div>
             <a href="https://wa.me/6281234567890" target="_blank" class="btn-booking">Chat CS 1</a>
           </div>
-
           <div class="room-card">
             <div class="room-info">
               <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.4rem;"></i>
@@ -534,7 +517,7 @@
 
   </main>
 
-  <!-- OWNER SPEED DIAL (MICRO ICONS) -->
+  <!-- OWNER SPEED DIAL -->
   <div class="fab-wrapper owner-only" id="fabWrapper">
     <button class="fab-main" onclick="toggleFab()"><i class="fa-solid fa-plus"></i></button>
     <div class="fab-menu">
@@ -641,7 +624,7 @@
         <button type="submit" class="btn-save">Simpan Link Grup</button>
       </form>
     </div>
-   </div>
+  </div>
 
     <!-- FIREBASE SDK V10 -->
   <script type="module">
@@ -754,6 +737,15 @@
       }
     }
 
+    // FORCE AUTOPLAY VIDEO DI BROWSER HP
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('video').forEach(v => {
+        v.muted = true;
+        v.play().catch(() => {});
+      });
+      initDefaultRooms(); renderFilters(); renderRooms(); renderCommLinks();
+    });
+
     // MORPHING LOGO & PARALLAX ZOOM SCROLL EFFECT
     window.addEventListener('scroll', () => {
       const scrollPos = window.scrollY;
@@ -793,10 +785,6 @@
         });
       });
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      initDefaultRooms(); renderFilters(); renderRooms(); renderCommLinks();
-    });
 
     function toggleFab() { document.getElementById('fabWrapper').classList.toggle('active'); }
 
