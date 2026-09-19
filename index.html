@@ -42,10 +42,11 @@
 
         html, body {
             background-color: #070a11;
-            overscroll-behavior-y: none;
             min-height: 100vh;
             color: #f3f4f6;
+            overflow-y: auto !important;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* LIQUID GLASS EFFECT TRANSPARAN (iOS Style) */
@@ -78,13 +79,13 @@
         }
     </style>
 </head>
-<body class="relative min-h-screen pb-24">
+<body class="relative min-h-screen pb-32">
 
-    <!-- BACKGROUND VIDEO MP4 STABIL & TRANSPARAN -->
-    <video autoplay loop muted playsinline webkit-playsinline class="fixed inset-0 w-full h-full object-cover -z-20 opacity-60">
-        <source src="bg-anime.mp4" type="video/mp4">
-    </video>
-    <div class="fixed inset-0 bg-slate-950/40 -z-10 pointer-events-none"></div>
+    <!-- BACKGROUND GAMBAR DENGAN EFEK ZOOM PAS DI-SCROLL -->
+    <div class="fixed inset-0 -z-20 overflow-hidden pointer-events-none">
+        <img id="bgImage" src="bg-anime.jpg" class="w-full h-full object-cover opacity-50 transition-transform duration-300 ease-out">
+    </div>
+    <div class="fixed inset-0 bg-slate-950/50 backdrop-blur-[2px] -z-10 pointer-events-none"></div>
 
     <!-- NOTIFIKASI DYNAMIC ISLAND -->
     <div id="dynamicIsland" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden">
@@ -114,7 +115,7 @@
 
     <!-- SIDEBAR NAVIGATION (LEFT SLIDE) -->
     <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
-    <aside id="sidebarMenu" class="fixed top-0 left-0 h-full w-72 glass-nav z-50 transform -translate-x-full transition-transform duration-300 ease-out p-6 flex flex-col justify-between">
+    <aside id="sidebarMenu" class="fixed top-0 left-0 h-full w-72 glass-nav z-50 transform -translate-x-full transition-transform duration-300 ease-out p-6 flex flex-col justify-between overflow-y-auto">
         <div class="space-y-6">
             <div class="flex flex-col items-center py-4 border-b border-white/10 text-center">
                 <img src="logo-zs.png" class="w-20 h-20 rounded-2xl shadow-xl border border-purple-500/30 mb-3 object-cover">
@@ -162,17 +163,32 @@
                     <i class="fas fa-headset text-purple-400 w-5"></i>
                     <span>Customer Service</span>
                 </a>
-            </nav>
-        </div>
 
-        <div class="glass-card p-4 rounded-2xl border border-white/10 text-center">
-            <span class="text-xs text-gray-400 block mb-1">TOTAL PENGUNJUNG</span>
-            <span id="visitorCount" class="text-xl font-black text-purple-400 tracking-wider">0</span>
+                <!-- GRAFIK PENGUNJUNG DI BAWAH CUSTOMER SERVICE -->
+                <div class="glass-card p-3.5 rounded-2xl border border-white/10 space-y-2.5 mt-3">
+                    <div class="flex items-center justify-between text-xs font-semibold">
+                        <span class="text-gray-300 flex items-center space-x-1.5">
+                            <i class="fas fa-chart-line text-purple-400"></i>
+                            <span>Statistik Pengunjung</span>
+                        </span>
+                        <span id="visitorCount" class="text-purple-400 font-extrabold text-sm">1.284</span>
+                    </div>
+                    <!-- Mini Bar Chart -->
+                    <div class="flex items-end justify-between h-9 px-1 pt-1 gap-1 border-b border-white/10 pb-1">
+                        <div class="w-full bg-purple-500/20 rounded-t h-[40%]"></div>
+                        <div class="w-full bg-purple-500/30 rounded-t h-[65%]"></div>
+                        <div class="w-full bg-purple-500/40 rounded-t h-[45%]"></div>
+                        <div class="w-full bg-purple-500/60 rounded-t h-[80%]"></div>
+                        <div class="w-full bg-purple-400 rounded-t h-[100%] animate-pulse"></div>
+                    </div>
+                    <span class="text-[10px] text-gray-400 text-center block">Trafik Aktif Hari Ini</span>
+                </div>
+            </nav>
         </div>
     </aside>
 
         <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-lg mx-auto px-4 mt-6">
+    <main class="max-w-lg mx-auto px-4 mt-6 pb-32">
 
         <!-- ==================== TAB 1: BERANDA ==================== -->
         <section id="tab-beranda" class="tab-content space-y-6">
@@ -242,6 +258,7 @@
                 <button onclick="switchTab('beranda')" class="text-xs text-gray-400 hover:text-white">Kembali</button>
             </div>
 
+            <!-- FILTER FEE MATCH (RESPON KLIK DENGAN STYLE AKTIF) -->
             <div class="space-y-2">
                 <span class="text-xs text-gray-400 font-semibold">1. PILIH FEE MATCH</span>
                 <div id="feeFilterContainer" class="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
@@ -250,6 +267,7 @@
                 </div>
             </div>
 
+            <!-- FILTER MODE MATCH (RESPON KLIK DENGAN STYLE AKTIF) -->
             <div class="space-y-2">
                 <span class="text-xs text-gray-400 font-semibold">2. PILIH MODE MATCH</span>
                 <div class="grid grid-cols-4 gap-2">
@@ -316,7 +334,7 @@
         </div>
     </div>
 
-    <!-- OWNER PANEL (FLOATING ICON-ONLY) -->
+        <!-- OWNER PANEL (FLOATING ICON-ONLY & POINTER-EVENTS FIXED) -->
     <div id="ownerPanelContainer" class="fixed bottom-6 right-6 z-40 flex flex-col items-end space-y-3 pointer-events-none hidden">
         <div id="ownerSubMenu" class="flex flex-col items-end space-y-3 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300">
             <button onclick="openAdminAddKatalog()" class="w-11 h-11 rounded-full glass-card border border-purple-500/40 text-purple-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
@@ -433,11 +451,19 @@
 
         function selectFee(fee) {
             currentSelectedFee = fee;
+            document.querySelectorAll('.fee-btn').forEach(btn => {
+                btn.className = "fee-btn glass-card px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap active:scale-95 transition border border-white/10 text-gray-400";
+            });
+            event.currentTarget.className = "fee-btn glass-card px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap active:scale-95 transition border border-purple-500/50 text-purple-400";
             renderRooms();
         }
 
         function selectMode(mode) {
             currentSelectedMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.className = "mode-btn glass-card py-2 rounded-xl text-xs font-bold border border-white/10 text-gray-400";
+            });
+            event.currentTarget.className = "mode-btn glass-card py-2 rounded-xl text-xs font-bold border border-blue-500/50 text-blue-400";
             renderRooms();
         }
 
@@ -552,6 +578,16 @@
                 isFabOpen = false;
             }
         }
+
+        /* EFEK PARALLAX ZOOM UNTUK BACKGROUND GAMBAR */
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            const bgImg = document.getElementById('bgImage');
+            if (bgImg) {
+                const scaleValue = 1 + (scrollPos * 0.0004);
+                bgImg.style.transform = `scale(${scaleValue})`;
+            }
+        });
 
         renderRooms();
     </script>
