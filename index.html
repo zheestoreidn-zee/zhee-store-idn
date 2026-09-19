@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zhee Store | Fastour CS & Desain AM</title>
     
-    <!-- FAVICON (FIX UNTUK BROWSER HP & TAB) -->
+    <!-- FAVICON FIX -->
     <link rel="icon" type="image/png" sizes="32x32" href="logo-zs.png">
     <link rel="icon" type="image/png" sizes="16x16" href="logo-zs.png">
     <link rel="apple-touch-icon" href="logo-zs.png">
@@ -33,25 +33,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* BASE & ANTI-BUG STYLING */
         * {
             -webkit-tap-highlight-color: transparent !important;
             user-select: none;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        /* FIX BACKGROUND GAMBAR DENGAN OVERLAY BENING */
         html, body {
-            background-color: #070a11;
             min-height: 100vh;
             color: #f3f4f6;
             overflow-y: auto !important;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            background-image: linear-gradient(to bottom, rgba(7, 10, 17, 0.75), rgba(7, 10, 17, 0.88)), url('bg-anime.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
         /* LIQUID GLASS EFFECT TRANSPARAN (iOS Style) */
         .glass-card {
-            background: rgba(255, 255, 255, 0.03) !important;
+            background: rgba(255, 255, 255, 0.04) !important;
             backdrop-filter: blur(16px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -59,10 +63,18 @@
         }
 
         .glass-nav {
-            background: rgba(15, 23, 42, 0.45) !important;
+            background: rgba(15, 23, 42, 0.55) !important;
             backdrop-filter: blur(20px) saturate(180%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* ACTIVE SUBMENU HIGHLIGHT */
+        .sidebar-item-active {
+            background: rgba(139, 92, 246, 0.25) !important;
+            border-color: rgba(168, 85, 247, 0.5) !important;
+            color: #c084fc !important;
+            font-weight: 700 !important;
         }
 
         ::-webkit-scrollbar {
@@ -80,12 +92,6 @@
     </style>
 </head>
 <body class="relative min-h-screen pb-32">
-
-    <!-- BACKGROUND GAMBAR DENGAN EFEK ZOOM PAS DI-SCROLL -->
-    <div class="fixed inset-0 -z-20 overflow-hidden pointer-events-none">
-        <img id="bgImage" src="bg-anime.jpg" class="w-full h-full object-cover opacity-50 transition-transform duration-300 ease-out">
-    </div>
-    <div class="fixed inset-0 bg-slate-950/50 backdrop-blur-[2px] -z-10 pointer-events-none"></div>
 
     <!-- NOTIFIKASI DYNAMIC ISLAND -->
     <div id="dynamicIsland" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden">
@@ -113,7 +119,7 @@
         </div>
     </header>
 
-    <!-- SIDEBAR NAVIGATION (LEFT SLIDE) -->
+    <!-- SIDEBAR NAVIGATION DENGAN SUBMENU BER-IKON & STATIS REALTIME -->
     <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
     <aside id="sidebarMenu" class="fixed top-0 left-0 h-full w-72 glass-nav z-50 transform -translate-x-full transition-transform duration-300 ease-out p-6 flex flex-col justify-between overflow-y-auto">
         <div class="space-y-6">
@@ -124,11 +130,12 @@
             </div>
 
             <nav class="space-y-2 text-sm font-medium">
-                <a onclick="switchTab('beranda'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition">
+                <a id="nav-beranda" onclick="switchTab('beranda'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition border border-transparent">
                     <i class="fas fa-home text-purple-400 w-5"></i>
                     <span>Dashboard</span>
                 </a>
                 
+                <!-- Desain Custom Dropdown -->
                 <div class="space-y-1">
                     <button onclick="toggleSubmenu('desainSub', 'desainArrow')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition-all">
                         <div class="flex items-center space-x-3">
@@ -137,12 +144,19 @@
                         </div>
                         <i id="desainArrow" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
                     </button>
-                    <div id="desainSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-11 space-y-1 text-xs text-gray-300">
-                        <a onclick="switchTab('katalog'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">Katalog Desain</a>
-                        <a href="https://wa.me/6281234567890" target="_blank" class="block py-2 hover:text-purple-400 transition">No Admin Desain</a>
+                    <div id="desainSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-4 space-y-1 text-xs text-gray-300 pt-1">
+                        <a id="nav-katalog" onclick="switchTab('katalog'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                            <i class="fas fa-images text-purple-400 w-4"></i>
+                            <span>Katalog Desain</span>
+                        </a>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent text-gray-300 hover:text-purple-400 transition">
+                            <i class="fab fa-whatsapp text-emerald-400 w-4"></i>
+                            <span>No Admin Desain</span>
+                        </a>
                     </div>
                 </div>
 
+                <!-- Fastour Game Dropdown -->
                 <div class="space-y-1">
                     <button onclick="toggleSubmenu('ftSub', 'ftArrow')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition-all">
                         <div class="flex items-center space-x-3">
@@ -151,37 +165,48 @@
                         </div>
                         <i id="ftArrow" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
                     </button>
-                    <div id="ftSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-11 space-y-1 text-xs text-gray-300">
-                        <a onclick="switchTab('booking'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">Booking FT CS</a>
-                        <a onclick="switchTab('rules'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">Rules FT CS</a>
-                        <a onclick="switchTab('grup'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">All Grup FT CS</a>
-                        <a onclick="switchTab('kontak'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">All Kontak Owner & Admin</a>
+                    <div id="ftSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-4 space-y-1 text-xs text-gray-300 pt-1">
+                        <a id="nav-booking" onclick="switchTab('booking'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                            <i class="fas fa-ticket-alt text-blue-400 w-4"></i>
+                            <span>Booking FT CS</span>
+                        </a>
+                        <a id="nav-rules" onclick="switchTab('rules'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                            <i class="fas fa-book text-yellow-400 w-4"></i>
+                            <span>Rules FT CS</span>
+                        </a>
+                        <a id="nav-grup" onclick="switchTab('grup'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                            <i class="fas fa-users text-green-400 w-4"></i>
+                            <span>All Grup FT CS</span>
+                        </a>
+                        <a id="nav-kontak" onclick="switchTab('kontak'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                            <i class="fas fa-address-book text-pink-400 w-4"></i>
+                            <span>All Kontak Owner & Admin</span>
+                        </a>
                     </div>
                 </div>
 
-                <a onclick="switchTab('cs'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition">
+                <a id="nav-cs" onclick="switchTab('cs'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition border border-transparent">
                     <i class="fas fa-headset text-purple-400 w-5"></i>
                     <span>Customer Service</span>
                 </a>
 
-                <!-- GRAFIK PENGUNJUNG DI BAWAH CUSTOMER SERVICE -->
-                <div class="glass-card p-3.5 rounded-2xl border border-white/10 space-y-2.5 mt-3">
+                <!-- STATISTIK PENGUNJUNG DENGAN FIREBASE LIVE COUNTER -->
+                <div class="glass-card p-3.5 rounded-2xl border border-white/10 space-y-2.5 mt-4">
                     <div class="flex items-center justify-between text-xs font-semibold">
                         <span class="text-gray-300 flex items-center space-x-1.5">
                             <i class="fas fa-chart-line text-purple-400"></i>
                             <span>Statistik Pengunjung</span>
                         </span>
-                        <span id="visitorCount" class="text-purple-400 font-extrabold text-sm">1.284</span>
+                        <span id="visitorCount" class="text-purple-400 font-extrabold text-sm">...</span>
                     </div>
-                    <!-- Mini Bar Chart -->
-                    <div class="flex items-end justify-between h-9 px-1 pt-1 gap-1 border-b border-white/10 pb-1">
+                    <div class="flex items-end justify-between h-8 px-1 pt-1 gap-1 border-b border-white/10 pb-1">
                         <div class="w-full bg-purple-500/20 rounded-t h-[40%]"></div>
                         <div class="w-full bg-purple-500/30 rounded-t h-[65%]"></div>
                         <div class="w-full bg-purple-500/40 rounded-t h-[45%]"></div>
                         <div class="w-full bg-purple-500/60 rounded-t h-[80%]"></div>
                         <div class="w-full bg-purple-400 rounded-t h-[100%] animate-pulse"></div>
                     </div>
-                    <span class="text-[10px] text-gray-400 text-center block">Trafik Aktif Hari Ini</span>
+                    <span class="text-[10px] text-gray-400 text-center block">Trafik Real-time Firebase</span>
                 </div>
             </nav>
         </div>
@@ -258,7 +283,7 @@
                 <button onclick="switchTab('beranda')" class="text-xs text-gray-400 hover:text-white">Kembali</button>
             </div>
 
-            <!-- FILTER FEE MATCH (RESPON KLIK DENGAN STYLE AKTIF) -->
+            <!-- FILTER FEE MATCH -->
             <div class="space-y-2">
                 <span class="text-xs text-gray-400 font-semibold">1. PILIH FEE MATCH</span>
                 <div id="feeFilterContainer" class="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
@@ -267,7 +292,7 @@
                 </div>
             </div>
 
-            <!-- FILTER MODE MATCH (RESPON KLIK DENGAN STYLE AKTIF) -->
+            <!-- FILTER MODE MATCH -->
             <div class="space-y-2">
                 <span class="text-xs text-gray-400 font-semibold">2. PILIH MODE MATCH</span>
                 <div class="grid grid-cols-4 gap-2">
@@ -376,7 +401,7 @@
         </div>
     </div>
 
-    <!-- FIREBASE SDK (CDN) -->
+    <!-- FIREBASE SDK (COMPAT VERSION) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -399,6 +424,7 @@
         const OWNER_EMAIL = "zheestoreidn@gmail.com";
         let currentUser = null;
 
+        /* DYNAMIC ISLAND NOTIF */
         function showNotification(msg) {
             const island = document.getElementById('dynamicIsland');
             document.getElementById('notifMessage').innerText = msg;
@@ -408,6 +434,7 @@
             }, 2500);
         }
 
+        /* SIDEBAR & SUBMENU ANIMATION */
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
@@ -439,13 +466,23 @@
             }
         }
 
+        /* TAB SWITCHING & ACTIVE STATE HIGHLIGHT */
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
             const target = document.getElementById(`tab-${tabName}`);
             if (target) target.classList.remove('hidden');
+
+            // Update Active State di Sidebar
+            document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+                item.classList.remove('sidebar-item-active');
+            });
+            const activeNav = document.getElementById(`nav-${tabName}`);
+            if (activeNav) activeNav.classList.add('sidebar-item-active');
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        /* FILTER BUTTON LOGIC */
         let currentSelectedFee = '1k';
         let currentSelectedMode = '1v1';
 
@@ -476,7 +513,6 @@
                 let link = 'https://wa.me/6281234567890';
                 let badgeColor = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
                 let btnText = 'BOOKING NOW';
-                let disabledAttr = '';
 
                 container.innerHTML += `
                     <div class="glass-card p-4 rounded-2xl border border-white/10 flex items-center justify-between">
@@ -484,7 +520,7 @@
                             <h4 class="text-xs font-bold text-white uppercase">ROOM ${i}</h4>
                             <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeColor} font-bold">${status.toUpperCase()}</span>
                         </div>
-                        <a href="${link}" target="_blank" ${disabledAttr} class="px-4 py-2 rounded-xl bg-purple-600 active:bg-purple-700 text-white font-bold text-xs shadow-md transition">
+                        <a href="${link}" target="_blank" class="px-4 py-2 rounded-xl bg-purple-600 active:bg-purple-700 text-white font-bold text-xs shadow-md transition">
                             ${btnText}
                         </a>
                     </div>
@@ -492,6 +528,7 @@
             }
         }
 
+        /* KATALOG MODAL */
         function openKatalogModal(title, price, img, desc) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = 'Rp ' + price;
@@ -532,6 +569,7 @@
             });
         }
 
+        /* AUTH & OWNER PANEL DETECTOR */
         auth.onAuthStateChanged((user) => {
             currentUser = user;
             const ownerPanel = document.getElementById('ownerPanelContainer');
@@ -563,6 +601,7 @@
             }
         });
 
+        /* FAB FLOATING MENU */
         let isFabOpen = false;
         function toggleOwnerFab() {
             const subMenu = document.getElementById('ownerSubMenu');
@@ -579,17 +618,26 @@
             }
         }
 
-        /* EFEK PARALLAX ZOOM UNTUK BACKGROUND GAMBAR */
-        window.addEventListener('scroll', () => {
-            const scrollPos = window.scrollY;
-            const bgImg = document.getElementById('bgImage');
-            if (bgImg) {
-                const scaleValue = 1 + (scrollPos * 0.0004);
-                bgImg.style.transform = `scale(${scaleValue})`;
-            }
-        });
+        /* FIREBASE REALTIME VISITOR COUNTER */
+        function initVisitorCounter() {
+            const visitorRef = db.ref('visitors');
+            
+            // Tambah count setiap dibuka
+            visitorRef.transaction((currentValue) => {
+                return (currentValue || 0) + 1;
+            });
 
+            // Read live value
+            visitorRef.on('value', (snapshot) => {
+                const count = snapshot.val() || 0;
+                document.getElementById('visitorCount').innerText = count.toLocaleString('id-ID');
+            });
+        }
+
+        // Init App
+        switchTab('beranda');
         renderRooms();
+        initVisitorCounter();
     </script>
 </body>
 </html>
