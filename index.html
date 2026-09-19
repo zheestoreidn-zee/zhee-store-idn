@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Zhee Store - Official Fastour CS Arena</title>
 
+  <!-- FIX FAVICON LOGO ZHEE STORE (GANTI LOGO BUMI BROWSER) -->
   <link rel="icon" type="image/png" href="logo-zs.png">
+  <link rel="shortcut icon" type="image/png" href="logo-zs.png">
+  <link rel="apple-touch-icon" href="logo-zs.png">
+
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -18,28 +22,27 @@
     }
     
     html, body {
-      background-color: #04060a;
+      background: transparent;
       color: #f8fafc;
       min-height: 100vh;
       padding-bottom: 90px;
       overflow-x: hidden;
     }
 
-    /* === BACKGROUND JPG ANIME (TERANG & TRANSPARAN) === */
+    /* === BACKGROUND JPG ANIME (TAMPIL FULL TERANG) === */
     #bg-image {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: url('bg-anime.jpg') no-repeat center center/cover;
+      background: url('bg-anime.jpg') no-repeat center center / cover;
       z-index: -2;
-      filter: brightness(0.85) contrast(1.1);
-      transition: transform 0.1s linear, filter 0.1s linear;
+      filter: brightness(0.75) contrast(1.1);
     }
 
     .glass-overlay {
       position: fixed; inset: 0;
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.2), transparent 60%),
-                  radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.2), transparent 60%),
-                  rgba(4, 6, 10, 0.45);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.15), transparent 60%),
+                  radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.15), transparent 60%),
+                  rgba(4, 6, 10, 0.35);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
       z-index: -1;
     }
     
@@ -52,7 +55,7 @@
 
     .navbar-capsule {
       width: 100%; max-width: 500px; height: 56px;
-      background: rgba(10, 15, 26, 0.65);
+      background: rgba(10, 15, 26, 0.55);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(56, 189, 248, 0.35);
       border-radius: 28px;
@@ -145,19 +148,19 @@
     }
     .sub-menu-item:active { background: rgba(255, 255, 255, 0.1); color: #38bdf8; }
 
-    /* === MAIN CONTENT (MARGIN TOP 110PX) === */
+    /* === MAIN CONTENT === */
     .main-content { max-width: 500px; margin: 110px auto 0; padding: 0 14px; }
     .page-view { display: none; animation: fadeIn 0.35s ease-in-out; }
     .page-view.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* KARTU GLASS KACA BENING TEMBUS GAMBAR ANIME */
+    /* KARTU GLASS KACA BENING BENAR-BENAR TEMBUS GAMBAR ANIME */
     .glass-card {
-      background: rgba(10, 15, 26, 0.45);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: rgba(10, 15, 26, 0.38);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: 20px; padding: 1.2rem;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(56, 189, 248, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(56, 189, 248, 0.1);
       margin-bottom: 1.2rem; position: relative;
     }
 
@@ -168,17 +171,17 @@
       transition: all 0.3s ease;
     }
 
+    /* FOTO PROFIL GRUP WA CUSTOM (profile-grup.jpg) */
     .wa-avatar-custom {
-      width: 42px; height: 42px; border-radius: 50%;
-      object-fit: cover; border: 1.5px solid #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; border: 2px solid #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
     }
 
-    /* FILTER MELAYANG BEBAS (TANPA KOTAK KAKU) */
     .filter-section-title {
       font-size: 1.1rem; font-weight: 800; color: #ffffff;
       display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;
-      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
     }
 
     .filter-container { margin-bottom: 0.9rem; }
@@ -187,7 +190,7 @@
     .filter-scroll::-webkit-scrollbar { display: none; }
     
     .pill-btn {
-      background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 23, 42, 0.55); border: 1px solid rgba(255, 255, 255, 0.18);
       color: #cbd5e1; padding: 0.5rem 1.2rem; border-radius: 20px;
       font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 6px;
@@ -196,7 +199,7 @@
     .pill-btn.active { background: linear-gradient(135deg, #0284c7, #8257e5); color: white; border-color: transparent; box-shadow: 0 0 14px rgba(56, 189, 248, 0.6); }
     
     .pill-sub-btn {
-      background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(15, 23, 42, 0.55); border: 1px solid rgba(255, 255, 255, 0.15);
       color: #94a3b8; padding: 0.45rem 0.95rem; border-radius: 12px;
       font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 6px;
@@ -211,9 +214,9 @@
     .room-list { display: flex; flex-direction: column; gap: 10px; }
     .room-card {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0.85rem 1rem; background: rgba(15, 23, 42, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px;
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      padding: 0.85rem 1rem; background: rgba(10, 15, 26, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 14px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
     .room-info { display: flex; align-items: center; gap: 12px; }
     .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
@@ -374,7 +377,7 @@
       </div>
     </section>
 
-    <!-- 2. FASTOUR GAME (FILTER UNBOXED / MELAYANG BEBAS) -->
+    <!-- 2. FASTOUR GAME -->
     <section id="booking" class="page-view">
       <div class="filter-section-title">
         <i class="fa-solid fa-trophy" style="color:#38bdf8;"></i> Booking FT CS FF
@@ -538,8 +541,8 @@
           <input type="text" id="modal-comm-sub" placeholder="Contoh: Grup Kuota Fastour" required>
         </div>
         <div class="form-group">
-          <label>URL Gambar Profil Grup WA (Kosongkan jika default)</label>
-          <input type="text" id="modal-comm-img" placeholder="https://domain.com/foto-grup.jpg">
+          <label>URL Gambar Profil Grup (Kosongkan agar memakai profile-grup.jpg)</label>
+          <input type="text" id="modal-comm-img" placeholder="profile-grup.jpg">
         </div>
         <div class="form-group">
           <label>URL Link WA / Saluran</label>
@@ -635,7 +638,7 @@
     window.roomsDatabase = {};
     window.feeStatuses = { '1K': 'open', '2K': 'open' };
     window.commLinks = [
-      { id: 1, title: 'GB FT BY ZHEFANYA #1', sub: 'Grup Kuota Fastour', img: '', url: 'https://chat.whatsapp.com/example' }
+      { id: 1, title: 'GB FT BY ZHEFANYA #1', sub: 'Grup Kuota Fastour', img: 'profile-grup.jpg', url: 'https://chat.whatsapp.com/example' }
     ];
 
     const feesList = ['1K', '2K'];
@@ -665,19 +668,11 @@
       initDefaultRooms(); renderFilters(); renderRooms(); renderCommLinks();
     });
 
-    /* SCROLL EFEK PARALLAX & MORPHING LOGO HEADER */
+    /* SCROLL MORPHING LOGO HEADER */
     window.addEventListener('scroll', () => {
       const scrollPos = window.scrollY;
       const headerLogo = document.getElementById('header-logo-img');
       const headerText = document.getElementById('header-logo-text');
-      const bgImage = document.getElementById('bg-image');
-
-      if(bgImage) {
-        const scaleVal = 1 + (scrollPos * 0.0004);
-        const blurVal = Math.min(scrollPos * 0.012, 6);
-        bgImage.style.transform = `scale(${scaleVal})`;
-        bgImage.style.filter = `brightness(0.85) contrast(1.1) blur(${blurVal}px)`;
-      }
 
       if(scrollPos > 60) {
         headerLogo.classList.add('visible');
@@ -774,17 +769,18 @@
       });
     }
 
+    /* RENDER LINK GRUP WA DENGAN GAMBAR PROFIL profile-grup.jpg */
     function renderCommLinks() {
       const container = document.getElementById('community-links-container');
       container.innerHTML = '';
       window.commLinks.forEach(item => {
-        const avatarSrc = item.img && item.img.trim() !== '' ? item.img : 'https://via.placeholder.com/100/22c55e/ffffff?text=WA';
+        const avatarSrc = (item.img && item.img.trim() !== '') ? item.img : 'profile-grup.jpg';
         const commCard = document.createElement('div');
         commCard.className = 'room-card';
         commCard.style.marginBottom = '10px';
         commCard.innerHTML = `
           <div class="room-info">
-            <img src="${avatarSrc}" class="wa-avatar-custom" onerror="this.src='https://via.placeholder.com/100/22c55e/ffffff?text=WA';">
+            <img src="${avatarSrc}" class="wa-avatar-custom" onerror="this.src='profile-grup.jpg';">
             <div class="room-details">
               <h4>${item.title}</h4>
               <p>${item.sub}</p>
@@ -850,7 +846,8 @@
       e.preventDefault();
       const title = document.getElementById('modal-comm-title').value;
       const sub = document.getElementById('modal-comm-sub').value;
-      const img = document.getElementById('modal-comm-img').value;
+      let img = document.getElementById('modal-comm-img').value;
+      if (!img || img.trim() === '') img = 'profile-grup.jpg';
       const url = document.getElementById('modal-comm-url').value;
       const newId = window.commLinks.length > 0 ? Math.max(...window.commLinks.map(c => c.id)) + 1 : 1;
       window.commLinks.push({ id: newId, title, sub, img, url });
