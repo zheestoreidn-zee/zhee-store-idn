@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zhee Store | Fastour CS & Desain AM</title>
     
-    <!-- FAVICON (Sama dengan Logo PNG Baru Kamu) -->
-    <link rel="icon" type="image/png" href="logo-zs.png">
+    <!-- FAVICON (FIX UNTUK BROWSER HP & TAB) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="logo-zs.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo-zs.png">
+    <link rel="apple-touch-icon" href="logo-zs.png">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,9 +18,7 @@
             theme: {
                 extend: {
                     colors: {
-                        glass: 'rgba(255, 255, 255, 0.05)',
                         glassBorder: 'rgba(255, 255, 255, 0.12)',
-                        glassDark: 'rgba(11, 15, 23, 0.75)',
                         neonPurple: '#8b5cf6',
                         neonBlue: '#3b82f6',
                         neonGreen: '#10b981'
@@ -35,41 +35,40 @@
     <style>
         /* BASE & ANTI-BUG STYLING */
         * {
-            -webkit-tap-highlight-color: transparent; /* Hilangkan kotak biru pas di-tap */
+            -webkit-tap-highlight-color: transparent !important;
             user-select: none;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         html, body {
-            background-color: #0b0f17;
-            overscroll-behavior-y: none; /* Cegah warna putih/hitam pas scroll mentok */
+            background-color: #070a11;
+            overscroll-behavior-y: none;
             min-height: 100vh;
             color: #f3f4f6;
             overflow-x: hidden;
         }
 
-        /* LIQUID GLASS EFFECT (iOS Style) */
+        /* LIQUID GLASS EFFECT TRANSPARAN (iOS Style) */
         .glass-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .glass-nav {
-            background: rgba(11, 15, 23, 0.65);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 23, 42, 0.45) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
         }
 
-        /* CUSTOM SCROLLBAR BAR */
         ::-webkit-scrollbar {
             width: 0px;
             height: 0px;
         }
 
-        /* DYNAMIC ISLAND ANIMATION */
         @keyframes islandExpand {
             0% { transform: scale(0.8) translateY(-20px); opacity: 0; }
             100% { transform: scale(1) translateY(0); opacity: 1; }
@@ -81,13 +80,13 @@
 </head>
 <body class="relative min-h-screen pb-24">
 
-    <!-- BACKGROUND VIDEO MP4 STABIL -->
-    <video autoplay loop muted playsinline class="fixed inset-0 w-full h-full object-cover -z-20 opacity-30">
+    <!-- BACKGROUND VIDEO MP4 STABIL & TRANSPARAN -->
+    <video autoplay loop muted playsinline webkit-playsinline class="fixed inset-0 w-full h-full object-cover -z-20 opacity-60">
         <source src="bg-anime.mp4" type="video/mp4">
     </video>
-    <div class="fixed inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/80 to-slate-950 -z-10 pointer-events-none"></div>
+    <div class="fixed inset-0 bg-slate-950/40 -z-10 pointer-events-none"></div>
 
-    <!-- NOTIFIKASI DYNAMIC ISLAND (POP-UP ATAS HALUS) -->
+    <!-- NOTIFIKASI DYNAMIC ISLAND -->
     <div id="dynamicIsland" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden">
         <div class="dynamic-island glass-card px-5 py-2.5 rounded-full flex items-center space-x-3 shadow-2xl border border-white/20">
             <img id="userAvatarNotif" src="logo-zs.png" class="w-6 h-6 rounded-full border border-purple-400/50">
@@ -98,18 +97,15 @@
     <!-- HEADER NAVIGATION (CAPSULE GLASS) -->
     <header class="sticky top-4 z-40 px-4 max-w-lg mx-auto">
         <div class="glass-nav rounded-full px-4 py-2.5 flex items-center justify-between shadow-lg">
-            <!-- Sidebar Hamburger (Berputar jadi X) -->
             <button id="hamburgerBtn" onclick="toggleSidebar()" class="w-10 h-10 flex items-center justify-center rounded-full glass-card text-purple-400 active:scale-95 transition-all duration-300">
                 <i id="hamburgerIcon" class="fas fa-bars text-lg transition-transform duration-300"></i>
             </button>
 
-            <!-- Brand Logo -->
             <div class="flex items-center space-x-2">
                 <img src="logo-zs.png" class="w-7 h-7 rounded-full object-cover">
                 <span class="font-extrabold text-sm tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">ZHEE STORE</span>
             </div>
 
-            <!-- Profile / Login Button -->
             <button onclick="openProfileModal()" class="w-10 h-10 flex items-center justify-center rounded-full glass-card border border-purple-500/30 active:scale-95 transition">
                 <img id="userProfileImg" src="logo-zs.png" class="w-full h-full rounded-full object-cover">
             </button>
@@ -120,82 +116,78 @@
     <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
     <aside id="sidebarMenu" class="fixed top-0 left-0 h-full w-72 glass-nav z-50 transform -translate-x-full transition-transform duration-300 ease-out p-6 flex flex-col justify-between">
         <div class="space-y-6">
-            <!-- Sidebar Header (Hanya Logo & Nama) -->
             <div class="flex flex-col items-center py-4 border-b border-white/10 text-center">
                 <img src="logo-zs.png" class="w-20 h-20 rounded-2xl shadow-xl border border-purple-500/30 mb-3 object-cover">
                 <h2 class="font-bold text-lg text-white">ZHEE STORE</h2>
                 <span class="text-xs text-purple-400 font-semibold tracking-wider">OFFICIAL PLATFORM</span>
             </div>
 
-            <!-- Menu List -->
             <nav class="space-y-2 text-sm font-medium">
-                <a onclick="switchTab('beranda'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                <a onclick="switchTab('beranda'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition">
                     <i class="fas fa-home text-purple-400 w-5"></i>
                     <span>Dashboard</span>
                 </a>
                 
-                <!-- Desain Custom Dropdown -->
                 <div class="space-y-1">
-                    <button onclick="toggleSubmenu('desainSub')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                    <button onclick="toggleSubmenu('desainSub', 'desainArrow')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition-all">
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-palette text-purple-400 w-5"></i>
                             <span>Desain Custom</span>
                         </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+                        <i id="desainArrow" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
                     </button>
-                    <div id="desainSub" class="hidden pl-11 space-y-2 text-xs text-gray-300 py-1">
-                        <a onclick="switchTab('katalog'); toggleSidebar();" class="block py-2 hover:text-purple-400">Katalog Desain</a>
-                        <a href="https://wa.me/6281234567890" target="_blank" class="block py-2 hover:text-purple-400">No Admin Desain</a>
+                    <div id="desainSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-11 space-y-1 text-xs text-gray-300">
+                        <a onclick="switchTab('katalog'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">Katalog Desain</a>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="block py-2 hover:text-purple-400 transition">No Admin Desain</a>
                     </div>
                 </div>
 
-                <!-- Fastour Game Dropdown -->
                 <div class="space-y-1">
-                    <button onclick="toggleSubmenu('ftSub')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                    <button onclick="toggleSubmenu('ftSub', 'ftArrow')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition-all">
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-gamepad text-purple-400 w-5"></i>
                             <span>Fastour Game</span>
                         </div>
-                        <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+                        <i id="ftArrow" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
                     </button>
-                    <div id="ftSub" class="hidden pl-11 space-y-2 text-xs text-gray-300 py-1">
-                        <a onclick="switchTab('booking'); toggleSidebar();" class="block py-2 hover:text-purple-400">Booking FT CS</a>
-                        <a onclick="switchTab('rules'); toggleSidebar();" class="block py-2 hover:text-purple-400">Rules FT CS</a>
-                        <a onclick="switchTab('grup'); toggleSidebar();" class="block py-2 hover:text-purple-400">All Grup FT CS</a>
-                        <a onclick="switchTab('kontak'); toggleSidebar();" class="block py-2 hover:text-purple-400">All Kontak Owner & Admin</a>
+                    <div id="ftSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-11 space-y-1 text-xs text-gray-300">
+                        <a onclick="switchTab('booking'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">Booking FT CS</a>
+                        <a onclick="switchTab('rules'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">Rules FT CS</a>
+                        <a onclick="switchTab('grup'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">All Grup FT CS</a>
+                        <a onclick="switchTab('kontak'); toggleSidebar();" class="block py-2 hover:text-purple-400 transition">All Kontak Owner & Admin</a>
                     </div>
                 </div>
 
-                <a onclick="switchTab('cs'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                <a onclick="switchTab('cs'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition">
                     <i class="fas fa-headset text-purple-400 w-5"></i>
                     <span>Customer Service</span>
                 </a>
             </nav>
         </div>
 
-        <!-- Visitor Counter (Bottom Sidebar) -->
         <div class="glass-card p-4 rounded-2xl border border-white/10 text-center">
             <span class="text-xs text-gray-400 block mb-1">TOTAL PENGUNJUNG</span>
             <span id="visitorCount" class="text-xl font-black text-purple-400 tracking-wider">0</span>
         </div>
     </aside>
 
-      <!-- MAIN CONTENT CONTAINER -->
+        <!-- MAIN CONTENT CONTAINER -->
     <main class="max-w-lg mx-auto px-4 mt-6">
 
         <!-- ==================== TAB 1: BERANDA ==================== -->
         <section id="tab-beranda" class="tab-content space-y-6">
-            <!-- Hero Title -->
-            <div class="text-center space-y-2 py-4">
-                <h1 class="text-2xl font-black tracking-tight text-white uppercase">
+            <!-- Hero Title Seimbang & Proporsional -->
+            <div class="text-center space-y-3 py-6">
+                <h1 class="text-xl font-extrabold tracking-wide text-white uppercase leading-snug">
                     DESAIN CUSTOM <span class="text-purple-400">ALIGHT MOTION</span>
                 </h1>
-                <p class="text-xs font-bold text-blue-400 tracking-widest uppercase">
-                    & FASTOUR CS FREE FIRE
-                </p>
+                <div class="w-12 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto rounded-full"></div>
+                <h2 class="text-xl font-extrabold tracking-wide text-blue-400 uppercase leading-snug">
+                    FASTOUR CS <span class="text-white">FREE FIRE</span>
+                </h2>
             </div>
 
-            <!-- 2 Tab / Card Tombol Utama (Atas - Bawah) -->
+            <!-- 2 Card Tombol Utama (Atas - Bawah) -->
             <div class="space-y-4">
                 <div onclick="switchTab('katalog')" class="glass-card p-6 rounded-3xl border border-purple-500/20 active:scale-[0.98] transition cursor-pointer flex items-center justify-between group">
                     <div class="space-y-1">
@@ -231,9 +223,7 @@
                 <button onclick="switchTab('beranda')" class="text-xs text-gray-400 hover:text-white">Kembali</button>
             </div>
 
-            <!-- Container Grid Katalog (Dinamis dari Firebase / JS) -->
             <div id="katalogGrid" class="grid grid-cols-2 gap-3">
-                <!-- Sample Product Card (Akan di-load dinamis) -->
                 <div onclick="openKatalogModal('Preset Style JJ Smooth', '15.000', 'logo-zs.png', 'Preset Alight Motion Style Jedag Jedug Smooth full effect & color grading.')" class="glass-card p-3 rounded-2xl active:scale-95 transition cursor-pointer border border-white/10">
                     <img src="logo-zs.png" class="w-full h-32 object-cover rounded-xl mb-2">
                     <h4 class="text-xs font-bold text-white truncate">Preset Style JJ Smooth</h4>
@@ -252,7 +242,6 @@
                 <button onclick="switchTab('beranda')" class="text-xs text-gray-400 hover:text-white">Kembali</button>
             </div>
 
-            <!-- Filter Fee (Horizontal Glass Scroll / Segmented) -->
             <div class="space-y-2">
                 <span class="text-xs text-gray-400 font-semibold">1. PILIH FEE MATCH</span>
                 <div id="feeFilterContainer" class="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
@@ -261,7 +250,6 @@
                 </div>
             </div>
 
-            <!-- Filter Mode Match -->
             <div class="space-y-2">
                 <span class="text-xs text-gray-400 font-semibold">2. PILIH MODE MATCH</span>
                 <div class="grid grid-cols-4 gap-2">
@@ -272,10 +260,7 @@
                 </div>
             </div>
 
-            <!-- Room List (1-10 Room) -->
-            <div id="roomContainer" class="space-y-3 pt-2">
-                <!-- Room Cards akan di-generate via JavaScript/Firebase -->
-            </div>
+            <div id="roomContainer" class="space-y-3 pt-2"></div>
         </section>
 
         <!-- ==================== TAB 4: RULES FT CS ==================== -->
@@ -295,49 +280,35 @@
             </div>
         </section>
 
-        <!-- ==================== TAB 5: ALL GRUP & KONTAK ==================== -->
         <section id="tab-grup" class="tab-content hidden space-y-3">
             <h2 class="text-base font-bold text-white">All Grup FT CS Official</h2>
-            <div id="grupList" class="space-y-2">
-                <!-- List Grup WA -->
-            </div>
+            <div id="grupList" class="space-y-2"></div>
         </section>
 
         <section id="tab-kontak" class="tab-content hidden space-y-3">
             <h2 class="text-base font-bold text-white">Contacts Owner & Admin</h2>
-            <div id="kontakList" class="space-y-2">
-                <!-- List Kontak WA -->
-            </div>
+            <div id="kontakList" class="space-y-2"></div>
         </section>
 
         <section id="tab-cs" class="tab-content hidden space-y-3">
             <h2 class="text-base font-bold text-white">Customer Service Official</h2>
-            <div id="csList" class="space-y-2">
-                <!-- CS List -->
-            </div>
+            <div id="csList" class="space-y-2"></div>
         </section>
 
     </main>
 
-    <!-- POP-UP MODAL DETAIL KATALOG (LIQUID GLASS POP-UP) -->
+    <!-- POP-UP MODAL DETAIL KATALOG -->
     <div id="katalogModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-white/20 space-y-4 relative transform transition-all duration-300 scale-95 opacity-0" id="katalogModalCard">
-            <!-- Close Button -->
             <button onclick="closeKatalogModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-white">
                 <i class="fas fa-times"></i>
             </button>
-
-            <!-- Preview Gambar HD -->
             <img id="modalImg" src="" class="w-full h-48 object-cover rounded-2xl border border-white/10 shadow-lg">
-
-            <!-- Detail Info -->
             <div class="space-y-1">
                 <h3 id="modalTitle" class="text-base font-bold text-white"></h3>
                 <span id="modalPrice" class="text-sm font-extrabold text-purple-400 block"></span>
                 <p id="modalDesc" class="text-xs text-gray-300 leading-relaxed pt-2 border-t border-white/10"></p>
             </div>
-
-            <!-- Tombol Order Sekarang -->
             <a id="modalOrderBtn" href="#" target="_blank" class="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 font-bold text-xs text-white text-center flex items-center justify-center space-x-2 shadow-lg active:scale-95 transition">
                 <i class="fab fa-whatsapp text-sm"></i>
                 <span>ORDER SEKARANG</span>
@@ -345,27 +316,21 @@
         </div>
     </div>
 
-      <!-- ==================== OWNER PANEL (FLOATING ICON-ONLY) ==================== -->
-    <!-- pointer-events-none agar area kosong tidak menghalangi tombol di belakangnya -->
+    <!-- OWNER PANEL (FLOATING ICON-ONLY) -->
     <div id="ownerPanelContainer" class="fixed bottom-6 right-6 z-40 flex flex-col items-end space-y-3 pointer-events-none hidden">
-        <!-- Floating Sub-Buttons (Icon-Only Liquid Glass) -->
         <div id="ownerSubMenu" class="flex flex-col items-end space-y-3 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300">
-            <!-- 1. Add Katalog (Icon-Only) -->
             <button onclick="openAdminAddKatalog()" class="w-11 h-11 rounded-full glass-card border border-purple-500/40 text-purple-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
                 <i class="fas fa-image text-sm"></i>
             </button>
-            <!-- 2. Edit Link (Icon-Only) -->
             <button onclick="openAdminLinkModal()" class="w-11 h-11 rounded-full glass-card border border-blue-500/40 text-blue-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
                 <i class="fas fa-link text-sm"></i>
             </button>
-            <!-- 3. Toggle Fee (Icon-Only) -->
             <button onclick="openAdminToggleModal()" class="w-11 h-11 rounded-full glass-card border border-emerald-500/40 text-emerald-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
                 <i class="fas fa-power-off text-sm"></i>
             </button>
         </div>
 
-        <!-- Main FAB (+ Berubah Jadi X) -->
-        <button id="mainFabBtn" onclick="toggleOwnerFab()" class="w-13 h-13 w-12 h-12 rounded-full glass-card border border-purple-400/50 text-white flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-300 pointer-events-auto">
+        <button id="mainFabBtn" onclick="toggleOwnerFab()" class="w-12 h-12 rounded-full glass-card border border-purple-400/50 text-white flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-300 pointer-events-auto">
             <i id="fabIcon" class="fas fa-plus text-lg transition-transform duration-300"></i>
         </button>
     </div>
@@ -393,58 +358,12 @@
         </div>
     </div>
 
-    <!-- MODAL EDIT LINK MANAGER (ADMIN) -->
-    <div id="adminLinkModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-white/20 space-y-4">
-            <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-                <i class="fas fa-link text-blue-400"></i>
-                <span>Edit Link Room & CS</span>
-            </h3>
-            <div class="space-y-2 text-xs">
-                <label class="text-gray-400">Select Room Target:</label>
-                <select id="adminRoomTarget" class="w-full bg-slate-900 border border-white/10 rounded-xl p-2 text-white outline-none">
-                    <option value="fee_1k_1v1_room1">Fee 1K - 1v1 - Room 1</option>
-                    <option value="fee_1k_1v1_room2">Fee 1K - 1v1 - Room 2</option>
-                </select>
-                <input id="adminWaUrlInput" type="url" placeholder="https://chat.whatsapp.com/..." class="w-full bg-slate-900 border border-white/10 rounded-xl p-2 text-white outline-none">
-            </div>
-            <div class="flex space-x-2">
-                <button onclick="closeAdminLinkModal()" class="w-1/2 py-2 rounded-xl glass-card text-xs">Batal</button>
-                <button onclick="saveAdminLink()" class="w-1/2 py-2 rounded-xl bg-purple-600 text-xs font-bold">Simpan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL TOGGLE STATUS FEE (ADMIN) -->
-    <div id="adminToggleModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-white/20 space-y-4">
-            <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-                <i class="fas fa-power-off text-emerald-400"></i>
-                <span>Toggle Status Fee Match</span>
-            </h3>
-            <!-- Inline Switcher / Pills -->
-            <div class="space-y-3 text-xs">
-                <div class="flex items-center justify-between p-3 glass-card rounded-2xl">
-                    <span class="font-bold text-white">STATUS FEE 1K</span>
-                    <button onclick="toggleFeeStatus('1k')" id="statusFee1kBtn" class="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">OPEN</button>
-                </div>
-                <div class="flex items-center justify-between p-3 glass-card rounded-2xl">
-                    <span class="font-bold text-white">STATUS FEE 2K</span>
-                    <button onclick="toggleFeeStatus('2k')" id="statusFee2kBtn" class="px-3 py-1 rounded-full text-[10px] font-bold bg-red-500/20 border border-red-500/40 text-red-400">OFF</button>
-                </div>
-            </div>
-            <button onclick="closeAdminToggleModal()" class="w-full py-2.5 rounded-xl glass-card text-xs font-bold">Tutup</button>
-        </div>
-    </div>
-
     <!-- FIREBASE SDK (CDN) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
     <script>
-        /* ==================== FIREBASE CONFIG ==================== */
-        // Ganti dengan Config Firebase Milikmu dari Firebase Console
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "zhee-store-idn.firebaseapp.com",
@@ -462,7 +381,6 @@
         const OWNER_EMAIL = "zheestoreidn@gmail.com";
         let currentUser = null;
 
-        /* ==================== DYNAMIC ISLAND NOTIFICATION ==================== */
         function showNotification(msg) {
             const island = document.getElementById('dynamicIsland');
             document.getElementById('notifMessage').innerText = msg;
@@ -472,7 +390,6 @@
             }, 2500);
         }
 
-        /* ==================== SIDEBAR & TAB SYSTEM ==================== */
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
@@ -491,9 +408,17 @@
             }
         }
 
-        function toggleSubmenu(id) {
+        function toggleSubmenu(id, arrowId) {
             const el = document.getElementById(id);
-            el.classList.toggle('hidden');
+            const arrow = document.getElementById(arrowId);
+            
+            if (el.style.maxHeight && el.style.maxHeight !== '0px') {
+                el.style.maxHeight = '0px';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                el.style.maxHeight = el.scrollHeight + 'px';
+                arrow.style.transform = 'rotate(180deg)';
+            }
         }
 
         function switchTab(tabName) {
@@ -503,7 +428,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* ==================== ROOM RENDERER (BOOKING) ==================== */
         let currentSelectedFee = '1k';
         let currentSelectedMode = '1v1';
 
@@ -521,25 +445,12 @@
             const container = document.getElementById('roomContainer');
             container.innerHTML = '';
 
-            // Generate 10 Room
             for (let i = 1; i <= 10; i++) {
-                // Default Status Ready
-                let status = 'ready'; // ready, full, offline
+                let status = 'ready';
                 let link = 'https://wa.me/6281234567890';
-
                 let badgeColor = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
                 let btnText = 'BOOKING NOW';
                 let disabledAttr = '';
-
-                if (status === 'full') {
-                    badgeColor = 'bg-red-500/20 text-red-400 border-red-500/30';
-                    btnText = 'FULL / IN GAME';
-                    disabledAttr = 'disabled style="pointer-events: none; opacity: 0.5;"';
-                } else if (status === 'offline') {
-                    badgeColor = 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-                    btnText = 'OFFLINE';
-                    disabledAttr = 'disabled style="pointer-events: none; opacity: 0.5;"';
-                }
 
                 container.innerHTML += `
                     <div class="glass-card p-4 rounded-2xl border border-white/10 flex items-center justify-between">
@@ -555,7 +466,6 @@
             }
         }
 
-        /* ==================== KATALOG MODAL ==================== */
         function openKatalogModal(title, price, img, desc) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = 'Rp ' + price;
@@ -578,23 +488,15 @@
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
 
-        /* ==================== PROFILE & OWNER AUTH ==================== */
-        function openProfileModal() {
-            document.getElementById('profileModal').classList.remove('hidden');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profileModal').classList.add('hidden');
-        }
+        function openProfileModal() { document.getElementById('profileModal').classList.remove('hidden'); }
+        function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); }
 
         function loginGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider).then((result) => {
                 closeProfileModal();
                 showNotification(`Selamat Datang, ${result.user.displayName}!`);
-            }).catch((err) => {
-                showNotification("Login Gagal!");
-            });
+            }).catch(() => showNotification("Login Gagal!"));
         }
 
         function logoutGoogle() {
@@ -617,7 +519,6 @@
                 loginBtn.classList.add('hidden');
                 logoutBtn.classList.remove('hidden');
 
-                // Cek Email Khusus Owner
                 if (user.email === OWNER_EMAIL) {
                     document.getElementById('profileRole').innerText = "Owner Zhee Store";
                     document.getElementById('profileRole').classList.add('text-purple-400', 'font-bold');
@@ -636,7 +537,6 @@
             }
         });
 
-        /* ==================== OWNER PANEL FAB (ICON-ONLY) ==================== */
         let isFabOpen = false;
         function toggleOwnerFab() {
             const subMenu = document.getElementById('ownerSubMenu');
@@ -653,21 +553,6 @@
             }
         }
 
-        function openAdminLinkModal() {
-            document.getElementById('adminLinkModal').classList.remove('hidden');
-        }
-        function closeAdminLinkModal() {
-            document.getElementById('adminLinkModal').classList.add('hidden');
-        }
-
-        function openAdminToggleModal() {
-            document.getElementById('adminToggleModal').classList.remove('hidden');
-        }
-        function closeAdminToggleModal() {
-            document.getElementById('adminToggleModal').classList.add('hidden');
-        }
-
-        // Init App
         renderRooms();
     </script>
 </body>
