@@ -25,21 +25,21 @@
       overflow-x: hidden;
     }
 
-    /* === BACKGROUND JPG PARALLAX === */
+    /* === BACKGROUND JPG ANIME (TERANG & TRANSPARAN) === */
     #bg-image {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: url('bg-anime.jpg') no-repeat center center/cover;
       z-index: -2;
-      filter: brightness(0.65) contrast(1.15);
+      filter: brightness(0.85) contrast(1.1);
       transition: transform 0.1s linear, filter 0.1s linear;
     }
 
     .glass-overlay {
       position: fixed; inset: 0;
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.25), transparent 50%),
-                  radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.2), transparent 50%),
-                  rgba(4, 6, 10, 0.55);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.2), transparent 60%),
+                  radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.2), transparent 60%),
+                  rgba(4, 6, 10, 0.45);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       z-index: -1;
     }
     
@@ -52,23 +52,22 @@
 
     .navbar-capsule {
       width: 100%; max-width: 500px; height: 56px;
-      background: rgba(10, 15, 26, 0.75);
+      background: rgba(10, 15, 26, 0.65);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       border-radius: 28px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; box-shadow: 0 8px 32px rgba(0, 195, 255, 0.15);
+      padding: 0 16px; box-shadow: 0 8px 32px rgba(0, 195, 255, 0.2);
       pointer-events: auto;
     }
 
     .brand-box { display: flex; align-items: center; gap: 8px; text-decoration: none; }
 
-    /* LOGO PNG HEADER */
     .brand-logo-img {
       width: 32px; height: 32px; object-fit: contain;
       opacity: 0; transform: scale(0.5);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.8));
     }
     .brand-logo-img.visible { opacity: 1; transform: scale(1); }
 
@@ -77,13 +76,13 @@
       opacity: 0; transform: translateX(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .logo-text.visible { opacity: 1; transform: translateX(0); }
-    .logo-text span { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.6); }
+    .logo-text span { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.8); }
 
     .header-right { display: flex; align-items: center; gap: 8px; }
 
     .nav-auth-btn {
       width: 36px; height: 36px; border-radius: 50%;
-      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
       background: rgba(30, 41, 59, 0.6);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; overflow: hidden; transition: all 0.2s;
@@ -93,7 +92,7 @@
     .nav-auth-btn.logged-in { border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.8); }
 
     .icon-btn {
-      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff; width: 36px; height: 36px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: transform 0.2s ease;
@@ -103,9 +102,9 @@
     /* === ACCORDION SIDEBAR === */
     .sidebar {
       position: fixed; top: 0; left: -290px; width: 280px; height: 100vh;
-      background: rgba(8, 12, 22, 0.95);
+      background: rgba(8, 12, 22, 0.92);
       backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-      border-right: 1px solid rgba(56, 189, 248, 0.2);
+      border-right: 1px solid rgba(56, 189, 248, 0.25);
       z-index: 1000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       padding: 24px 16px; display: flex; flex-direction: column; gap: 16px;
       overflow-y: auto;
@@ -113,7 +112,7 @@
     .sidebar.active { left: 0; }
 
     .sidebar-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(6px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
@@ -122,14 +121,14 @@
     
     .menu-item {
       padding: 12px 14px; border-radius: 14px;
-      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
       display: flex; align-items: center; justify-content: space-between;
       font-size: 0.88rem; color: #cbd5e1; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
     }
     .menu-item-main { display: flex; align-items: center; gap: 10px; }
     .menu-item:active, .menu-item.active {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(168, 85, 247, 0.25));
-      border-color: rgba(56, 189, 248, 0.5); color: #38bdf8;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(168, 85, 247, 0.3));
+      border-color: rgba(56, 189, 248, 0.6); color: #38bdf8;
     }
 
     .arrow-icon { transition: transform 0.3s ease; font-size: 0.75rem; color: #64748b; }
@@ -144,7 +143,7 @@
       padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; color: #94a3b8;
       display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;
     }
-    .sub-menu-item:active { background: rgba(255, 255, 255, 0.08); color: #38bdf8; }
+    .sub-menu-item:active { background: rgba(255, 255, 255, 0.1); color: #38bdf8; }
 
     /* === MAIN CONTENT (MARGIN TOP 110PX) === */
     .main-content { max-width: 500px; margin: 110px auto 0; padding: 0 14px; }
@@ -152,19 +151,20 @@
     .page-view.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* KARTU GLASS KACA BENING TEMBUS GAMBAR ANIME */
     .glass-card {
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      background: rgba(10, 15, 26, 0.45);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(56, 189, 248, 0.25);
       border-radius: 20px; padding: 1.2rem;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(56, 189, 248, 0.05);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(56, 189, 248, 0.1);
       margin-bottom: 1.2rem; position: relative;
     }
 
     .brand-hero-img {
       width: 90px; height: 90px; object-fit: contain;
       margin: 0 auto 0.6rem auto; display: block;
-      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
+      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
       transition: all 0.3s ease;
     }
 
@@ -174,26 +174,35 @@
       box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
     }
 
-    .filter-container { margin-bottom: 1rem; }
-    .filter-label { font-size: 0.73rem; color: #94a3b8; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    /* FILTER MELAYANG BEBAS (TANPA KOTAK KAKU) */
+    .filter-section-title {
+      font-size: 1.1rem; font-weight: 800; color: #ffffff;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    .filter-container { margin-bottom: 0.9rem; }
+    .filter-label { font-size: 0.72rem; color: #38bdf8; font-weight: 800; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.8px; }
     .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
     .filter-scroll::-webkit-scrollbar { display: none; }
     
     .pill-btn {
-      background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #cbd5e1; padding: 0.45rem 1.1rem; border-radius: 20px;
-      font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+      background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1; padding: 0.5rem 1.2rem; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 6px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
-    .pill-btn.active { background: linear-gradient(135deg, #0284c7, #8257e5); color: white; border-color: transparent; box-shadow: 0 0 12px rgba(56, 189, 248, 0.4); }
+    .pill-btn.active { background: linear-gradient(135deg, #0284c7, #8257e5); color: white; border-color: transparent; box-shadow: 0 0 14px rgba(56, 189, 248, 0.6); }
     
     .pill-sub-btn {
-      background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #94a3b8; padding: 0.4rem 0.85rem; border-radius: 12px;
-      font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+      background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8; padding: 0.45rem 0.95rem; border-radius: 12px;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 6px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
-    .pill-sub-btn.active { background: #38bdf8; color: #0f172a; border-color: transparent; font-weight: 800; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+    .pill-sub-btn.active { background: #38bdf8; color: #0f172a; border-color: transparent; font-weight: 800; box-shadow: 0 0 12px rgba(56, 189, 248, 0.7); }
     
     .btn-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
     .btn-dot.online { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
@@ -202,8 +211,9 @@
     .room-list { display: flex; flex-direction: column; gap: 10px; }
     .room-card {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0.85rem 1rem; background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px;
+      padding: 0.85rem 1rem; background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
     .room-info { display: flex; align-items: center; gap: 12px; }
     .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
@@ -216,7 +226,7 @@
       background: linear-gradient(135deg, #0284c7, #6366f1); color: white; border: none;
       padding: 0.5rem 1.1rem; border-radius: 12px; font-weight: 800; font-size: 0.78rem;
       cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); transition: transform 0.2s;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); transition: transform 0.2s;
     }
     .btn-booking:active { transform: scale(0.95); }
     .btn-booking.full { background: linear-gradient(135deg, #ec4899, #8b5cf6) !important; color: white !important; cursor: not-allowed !important; pointer-events: none !important; }
@@ -236,7 +246,7 @@
       width: 48px; height: 48px; border-radius: 50%;
       background: linear-gradient(135deg, #38bdf8, #8b5cf6); color: white; border: none;
       font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4); cursor: pointer;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.5); cursor: pointer;
       transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
     .fab-wrapper.active .fab-main { transform: rotate(135deg); background: linear-gradient(135deg, #f43f5e, #e11d48); }
@@ -293,7 +303,6 @@
   <div class="navbar-wrapper">
     <header class="navbar-capsule">
       <a href="#" class="brand-box" onclick="switchPage('home')">
-        <!-- LOGO GAMBAR PNG HEADER -->
         <img src="logo-zs.png" class="brand-logo-img" id="header-logo-img" alt="Logo">
         <div class="logo-text" id="header-logo-text">Zhee<span>Store</span></div>
       </a>
@@ -345,13 +354,12 @@
     <!-- 1. BERANDA -->
     <section id="home" class="page-view active">
       <div class="glass-card" style="text-align: center; padding: 1.8rem 1rem;">
-        <!-- LOGO PNG HERO BERANDA -->
         <img src="logo-zs.png" class="brand-hero-img" id="hero-logo-img" alt="Zhee Store Logo">
-        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);">
+        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);">
           <i class="fa-solid fa-circle-check"></i> Official Zhee Store
         </span>
         <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; color:#ffffff;">Fastour CS Arena</h1>
-        <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.5;">Platform Match Clash Squad Free Fire Terpercaya & Real-Time Kuota Room.</p>
+        <p style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.5;">Platform Match Clash Squad Free Fire Terpercaya & Real-Time Kuota Room.</p>
 
         <div style="margin-top: 1.2rem;">
           <button class="btn-booking" style="width: 100%; padding: 0.85rem; font-size: 0.88rem;" onclick="switchPage('booking')">
@@ -366,19 +374,22 @@
       </div>
     </section>
 
-    <!-- 2. FASTOUR GAME (BOOKING) -->
+    <!-- 2. FASTOUR GAME (FILTER UNBOXED / MELAYANG BEBAS) -->
     <section id="booking" class="page-view">
-      <div class="glass-card" style="margin-bottom: 1rem;">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-trophy"></i> Booking FT CS FF</h3>
-        <div class="filter-container">
-          <div class="filter-label">1. PILIH FEE MATCH</div>
-          <div class="filter-scroll" id="fee-buttons-container"></div>
-        </div>
-        <div class="filter-container">
-          <div class="filter-label">2. PILIH MODE MATCH</div>
-          <div class="filter-scroll" id="mode-buttons-container"></div>
-        </div>
+      <div class="filter-section-title">
+        <i class="fa-solid fa-trophy" style="color:#38bdf8;"></i> Booking FT CS FF
       </div>
+
+      <div class="filter-container">
+        <div class="filter-label">1. PILIH FEE MATCH</div>
+        <div class="filter-scroll" id="fee-buttons-container"></div>
+      </div>
+
+      <div class="filter-container" style="margin-bottom: 1.2rem;">
+        <div class="filter-label">2. PILIH MODE MATCH</div>
+        <div class="filter-scroll" id="mode-buttons-container"></div>
+      </div>
+
       <div id="room-container" class="room-list"></div>
     </section>
 
@@ -537,7 +548,7 @@
         <button type="submit" class="btn-save">Simpan Link Grup</button>
       </form>
     </div>
-   </div>
+  </div>
 
     <!-- FIREBASE SDK V10 -->
   <script type="module">
@@ -665,7 +676,7 @@
         const scaleVal = 1 + (scrollPos * 0.0004);
         const blurVal = Math.min(scrollPos * 0.012, 6);
         bgImage.style.transform = `scale(${scaleVal})`;
-        bgImage.style.filter = `brightness(0.65) contrast(1.15) blur(${blurVal}px)`;
+        bgImage.style.filter = `brightness(0.85) contrast(1.1) blur(${blurVal}px)`;
       }
 
       if(scrollPos > 60) {
