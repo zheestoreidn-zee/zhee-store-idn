@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zhee Store | Fastour CS & Desain AM</title>
     
-    <!-- FAVICON FIX -->
+    <!-- FAVICON (FIX UNTUK BROWSER HP & TAB) -->
     <link rel="icon" type="image/png" sizes="32x32" href="logo-zs.png">
     <link rel="icon" type="image/png" sizes="16x16" href="logo-zs.png">
     <link rel="apple-touch-icon" href="logo-zs.png">
@@ -39,18 +39,19 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* FIX BACKGROUND GAMBAR DENGAN OVERLAY BENING */
+        /* PERBAIKAN SCROLL: GPU ACCELERATED BACKGROUND (NATIVE & HALUS) */
         html, body {
             min-height: 100vh;
             color: #f3f4f6;
             overflow-y: auto !important;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
-            background-image: linear-gradient(to bottom, rgba(7, 10, 17, 0.75), rgba(7, 10, 17, 0.88)), url('bg-anime.jpg');
+            background-image: linear-gradient(to bottom, rgba(7, 10, 17, 0.72), rgba(7, 10, 17, 0.88)), url('bg-anime.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
+            scroll-behavior: smooth;
         }
 
         /* LIQUID GLASS EFFECT TRANSPARAN (iOS Style) */
@@ -91,7 +92,7 @@
         }
     </style>
 </head>
-<body class="relative min-h-screen pb-32">
+<body class="relative min-h-screen">
 
     <!-- NOTIFIKASI DYNAMIC ISLAND -->
     <div id="dynamicIsland" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden">
@@ -119,17 +120,17 @@
         </div>
     </header>
 
-    <!-- SIDEBAR NAVIGATION DENGAN SUBMENU BER-IKON & STATIS REALTIME -->
+    <!-- SIDEBAR NAVIGATION (LEBIH LEGA & DENGAN SUBMENU BER-IKON) -->
     <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
-    <aside id="sidebarMenu" class="fixed top-0 left-0 h-full w-72 glass-nav z-50 transform -translate-x-full transition-transform duration-300 ease-out p-6 flex flex-col justify-between overflow-y-auto">
+    <aside id="sidebarMenu" class="fixed top-0 left-0 h-full w-80 glass-nav z-50 transform -translate-x-full transition-transform duration-300 ease-out p-7 flex flex-col justify-between overflow-y-auto">
         <div class="space-y-6">
             <div class="flex flex-col items-center py-4 border-b border-white/10 text-center">
                 <img src="logo-zs.png" class="w-20 h-20 rounded-2xl shadow-xl border border-purple-500/30 mb-3 object-cover">
-                <h2 class="font-bold text-lg text-white">ZHEE STORE</h2>
+                <h2 class="font-bold text-lg text-white tracking-wide">ZHEE STORE</h2>
                 <span class="text-xs text-purple-400 font-semibold tracking-wider">OFFICIAL PLATFORM</span>
             </div>
 
-            <nav class="space-y-2 text-sm font-medium">
+            <nav class="space-y-2.5 text-sm font-medium">
                 <a id="nav-beranda" onclick="switchTab('beranda'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:scale-95 transition border border-transparent">
                     <i class="fas fa-home text-purple-400 w-5"></i>
                     <span>Dashboard</span>
@@ -144,12 +145,12 @@
                         </div>
                         <i id="desainArrow" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
                     </button>
-                    <div id="desainSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-4 space-y-1 text-xs text-gray-300 pt-1">
-                        <a id="nav-katalog" onclick="switchTab('katalog'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                    <div id="desainSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-4 space-y-1.5 text-xs text-gray-300 pt-1">
+                        <a id="nav-katalog" onclick="switchTab('katalog'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3.5 py-2.5 rounded-lg glass-card border border-transparent transition">
                             <i class="fas fa-images text-purple-400 w-4"></i>
                             <span>Katalog Desain</span>
                         </a>
-                        <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent text-gray-300 hover:text-purple-400 transition">
+                        <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-2.5 px-3.5 py-2.5 rounded-lg glass-card border border-transparent text-gray-300 hover:text-purple-400 transition">
                             <i class="fab fa-whatsapp text-emerald-400 w-4"></i>
                             <span>No Admin Desain</span>
                         </a>
@@ -165,20 +166,20 @@
                         </div>
                         <i id="ftArrow" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300"></i>
                     </button>
-                    <div id="ftSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-4 space-y-1 text-xs text-gray-300 pt-1">
-                        <a id="nav-booking" onclick="switchTab('booking'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                    <div id="ftSub" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out pl-4 space-y-1.5 text-xs text-gray-300 pt-1">
+                        <a id="nav-booking" onclick="switchTab('booking'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3.5 py-2.5 rounded-lg glass-card border border-transparent transition">
                             <i class="fas fa-ticket-alt text-blue-400 w-4"></i>
                             <span>Booking FT CS</span>
                         </a>
-                        <a id="nav-rules" onclick="switchTab('rules'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                        <a id="nav-rules" onclick="switchTab('rules'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3.5 py-2.5 rounded-lg glass-card border border-transparent transition">
                             <i class="fas fa-book text-yellow-400 w-4"></i>
                             <span>Rules FT CS</span>
                         </a>
-                        <a id="nav-grup" onclick="switchTab('grup'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                        <a id="nav-grup" onclick="switchTab('grup'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3.5 py-2.5 rounded-lg glass-card border border-transparent transition">
                             <i class="fas fa-users text-green-400 w-4"></i>
                             <span>All Grup FT CS</span>
                         </a>
-                        <a id="nav-kontak" onclick="switchTab('kontak'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3 py-2 rounded-lg glass-card border border-transparent transition">
+                        <a id="nav-kontak" onclick="switchTab('kontak'); toggleSidebar();" class="sidebar-nav-item flex items-center space-x-2.5 px-3.5 py-2.5 rounded-lg glass-card border border-transparent transition">
                             <i class="fas fa-address-book text-pink-400 w-4"></i>
                             <span>All Kontak Owner & Admin</span>
                         </a>
@@ -191,7 +192,7 @@
                 </a>
 
                 <!-- STATISTIK PENGUNJUNG DENGAN FIREBASE LIVE COUNTER -->
-                <div class="glass-card p-3.5 rounded-2xl border border-white/10 space-y-2.5 mt-4">
+                <div class="glass-card p-4 rounded-2xl border border-white/10 space-y-2.5 mt-4">
                     <div class="flex items-center justify-between text-xs font-semibold">
                         <span class="text-gray-300 flex items-center space-x-1.5">
                             <i class="fas fa-chart-line text-purple-400"></i>
@@ -212,8 +213,8 @@
         </div>
     </aside>
 
-        <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-lg mx-auto px-4 mt-6 pb-32">
+        <!-- MAIN CONTENT CONTAINER (PADDING BOTTOM DI-SEPADAN-KAN BIAR SCROLL SAMPAI BAWAH) -->
+    <main class="max-w-lg mx-auto px-4 mt-6 pb-52">
 
         <!-- ==================== TAB 1: BERANDA ==================== -->
         <section id="tab-beranda" class="tab-content space-y-6">
@@ -306,7 +307,7 @@
             <div id="roomContainer" class="space-y-3 pt-2"></div>
         </section>
 
-        <!-- ==================== TAB 4: RULES FT CS ==================== -->
+                <!-- ==================== TAB 4: RULES FT CS ==================== -->
         <section id="tab-rules" class="tab-content hidden space-y-4">
             <h2 class="text-base font-bold text-white flex items-center space-x-2">
                 <i class="fas fa-scroll text-yellow-400"></i>
@@ -359,7 +360,7 @@
         </div>
     </div>
 
-        <!-- OWNER PANEL (FLOATING ICON-ONLY & POINTER-EVENTS FIXED) -->
+    <!-- OWNER PANEL (FLOATING ICON-ONLY & SAFE AREA FIXED) -->
     <div id="ownerPanelContainer" class="fixed bottom-6 right-6 z-40 flex flex-col items-end space-y-3 pointer-events-none hidden">
         <div id="ownerSubMenu" class="flex flex-col items-end space-y-3 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300">
             <button onclick="openAdminAddKatalog()" class="w-11 h-11 rounded-full glass-card border border-purple-500/40 text-purple-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
@@ -401,7 +402,7 @@
         </div>
     </div>
 
-    <!-- FIREBASE SDK (COMPAT VERSION) -->
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -424,7 +425,6 @@
         const OWNER_EMAIL = "zheestoreidn@gmail.com";
         let currentUser = null;
 
-        /* DYNAMIC ISLAND NOTIF */
         function showNotification(msg) {
             const island = document.getElementById('dynamicIsland');
             document.getElementById('notifMessage').innerText = msg;
@@ -434,7 +434,6 @@
             }, 2500);
         }
 
-        /* SIDEBAR & SUBMENU ANIMATION */
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebarMenu');
             const overlay = document.getElementById('sidebarOverlay');
@@ -466,13 +465,11 @@
             }
         }
 
-        /* TAB SWITCHING & ACTIVE STATE HIGHLIGHT */
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
             const target = document.getElementById(`tab-${tabName}`);
             if (target) target.classList.remove('hidden');
 
-            // Update Active State di Sidebar
             document.querySelectorAll('.sidebar-nav-item').forEach(item => {
                 item.classList.remove('sidebar-item-active');
             });
@@ -482,7 +479,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* FILTER BUTTON LOGIC */
         let currentSelectedFee = '1k';
         let currentSelectedMode = '1v1';
 
@@ -528,7 +524,6 @@
             }
         }
 
-        /* KATALOG MODAL */
         function openKatalogModal(title, price, img, desc) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = 'Rp ' + price;
@@ -569,7 +564,6 @@
             });
         }
 
-        /* AUTH & OWNER PANEL DETECTOR */
         auth.onAuthStateChanged((user) => {
             currentUser = user;
             const ownerPanel = document.getElementById('ownerPanelContainer');
@@ -601,7 +595,6 @@
             }
         });
 
-        /* FAB FLOATING MENU */
         let isFabOpen = false;
         function toggleOwnerFab() {
             const subMenu = document.getElementById('ownerSubMenu');
@@ -618,23 +611,18 @@
             }
         }
 
-        /* FIREBASE REALTIME VISITOR COUNTER */
         function initVisitorCounter() {
             const visitorRef = db.ref('visitors');
-            
-            // Tambah count setiap dibuka
             visitorRef.transaction((currentValue) => {
                 return (currentValue || 0) + 1;
             });
 
-            // Read live value
             visitorRef.on('value', (snapshot) => {
                 const count = snapshot.val() || 0;
                 document.getElementById('visitorCount').innerText = count.toLocaleString('id-ID');
             });
         }
 
-        // Init App
         switchTab('beranda');
         renderRooms();
         initVisitorCounter();
