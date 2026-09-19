@@ -1,947 +1,674 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Zhee Store - Esports Arena & Graphic Studio</title>
-
-  <link rel="icon" type="image/png" href="logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent !important;
-      outline: none !important; user-select: none;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zhee Store | Fastour CS & Desain AM</title>
     
-    html, body {
-      background-color: #04060a;
-      color: #f8fafc;
-      min-height: 100vh;
-      padding-bottom: 90px;
-      overflow-x: hidden;
-    }
-
-    /* === BACKGROUND PARALLAX VIDEO === */
-    #bg-video {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      object-fit: cover; z-index: -2;
-      filter: brightness(0.45) contrast(1.1);
-      transition: transform 0.1s linear, filter 0.1s linear;
-    }
-
-    .glass-overlay {
-      position: fixed; inset: 0;
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 40%),
-                  radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.12), transparent 40%),
-                  rgba(4, 6, 10, 0.75);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      z-index: -1;
-    }
+    <!-- FAVICON (Sama dengan Logo PNG Baru Kamu) -->
+    <link rel="icon" type="image/png" href="logo-zs.png">
     
-    /* === FLOATING CAPSULE NAVBAR (Z-INDEX 999 PREVENT OVERLAP) === */
-    .navbar-wrapper {
-      position: fixed; top: 12px; left: 0; right: 0;
-      display: flex; justify-content: center; z-index: 999; padding: 0 14px;
-      pointer-events: none;
-    }
-
-    .navbar-capsule {
-      width: 100%; max-width: 500px; height: 56px;
-      background: rgba(10, 15, 26, 0.85);
-      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 28px;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      pointer-events: auto;
-    }
-
-    .brand-box { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-
-    /* LOGO MP4 NO BACKGROUND (HEADER) */
-    .brand-logo-mp4 {
-      width: 32px; height: 32px; object-fit: contain;
-      mix-blend-mode: screen;
-      opacity: 0; transform: scale(0.5);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .brand-logo-mp4.visible { opacity: 1; transform: scale(1); }
-
-    .logo-text {
-      font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;
-      opacity: 0; transform: translateX(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .logo-text.visible { opacity: 1; transform: translateX(0); }
-    .logo-text span { color: #38bdf8; }
-
-    .header-right { display: flex; align-items: center; gap: 8px; }
-
-    .nav-auth-btn {
-      width: 36px; height: 36px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.2);
-      background: rgba(30, 41, 59, 0.6);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; overflow: hidden; transition: all 0.2s;
-    }
-    .nav-auth-btn img { width: 100%; height: 100%; object-fit: cover; }
-    .nav-auth-btn i { color: #94a3b8; font-size: 0.95rem; }
-    .nav-auth-btn.logged-in { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
-
-    .icon-btn {
-      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff; width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: transform 0.2s ease;
-    }
-    .icon-btn:active { transform: scale(0.9); }
-
-    /* === ACCORDION SIDEBAR === */
-    .sidebar {
-      position: fixed; top: 0; left: -290px; width: 280px; height: 100vh;
-      background: rgba(8, 12, 22, 0.96);
-      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 1000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      padding: 24px 16px; display: flex; flex-direction: column; gap: 16px;
-      overflow-y: auto;
-    }
-    .sidebar.active { left: 0; }
-
-    .sidebar-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(6px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
-
-    .menu-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                        glassBorder: 'rgba(255, 255, 255, 0.12)',
+                        glassDark: 'rgba(11, 15, 23, 0.75)',
+                        neonPurple: '#8b5cf6',
+                        neonBlue: '#3b82f6',
+                        neonGreen: '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
     
-    .menu-item {
-      padding: 12px 14px; border-radius: 14px;
-      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 0.88rem; color: #cbd5e1; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
-    }
-    .menu-item-main { display: flex; align-items: center; gap: 10px; }
-    .menu-item:active, .menu-item.active {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(168, 85, 247, 0.18));
-      border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;
-    }
+    <!-- FontAwesome & Google Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    .arrow-icon { transition: transform 0.3s ease; font-size: 0.75rem; color: #64748b; }
-    .menu-item.open .arrow-icon { transform: rotate(180deg); color: #38bdf8; }
+    <style>
+        /* BASE & ANTI-BUG STYLING */
+        * {
+            -webkit-tap-highlight-color: transparent; /* Hilangkan kotak biru pas di-tap */
+            user-select: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-    .sub-menu {
-      display: none; flex-direction: column; gap: 4px; padding-left: 12px; margin-top: 4px;
-    }
-    .sub-menu.open { display: flex; }
+        html, body {
+            background-color: #0b0f17;
+            overscroll-behavior-y: none; /* Cegah warna putih/hitam pas scroll mentok */
+            min-height: 100vh;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
 
-    .sub-menu-item {
-      padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; color: #94a3b8;
-      display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;
-    }
-    .sub-menu-item:active { background: rgba(255, 255, 255, 0.06); color: #38bdf8; }
+        /* LIQUID GLASS EFFECT (iOS Style) */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    /* === MAIN CONTENT FIX MARGIN TOP (110PX TO PREVENT KETIMPA) === */
-    .main-content { max-width: 500px; margin: 110px auto 0; padding: 0 14px; }
-    .page-view { display: none; animation: fadeIn 0.35s ease-in-out; }
-    .page-view.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-nav {
+            background: rgba(11, 15, 23, 0.65);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-    .glass-card {
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px; padding: 1.2rem;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-      margin-bottom: 1.2rem; position: relative;
-    }
+        /* CUSTOM SCROLLBAR BAR */
+        ::-webkit-scrollbar {
+            width: 0px;
+            height: 0px;
+        }
 
-    /* BERANDA HERO MP4 NO BACKGROUND */
-    .brand-hero-mp4 {
-      width: 90px; height: 90px; object-fit: contain;
-      mix-blend-mode: screen;
-      margin: 0 auto 0.6rem auto; display: block;
-      transition: all 0.3s ease;
-    }
-
-    .dual-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
-    .gate-card {
-      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px; padding: 14px 12px; text-align: left;
-      cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: space-between;
-    }
-    .gate-card:active { transform: scale(0.96); background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); }
-    .gate-icon { font-size: 1.4rem; color: #38bdf8; margin-bottom: 8px; }
-    .gate-title { font-size: 0.9rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
-    .gate-sub { font-size: 0.73rem; color: #94a3b8; line-height: 1.35; margin-bottom: 8px; }
-    .gate-btn { font-size: 0.73rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 4px; }
-
-    .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .catalog-item {
-      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px; overflow: hidden; cursor: pointer; transition: transform 0.2s ease;
-    }
-    .catalog-item:active { transform: scale(0.96); }
-    .catalog-img { width: 100%; height: 110px; object-fit: cover; background: rgba(0,0,0,0.3); }
-    .catalog-info { padding: 10px; }
-    .catalog-name { font-size: 0.83rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .catalog-price { font-size: 0.78rem; color: #38bdf8; font-weight: 700; margin-top: 2px; }
-
-    .wa-avatar-custom {
-      width: 42px; height: 42px; border-radius: 50%;
-      object-fit: cover; border: 1.5px solid #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
-    }
-
-    .filter-container { margin-bottom: 1rem; }
-    .filter-label { font-size: 0.73rem; color: #64748b; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; }
-    .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-    .filter-scroll::-webkit-scrollbar { display: none; }
-    
-    .pill-btn {
-      background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #94a3b8; padding: 0.45rem 1.1rem; border-radius: 20px;
-      font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .pill-btn.active { background: linear-gradient(135deg, #6366f1, #a855f7); color: white; border-color: transparent; }
-    
-    .pill-sub-btn {
-      background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.05);
-      color: #64748b; padding: 0.4rem 0.85rem; border-radius: 12px;
-      font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .pill-sub-btn.active { background: #38bdf8; color: #0f172a; border-color: transparent; }
-    
-    .btn-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-    .btn-dot.online { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
-    .btn-dot.offline { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
-
-    .room-list { display: flex; flex-direction: column; gap: 10px; }
-    .room-card {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.85rem 1rem; background: rgba(30, 41, 59, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px;
-    }
-    .room-info { display: flex; align-items: center; gap: 12px; }
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-    .status-dot.online { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-    .status-dot.offline { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
-    .room-details h4 { font-size: 0.88rem; font-weight: 800; color: #f8fafc; }
-    .room-details p { font-size: 0.72rem; color: #94a3b8; }
-    
-    .btn-booking {
-      background: linear-gradient(135deg, #38bdf8, #6366f1); color: white; border: none;
-      padding: 0.45rem 0.95rem; border-radius: 10px; font-weight: 700; font-size: 0.78rem;
-      cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
-    }
-    .btn-booking.full { background: linear-gradient(135deg, #ec4899, #8b5cf6) !important; color: white !important; cursor: not-allowed !important; pointer-events: none !important; }
-    .btn-booking.disabled { background: #334155 !important; color: #64748b !important; cursor: not-allowed !important; pointer-events: none !important; }
-    
-    .btn-owner-dots {
-      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #94a3b8; width: 34px; height: 34px; border-radius: 10px;
-      display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
-    }
-
-    .owner-only { display: none !important; }
-    body.is-owner .owner-only { display: flex !important; }
-
-    .fab-wrapper { position: fixed; bottom: 25px; right: 20px; z-index: 950; display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 10px; }
-    .fab-main {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, #38bdf8, #8b5cf6); color: white; border: none;
-      font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4); cursor: pointer;
-      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
-    .fab-wrapper.active .fab-main { transform: rotate(135deg); background: linear-gradient(135deg, #f43f5e, #e11d48); }
-
-    .fab-menu {
-      display: flex; flex-direction: column; gap: 10px;
-      opacity: 0; pointer-events: none; transform: translateY(15px) scale(0.8);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .fab-wrapper.active .fab-menu { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-
-    .fab-icon-btn {
-      width: 42px; height: 42px; border-radius: 50%;
-      background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #38bdf8; display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; cursor: pointer; backdrop-filter: blur(10px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.4); transition: transform 0.15s;
-    }
-    .fab-icon-btn:active { transform: scale(0.9); }
-
-    .modal {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
-      z-index: 1050; align-items: flex-end; justify-content: center;
-    }
-    .modal.show { display: flex; }
-    .bottom-sheet {
-      width: 100%; max-width: 480px; background: rgba(15, 23, 42, 0.96);
-      border-top: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px 24px 0 0;
-      padding: 20px 20px 30px; position: relative;
-    }
-    .sheet-handle { width: 36px; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 2px; margin: 0 auto 16px; }
-    
-    .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label { display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 0.4rem; font-weight: 600; }
-    .form-group input, .form-group select {
-      width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.85rem;
-    }
-    .btn-save {
-      width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #10b981, #059669);
-      border: none; border-radius: 10px; color: white; font-weight: 700; cursor: pointer; font-size: 0.88rem;
-    }
-    .close-modal { position: absolute; top: 1.2rem; right: 1.2rem; cursor: pointer; font-size: 1.2rem; color: #94a3b8; }
-  </style>
+        /* DYNAMIC ISLAND ANIMATION */
+        @keyframes islandExpand {
+            0% { transform: scale(0.8) translateY(-20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .dynamic-island {
+            animation: islandExpand 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
 </head>
+<body class="relative min-h-screen pb-24">
 
-<body>
+    <!-- BACKGROUND VIDEO MP4 STABIL -->
+    <video autoplay loop muted playsinline class="fixed inset-0 w-full h-full object-cover -z-20 opacity-30">
+        <source src="bg-anime.mp4" type="video/mp4">
+    </video>
+    <div class="fixed inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/80 to-slate-950 -z-10 pointer-events-none"></div>
 
-  <!-- BACKGROUND VIDEO ANIME (PATH ./ FIX UNTUK VERCEL) -->
-  <video id="bg-video" autoplay loop muted playsinline webkit-playsinline>
-    <source src="./bg-anime.mp4" type="video/mp4">
-  </video>
-  <div class="glass-overlay"></div>
-
-  <!-- FLOATING CAPSULE HEADER -->
-  <div class="navbar-wrapper">
-    <header class="navbar-capsule">
-      <a href="#" class="brand-box" onclick="switchPage('home')">
-        <video class="brand-logo-mp4" id="header-logo-mp4" autoplay loop muted playsinline webkit-playsinline>
-          <source src="./logo-zs.mp4" type="video/mp4">
-        </video>
-        <div class="logo-text" id="header-logo-text">Zhee<span>Store</span></div>
-      </a>
-      
-      <div class="header-right">
-        <div class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">
-          <i class="fa-solid fa-user" id="navUserIcon"></i>
-          <img src="" id="navUserImg" style="display:none;" alt="User">
+    <!-- NOTIFIKASI DYNAMIC ISLAND (POP-UP ATAS HALUS) -->
+    <div id="dynamicIsland" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden">
+        <div class="dynamic-island glass-card px-5 py-2.5 rounded-full flex items-center space-x-3 shadow-2xl border border-white/20">
+            <img id="userAvatarNotif" src="logo-zs.png" class="w-6 h-6 rounded-full border border-purple-400/50">
+            <span id="notifMessage" class="text-xs font-semibold text-white tracking-wide">Login Berhasil!</span>
         </div>
-        <button class="icon-btn" id="menu-toggle">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
+    </div>
+
+    <!-- HEADER NAVIGATION (CAPSULE GLASS) -->
+    <header class="sticky top-4 z-40 px-4 max-w-lg mx-auto">
+        <div class="glass-nav rounded-full px-4 py-2.5 flex items-center justify-between shadow-lg">
+            <!-- Sidebar Hamburger (Berputar jadi X) -->
+            <button id="hamburgerBtn" onclick="toggleSidebar()" class="w-10 h-10 flex items-center justify-center rounded-full glass-card text-purple-400 active:scale-95 transition-all duration-300">
+                <i id="hamburgerIcon" class="fas fa-bars text-lg transition-transform duration-300"></i>
+            </button>
+
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-2">
+                <img src="logo-zs.png" class="w-7 h-7 rounded-full object-cover">
+                <span class="font-extrabold text-sm tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">ZHEE STORE</span>
+            </div>
+
+            <!-- Profile / Login Button -->
+            <button onclick="openProfileModal()" class="w-10 h-10 flex items-center justify-center rounded-full glass-card border border-purple-500/30 active:scale-95 transition">
+                <img id="userProfileImg" src="logo-zs.png" class="w-full h-full rounded-full object-cover">
+            </button>
+        </div>
     </header>
-  </div>
 
-  <!-- ACCORDION SIDEBAR GLASS -->
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
-  <div class="sidebar" id="sidebar">
-    <div class="brand-box" style="margin-bottom: 8px;">
-      <video style="width:36px; height:36px; object-fit:contain; mix-blend-mode:screen;" autoplay loop muted playsinline webkit-playsinline>
-        <source src="./logo-zs.mp4" type="video/mp4">
-      </video>
-      <div class="logo-text visible">Zhee<span>Store</span></div>
+    <!-- SIDEBAR NAVIGATION (LEFT SLIDE) -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden transition-opacity duration-300 opacity-0"></div>
+    <aside id="sidebarMenu" class="fixed top-0 left-0 h-full w-72 glass-nav z-50 transform -translate-x-full transition-transform duration-300 ease-out p-6 flex flex-col justify-between">
+        <div class="space-y-6">
+            <!-- Sidebar Header (Hanya Logo & Nama) -->
+            <div class="flex flex-col items-center py-4 border-b border-white/10 text-center">
+                <img src="logo-zs.png" class="w-20 h-20 rounded-2xl shadow-xl border border-purple-500/30 mb-3 object-cover">
+                <h2 class="font-bold text-lg text-white">ZHEE STORE</h2>
+                <span class="text-xs text-purple-400 font-semibold tracking-wider">OFFICIAL PLATFORM</span>
+            </div>
+
+            <!-- Menu List -->
+            <nav class="space-y-2 text-sm font-medium">
+                <a onclick="switchTab('beranda'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                    <i class="fas fa-home text-purple-400 w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <!-- Desain Custom Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleSubmenu('desainSub')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-palette text-purple-400 w-5"></i>
+                            <span>Desain Custom</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+                    </button>
+                    <div id="desainSub" class="hidden pl-11 space-y-2 text-xs text-gray-300 py-1">
+                        <a onclick="switchTab('katalog'); toggleSidebar();" class="block py-2 hover:text-purple-400">Katalog Desain</a>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="block py-2 hover:text-purple-400">No Admin Desain</a>
+                    </div>
+                </div>
+
+                <!-- Fastour Game Dropdown -->
+                <div class="space-y-1">
+                    <button onclick="toggleSubmenu('ftSub')" class="w-full flex items-center justify-between px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-gamepad text-purple-400 w-5"></i>
+                            <span>Fastour Game</span>
+                        </div>
+                        <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+                    </button>
+                    <div id="ftSub" class="hidden pl-11 space-y-2 text-xs text-gray-300 py-1">
+                        <a onclick="switchTab('booking'); toggleSidebar();" class="block py-2 hover:text-purple-400">Booking FT CS</a>
+                        <a onclick="switchTab('rules'); toggleSidebar();" class="block py-2 hover:text-purple-400">Rules FT CS</a>
+                        <a onclick="switchTab('grup'); toggleSidebar();" class="block py-2 hover:text-purple-400">All Grup FT CS</a>
+                        <a onclick="switchTab('kontak'); toggleSidebar();" class="block py-2 hover:text-purple-400">All Kontak Owner & Admin</a>
+                    </div>
+                </div>
+
+                <a onclick="switchTab('cs'); toggleSidebar();" class="flex items-center space-x-3 px-4 py-3 rounded-xl glass-card text-gray-200 active:text-purple-400 transition">
+                    <i class="fas fa-headset text-purple-400 w-5"></i>
+                    <span>Customer Service</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Visitor Counter (Bottom Sidebar) -->
+        <div class="glass-card p-4 rounded-2xl border border-white/10 text-center">
+            <span class="text-xs text-gray-400 block mb-1">TOTAL PENGUNJUNG</span>
+            <span id="visitorCount" class="text-xl font-black text-purple-400 tracking-wider">0</span>
+        </div>
+    </aside>
+
+      <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-lg mx-auto px-4 mt-6">
+
+        <!-- ==================== TAB 1: BERANDA ==================== -->
+        <section id="tab-beranda" class="tab-content space-y-6">
+            <!-- Hero Title -->
+            <div class="text-center space-y-2 py-4">
+                <h1 class="text-2xl font-black tracking-tight text-white uppercase">
+                    DESAIN CUSTOM <span class="text-purple-400">ALIGHT MOTION</span>
+                </h1>
+                <p class="text-xs font-bold text-blue-400 tracking-widest uppercase">
+                    & FASTOUR CS FREE FIRE
+                </p>
+            </div>
+
+            <!-- 2 Tab / Card Tombol Utama (Atas - Bawah) -->
+            <div class="space-y-4">
+                <div onclick="switchTab('katalog')" class="glass-card p-6 rounded-3xl border border-purple-500/20 active:scale-[0.98] transition cursor-pointer flex items-center justify-between group">
+                    <div class="space-y-1">
+                        <span class="text-xs font-semibold text-purple-400 uppercase tracking-wider">Katalog & Order</span>
+                        <h3 class="text-lg font-bold text-white group-hover:text-purple-300 transition">DESAIN CUSTOM ALIGHT MOTION</h3>
+                        <p class="text-xs text-gray-400">Lihat preset, intro/outro, & order desain custom</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl glass-card flex items-center justify-center text-purple-400 text-xl border border-purple-500/30">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                </div>
+
+                <div onclick="switchTab('booking')" class="glass-card p-6 rounded-3xl border border-blue-500/20 active:scale-[0.98] transition cursor-pointer flex items-center justify-between group">
+                    <div class="space-y-1">
+                        <span class="text-xs font-semibold text-blue-400 uppercase tracking-wider">Arena Match</span>
+                        <h3 class="text-lg font-bold text-white group-hover:text-blue-300 transition">FASTOUR CS FREE FIRE</h3>
+                        <p class="text-xs text-gray-400">Booking room match 1v1, 2v2, 3v3, 4v4 instan</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl glass-card flex items-center justify-center text-blue-400 text-xl border border-blue-500/30">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: KATALOG DESAIN AM ==================== -->
+        <section id="tab-katalog" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-bold text-white flex items-center space-x-2">
+                    <i class="fas fa-palette text-purple-400"></i>
+                    <span>Katalog Desain Alight Motion</span>
+                </h2>
+                <button onclick="switchTab('beranda')" class="text-xs text-gray-400 hover:text-white">Kembali</button>
+            </div>
+
+            <!-- Container Grid Katalog (Dinamis dari Firebase / JS) -->
+            <div id="katalogGrid" class="grid grid-cols-2 gap-3">
+                <!-- Sample Product Card (Akan di-load dinamis) -->
+                <div onclick="openKatalogModal('Preset Style JJ Smooth', '15.000', 'logo-zs.png', 'Preset Alight Motion Style Jedag Jedug Smooth full effect & color grading.')" class="glass-card p-3 rounded-2xl active:scale-95 transition cursor-pointer border border-white/10">
+                    <img src="logo-zs.png" class="w-full h-32 object-cover rounded-xl mb-2">
+                    <h4 class="text-xs font-bold text-white truncate">Preset Style JJ Smooth</h4>
+                    <span class="text-xs font-bold text-purple-400">Rp 15.000</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: BOOKING FT CS ==================== -->
+        <section id="tab-booking" class="tab-content hidden space-y-5">
+            <div class="flex items-center justify-between">
+                <h2 class="text-base font-bold text-white flex items-center space-x-2">
+                    <i class="fas fa-gamepad text-blue-400"></i>
+                    <span>Booking Room FT CS</span>
+                </h2>
+                <button onclick="switchTab('beranda')" class="text-xs text-gray-400 hover:text-white">Kembali</button>
+            </div>
+
+            <!-- Filter Fee (Horizontal Glass Scroll / Segmented) -->
+            <div class="space-y-2">
+                <span class="text-xs text-gray-400 font-semibold">1. PILIH FEE MATCH</span>
+                <div id="feeFilterContainer" class="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
+                    <button onclick="selectFee('1k')" class="fee-btn glass-card px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap active:scale-95 transition border border-purple-500/50 text-purple-400">FEE 1K</button>
+                    <button onclick="selectFee('2k')" class="fee-btn glass-card px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap active:scale-95 transition border border-white/10 text-gray-400">FEE 2K</button>
+                </div>
+            </div>
+
+            <!-- Filter Mode Match -->
+            <div class="space-y-2">
+                <span class="text-xs text-gray-400 font-semibold">2. PILIH MODE MATCH</span>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="selectMode('1v1')" class="mode-btn glass-card py-2 rounded-xl text-xs font-bold border border-blue-500/50 text-blue-400">1v1</button>
+                    <button onclick="selectMode('2v2')" class="mode-btn glass-card py-2 rounded-xl text-xs font-bold border border-white/10 text-gray-400">2v2</button>
+                    <button onclick="selectMode('3v3')" class="mode-btn glass-card py-2 rounded-xl text-xs font-bold border border-white/10 text-gray-400">3v3</button>
+                    <button onclick="selectMode('4v4')" class="mode-btn glass-card py-2 rounded-xl text-xs font-bold border border-white/10 text-gray-400">4v4</button>
+                </div>
+            </div>
+
+            <!-- Room List (1-10 Room) -->
+            <div id="roomContainer" class="space-y-3 pt-2">
+                <!-- Room Cards akan di-generate via JavaScript/Firebase -->
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: RULES FT CS ==================== -->
+        <section id="tab-rules" class="tab-content hidden space-y-4">
+            <h2 class="text-base font-bold text-white flex items-center space-x-2">
+                <i class="fas fa-scroll text-yellow-400"></i>
+                <span>Rules Fastour CS</span>
+            </h2>
+            <div class="glass-card p-5 rounded-3xl space-y-3 text-xs text-gray-300 leading-relaxed border border-white/10">
+                <p class="font-bold text-purple-400">📌 PERATURAN UMUM MATCH:</p>
+                <ul class="list-disc pl-4 space-y-1">
+                    <li>Dilarang menggunakan Cheat / Script / Config dalam bentuk apapun.</li>
+                    <li>No Signal / Lag bukan tanggung jawab CS.</li>
+                    <li>Keputusan Admin / CS adalah Mutlak.</li>
+                    <li>Wajib Simpan Replay / Record Match.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: ALL GRUP & KONTAK ==================== -->
+        <section id="tab-grup" class="tab-content hidden space-y-3">
+            <h2 class="text-base font-bold text-white">All Grup FT CS Official</h2>
+            <div id="grupList" class="space-y-2">
+                <!-- List Grup WA -->
+            </div>
+        </section>
+
+        <section id="tab-kontak" class="tab-content hidden space-y-3">
+            <h2 class="text-base font-bold text-white">Contacts Owner & Admin</h2>
+            <div id="kontakList" class="space-y-2">
+                <!-- List Kontak WA -->
+            </div>
+        </section>
+
+        <section id="tab-cs" class="tab-content hidden space-y-3">
+            <h2 class="text-base font-bold text-white">Customer Service Official</h2>
+            <div id="csList" class="space-y-2">
+                <!-- CS List -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- POP-UP MODAL DETAIL KATALOG (LIQUID GLASS POP-UP) -->
+    <div id="katalogModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-white/20 space-y-4 relative transform transition-all duration-300 scale-95 opacity-0" id="katalogModalCard">
+            <!-- Close Button -->
+            <button onclick="closeKatalogModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-white">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Preview Gambar HD -->
+            <img id="modalImg" src="" class="w-full h-48 object-cover rounded-2xl border border-white/10 shadow-lg">
+
+            <!-- Detail Info -->
+            <div class="space-y-1">
+                <h3 id="modalTitle" class="text-base font-bold text-white"></h3>
+                <span id="modalPrice" class="text-sm font-extrabold text-purple-400 block"></span>
+                <p id="modalDesc" class="text-xs text-gray-300 leading-relaxed pt-2 border-t border-white/10"></p>
+            </div>
+
+            <!-- Tombol Order Sekarang -->
+            <a id="modalOrderBtn" href="#" target="_blank" class="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 font-bold text-xs text-white text-center flex items-center justify-center space-x-2 shadow-lg active:scale-95 transition">
+                <i class="fab fa-whatsapp text-sm"></i>
+                <span>ORDER SEKARANG</span>
+            </a>
+        </div>
     </div>
 
-    <ul class="menu-list">
-      <li class="menu-item active" onclick="switchPage('home', this)">
-        <div class="menu-item-main"><i class="fa-solid fa-house"></i> Beranda</div>
-      </li>
-
-      <li class="menu-item" onclick="toggleAccordion('acc-desain', this)">
-        <div class="menu-item-main"><i class="fa-solid fa-palette"></i> Jasa Desainer</div>
-        <i class="fa-solid fa-chevron-down arrow-icon"></i>
-      </li>
-      <div class="sub-menu" id="acc-desain">
-        <div class="sub-menu-item" onclick="switchPage('desain-preview')"><i class="fa-solid fa-image"></i> Preview Desain</div>
-        <div class="sub-menu-item" onclick="switchPage('desain-admin')"><i class="fa-solid fa-user-gear"></i> Admin Desain</div>
-      </div>
-
-      <li class="menu-item" onclick="toggleAccordion('acc-fastour', this)">
-        <div class="menu-item-main"><i class="fa-solid fa-gamepad"></i> Fastour Game</div>
-        <i class="fa-solid fa-chevron-down arrow-icon"></i>
-      </li>
-      <div class="sub-menu" id="acc-fastour">
-        <div class="sub-menu-item" onclick="switchPage('community')"><i class="fa-solid fa-users"></i> Group & Saluran FT CS</div>
-        <div class="sub-menu-item" onclick="switchPage('booking')"><i class="fa-solid fa-trophy"></i> Booking FT CS FF</div>
-        <div class="sub-menu-item" onclick="switchPage('rules')"><i class="fa-solid fa-scroll"></i> Rules FT CS</div>
-      </div>
-
-      <li class="menu-item" onclick="switchPage('cs-store', this)">
-        <div class="menu-item-main"><i class="fa-solid fa-headset"></i> CS Zhee Store</div>
-      </li>
-    </ul>
-  </div>
-
-  <!-- MAIN CONTAINER -->
-  <main class="main-content">
-    
-    <!-- 1. BERANDA -->
-    <section id="home" class="page-view active">
-      <div class="glass-card" style="text-align: center; padding: 1.8rem 1rem;">
-        <video class="brand-hero-mp4" id="hero-logo-mp4" autoplay loop muted playsinline webkit-playsinline>
-          <source src="./logo-zs.mp4" type="video/mp4">
-        </video>
-        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem;">
-          <i class="fa-solid fa-circle-check"></i> Official Zhee Store
-        </span>
-        <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem;">Welcome to Zhee Store</h1>
-        <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.5;">Pusat Layanan Fastour Game Esports & Jasa Desain Grafis Profesional.</p>
-
-        <div class="dual-gates">
-          <div class="gate-card" onclick="switchPage('booking')">
-            <div>
-              <i class="fa-solid fa-gamepad gate-icon"></i>
-              <div class="gate-title">Fastour Game</div>
-              <div class="gate-sub">Arena Match CS 4v4 Instan & Transparan</div>
-            </div>
-            <div class="gate-btn">Masuk Arena <i class="fa-solid fa-chevron-right"></i></div>
-          </div>
-          <div class="gate-card" onclick="switchPage('desain-preview')">
-            <div>
-              <i class="fa-solid fa-paint-brush gate-icon" style="color:#a855f7;"></i>
-              <div class="gate-title">Graphic Studio</div>
-              <div class="gate-sub">Logo Mascot & Banner Esports Guild</div>
-            </div>
-            <div class="gate-btn" style="color:#a855f7;">Lihat Katalog <i class="fa-solid fa-chevron-right"></i></div>
-          </div>
+      <!-- ==================== OWNER PANEL (FLOATING ICON-ONLY) ==================== -->
+    <!-- pointer-events-none agar area kosong tidak menghalangi tombol di belakangnya -->
+    <div id="ownerPanelContainer" class="fixed bottom-6 right-6 z-40 flex flex-col items-end space-y-3 pointer-events-none hidden">
+        <!-- Floating Sub-Buttons (Icon-Only Liquid Glass) -->
+        <div id="ownerSubMenu" class="flex flex-col items-end space-y-3 opacity-0 pointer-events-none transform translate-y-4 transition-all duration-300">
+            <!-- 1. Add Katalog (Icon-Only) -->
+            <button onclick="openAdminAddKatalog()" class="w-11 h-11 rounded-full glass-card border border-purple-500/40 text-purple-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
+                <i class="fas fa-image text-sm"></i>
+            </button>
+            <!-- 2. Edit Link (Icon-Only) -->
+            <button onclick="openAdminLinkModal()" class="w-11 h-11 rounded-full glass-card border border-blue-500/40 text-blue-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
+                <i class="fas fa-link text-sm"></i>
+            </button>
+            <!-- 3. Toggle Fee (Icon-Only) -->
+            <button onclick="openAdminToggleModal()" class="w-11 h-11 rounded-full glass-card border border-emerald-500/40 text-emerald-400 flex items-center justify-center shadow-lg active:scale-90 transition pointer-events-auto">
+                <i class="fas fa-power-off text-sm"></i>
+            </button>
         </div>
-      </div>
 
-      <div class="glass-card">
-        <h3 style="font-size: 0.95rem; color: #a855f7; margin-bottom: 0.5rem;"><i class="fa-solid fa-palette"></i> Tentang Jasa Desainer Grafis</h3>
-        <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.6;">Layanan pembuatan identitas visual esports profesional. Kami melayani pembuatan Logo Mascot Guild, Banner Tournament, dan Poster Esports dengan revisi ramah serta pengerjaan cepat.</p>
-      </div>
-
-      <div class="glass-card">
-        <h3 style="font-size: 0.95rem; color: #38bdf8; margin-bottom: 0.5rem;"><i class="fa-solid fa-gamepad"></i> Tentang Fastour Game</h3>
-        <p style="color: #94a3b8; font-size: 0.82rem; line-height: 1.6;">Wadah turnamen mini Clash Squad (CS) cepat & intens. Menggunakan sistem room kuota real-time yang transparan, jadwal fleksibel, dan hasil pertandingan yang terpercaya oleh Zhefanya.</p>
-      </div>
-    </section>
-
-    <!-- 2. JASA DESAINER -->
-    <section id="desain-preview" class="page-view">
-      <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 1rem;"><i class="fa-solid fa-palette"></i> Preview Katalog Desain</h3>
-        <div class="catalog-grid">
-          <div class="catalog-item" onclick="openOrderModal('Logo Mascot Guild', 'Rp 25.000')">
-            <img src="https://via.placeholder.com/300/0f172a/ffffff?text=Logo+Guild" class="catalog-img">
-            <div class="catalog-info">
-              <div class="catalog-name">Logo Mascot Guild</div>
-              <div class="catalog-price">Rp 25.000</div>
-            </div>
-          </div>
-          <div class="catalog-item" onclick="openOrderModal('Banner Guild Esports', 'Rp 35.000')">
-            <img src="https://via.placeholder.com/300/0f172a/ffffff?text=Banner+Esports" class="catalog-img">
-            <div class="catalog-info">
-              <div class="catalog-name">Banner Guild Esports</div>
-              <div class="catalog-price">Rp 35.000</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="desain-admin" class="page-view">
-      <div class="glass-card" style="text-align: center;">
-        <i class="fa-solid fa-user-gear" style="font-size: 2.2rem; color: #a855f7; margin-bottom: 10px;"></i>
-        <h3 style="font-size: 1.1rem; color: #fff; margin-bottom: 6px;">Admin Desainer Grafis</h3>
-        <p style="color: #94a3b8; font-size: 0.82rem; margin-bottom: 16px;">Konsultasi konsep desain kustom atau cek antrean pesanan langsung dengan Admin Desain.</p>
-        <button class="btn-save" style="background: linear-gradient(135deg, #a855f7, #6366f1);" onclick="window.open('https://wa.me/6281234567890?text=Halo%20Admin%20Desain%20Zhee%20Store')">Chat Admin Desain WA</button>
-      </div>
-    </section>
-
-    <!-- 3. FASTOUR GAME -->
-    <section id="booking" class="page-view">
-      <div class="glass-card" style="margin-bottom: 1rem;">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-trophy"></i> Booking FT CS FF</h3>
-        <div class="filter-container">
-          <div class="filter-label">1. PILIH FEE MATCH</div>
-          <div class="filter-scroll" id="fee-buttons-container"></div>
-        </div>
-        <div class="filter-container">
-          <div class="filter-label">2. PILIH MODE MATCH</div>
-          <div class="filter-scroll" id="mode-buttons-container"></div>
-        </div>
-      </div>
-      <div id="room-container" class="room-list"></div>
-    </section>
-
-    <!-- 4. RULES MATCH -->
-    <section id="rules" class="page-view">
-      <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #f43f5e; margin-bottom: 0.8rem;"><i class="fa-solid fa-scroll"></i> Rules FT CS</h3>
-        <p style="color: #cbd5e1; font-size: 0.85rem; line-height: 1.6;">Aturan pertandingan resmi Fastour CS Zhee Store. Keputusan Admin bersifat Mutlak.</p>
-      </div>
-    </section>
-
-    <!-- 5. GROUP & SALURAN FT CS -->
-    <section id="community" class="page-view">
-      <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-comments"></i> Group & Saluran FT CS</h3>
-        <div id="community-links-container"></div>
-      </div>
-    </section>
-
-    <!-- 6. CS ZHEE STORE -->
-    <section id="cs-store" class="page-view">
-      <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem; text-align: center;"><i class="fa-solid fa-headset"></i> Customer Service Zhee Store</h3>
-        <p style="color: #94a3b8; font-size: 0.82rem; text-align: center; margin-bottom: 1rem;">Hubungi Customer Service resmi kami di bawah ini jika ada kendala slot atau pemesanan:</p>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <div class="room-card">
-            <div class="room-info">
-              <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.4rem;"></i>
-              <div class="room-details">
-                <h4>CS Main Admin (Zhefanya)</h4>
-                <p>Layanan Booking & Fastour CS</p>
-              </div>
-            </div>
-            <a href="https://wa.me/6281234567890" target="_blank" class="btn-booking">Chat CS 1</a>
-          </div>
-          <div class="room-card">
-            <div class="room-info">
-              <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.4rem;"></i>
-              <div class="room-details">
-                <h4>CS Graphic & Bantuan</h4>
-                <p>Layanan Desain & Kendala Web</p>
-              </div>
-            </div>
-            <a href="https://wa.me/6289876543210" target="_blank" class="btn-booking" style="background: linear-gradient(135deg, #a855f7, #6366f1);">Chat CS 2</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- OWNER SPEED DIAL -->
-  <div class="fab-wrapper owner-only" id="fabWrapper">
-    <button class="fab-main" onclick="toggleFab()"><i class="fa-solid fa-plus"></i></button>
-    <div class="fab-menu">
-      <div class="fab-icon-btn" onclick="openFeeStatusModal()" title="Edit Status Fee"><i class="fa-solid fa-bolt"></i></div>
-      <div class="fab-icon-btn" onclick="openAddCommModal()" title="Tambah Link Grup WA"><i class="fa-solid fa-link"></i></div>
-    </div>
-  </div>
-
-  <!-- MODAL AUTH GOOGLE -->
-  <div id="auth-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeAuthModal()">&times;</span>
-      <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color:#38bdf8; text-align:center;">Akun Pengguna</h3>
-      <div id="loggedOutView">
-        <button class="btn-save" style="background:#ffffff; color:#0f172a; margin-top:1rem;" onclick="loginWithGoogle()">
-          <i class="fa-brands fa-google" style="color:#ea4335; margin-right:8px;"></i> Masuk dengan Google
+        <!-- Main FAB (+ Berubah Jadi X) -->
+        <button id="mainFabBtn" onclick="toggleOwnerFab()" class="w-13 h-13 w-12 h-12 rounded-full glass-card border border-purple-400/50 text-white flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-300 pointer-events-auto">
+            <i id="fabIcon" class="fas fa-plus text-lg transition-transform duration-300"></i>
         </button>
-      </div>
-      <div id="loggedInView" style="display:none; text-align:center;">
-        <p style="color:#f8fafc; font-weight:700; margin-bottom:0.2rem;" id="userDisplayName">-</p>
-        <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:1.2rem;" id="userDisplayEmail">-</p>
-        <button class="btn-save" style="background:#ef4444;" onclick="logoutOwner()">Keluar (Logout)</button>
-      </div>
     </div>
-  </div>
 
-  <!-- MODAL EDIT ROOM -->
-  <div id="room-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeRoomModal()">&times;</span>
-      <h3 id="room-modal-title" style="margin-bottom: 1rem; font-size: 1rem; color:#38bdf8;">Edit Room</h3>
-      <form onsubmit="saveRoomConfig(event)">
-        <div class="form-group">
-          <label>Status Room</label>
-          <select id="modal-room-status">
-            <option value="online">ONLINE</option>
-            <option value="offline">OFFLINE</option>
-          </select>
+    <!-- PROFILE / LOGIN MODAL -->
+    <div id="profileModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-xs rounded-3xl p-5 border border-white/20 text-center space-y-4 relative">
+            <button onclick="closeProfileModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="profileModalImg" src="logo-zs.png" class="w-16 h-16 rounded-full mx-auto border-2 border-purple-400 object-cover">
+            <div>
+                <h3 id="profileName" class="text-sm font-bold text-white">Guest User</h3>
+                <span id="profileRole" class="text-xs text-gray-400">Pengunjung</span>
+            </div>
+            
+            <button id="loginGoogleBtn" onclick="loginGoogle()" class="w-full py-2.5 rounded-xl bg-white text-slate-900 font-bold text-xs flex items-center justify-center space-x-2 active:scale-95 transition">
+                <i class="fab fa-google"></i>
+                <span>Login Google</span>
+            </button>
+            
+            <button id="logoutBtn" onclick="logoutGoogle()" class="w-full py-2.5 rounded-xl bg-red-500/20 border border-red-500/30 text-red-400 font-bold text-xs hidden active:scale-95 transition">
+                Logout
+            </button>
         </div>
-        <div class="form-group">
-          <label>Jumlah Slot Terisi (Maks 4)</label>
-          <input type="number" id="modal-room-slot" min="0" max="4" value="0">
-        </div>
-        <div class="form-group">
-          <label>Link WA Booking / Grup Room</label>
-          <input type="text" id="modal-room-link" placeholder="https://chat.whatsapp.com/...">
-        </div>
-        <button type="submit" class="btn-save">Simpan Perubahan Room</button>
-      </form>
     </div>
-  </div>
 
-  <!-- MODAL EDIT STATUS FEE -->
-  <div id="fee-status-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeFeeStatusModal()">&times;</span>
-      <h3 style="margin-bottom: 1rem; font-size: 1rem; color:#38bdf8;">Pengaturan Status Fee</h3>
-      <form onsubmit="saveFeeStatusConfig(event)">
-        <div class="form-group">
-          <label>Pilih Fee</label>
-          <select id="modal-fee-select">
-            <option value="1K">FEE 1K</option>
-            <option value="2K">FEE 2K</option>
-          </select>
+    <!-- MODAL EDIT LINK MANAGER (ADMIN) -->
+    <div id="adminLinkModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-white/20 space-y-4">
+            <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+                <i class="fas fa-link text-blue-400"></i>
+                <span>Edit Link Room & CS</span>
+            </h3>
+            <div class="space-y-2 text-xs">
+                <label class="text-gray-400">Select Room Target:</label>
+                <select id="adminRoomTarget" class="w-full bg-slate-900 border border-white/10 rounded-xl p-2 text-white outline-none">
+                    <option value="fee_1k_1v1_room1">Fee 1K - 1v1 - Room 1</option>
+                    <option value="fee_1k_1v1_room2">Fee 1K - 1v1 - Room 2</option>
+                </select>
+                <input id="adminWaUrlInput" type="url" placeholder="https://chat.whatsapp.com/..." class="w-full bg-slate-900 border border-white/10 rounded-xl p-2 text-white outline-none">
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="closeAdminLinkModal()" class="w-1/2 py-2 rounded-xl glass-card text-xs">Batal</button>
+                <button onclick="saveAdminLink()" class="w-1/2 py-2 rounded-xl bg-purple-600 text-xs font-bold">Simpan</button>
+            </div>
         </div>
-        <div class="form-group">
-          <label>Status Fee Layanan</label>
-          <select id="modal-fee-status">
-            <option value="open">🟢 OPEN</option>
-            <option value="off">🔴 OFF</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-save">Simpan Status Fee</button>
-      </form>
     </div>
-  </div>
 
-  <!-- MODAL LINK KOMUNITAS -->
-  <div id="comm-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeCommModal()">&times;</span>
-      <h3 id="comm-modal-title" style="margin-bottom: 1rem; font-size: 1rem; color:#38bdf8;">Tambah Link Komunitas</h3>
-      <form onsubmit="saveCommLinkConfig(event)">
-        <div class="form-group">
-          <label>Nama Layanan / Grup</label>
-          <input type="text" id="modal-comm-title" placeholder="Contoh: GB FT BY ZHEFANYA #1" required>
+    <!-- MODAL TOGGLE STATUS FEE (ADMIN) -->
+    <div id="adminToggleModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-sm rounded-3xl p-5 border border-white/20 space-y-4">
+            <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+                <i class="fas fa-power-off text-emerald-400"></i>
+                <span>Toggle Status Fee Match</span>
+            </h3>
+            <!-- Inline Switcher / Pills -->
+            <div class="space-y-3 text-xs">
+                <div class="flex items-center justify-between p-3 glass-card rounded-2xl">
+                    <span class="font-bold text-white">STATUS FEE 1K</span>
+                    <button onclick="toggleFeeStatus('1k')" id="statusFee1kBtn" class="px-3 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">OPEN</button>
+                </div>
+                <div class="flex items-center justify-between p-3 glass-card rounded-2xl">
+                    <span class="font-bold text-white">STATUS FEE 2K</span>
+                    <button onclick="toggleFeeStatus('2k')" id="statusFee2kBtn" class="px-3 py-1 rounded-full text-[10px] font-bold bg-red-500/20 border border-red-500/40 text-red-400">OFF</button>
+                </div>
+            </div>
+            <button onclick="closeAdminToggleModal()" class="w-full py-2.5 rounded-xl glass-card text-xs font-bold">Tutup</button>
         </div>
-        <div class="form-group">
-          <label>Keterangan Singkat</label>
-          <input type="text" id="modal-comm-sub" placeholder="Contoh: Grup Kuota Fastour" required>
-        </div>
-        <div class="form-group">
-          <label>URL Gambar Profil Grup WA (Kosongkan jika default)</label>
-          <input type="text" id="modal-comm-img" placeholder="https://domain.com/foto-grup.jpg">
-        </div>
-        <div class="form-group">
-          <label>URL Link WA / Saluran</label>
-          <input type="text" id="modal-comm-url" placeholder="https://chat.whatsapp.com/..." required>
-        </div>
-        <button type="submit" class="btn-save">Simpan Link Grup</button>
-      </form>
     </div>
-  </div>
 
-    <!-- FIREBASE SDK V10 -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <!-- FIREBASE SDK (CDN) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBOjjCIAxJp0XAEj_INqSsXRohBaeqGx6M",
-      authDomain: "zeroframe-aa543.firebaseapp.com",
-      projectId: "zeroframe-aa543",
-      storageBucket: "zeroframe-aa543.firebasestorage.app",
-      messagingSenderId: "510693037479",
-      appId: "1:510693037479:web:cc308913334759024f5282",
-      measurementId: "G-FMKGE1QLBM"
-    };
+    <script>
+        /* ==================== FIREBASE CONFIG ==================== */
+        // Ganti dengan Config Firebase Milikmu dari Firebase Console
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "zhee-store-idn.firebaseapp.com",
+            databaseURL: "https://zhee-store-idn-default-rtdb.firebaseio.com",
+            projectId: "zhee-store-idn",
+            storageBucket: "zhee-store-idn.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
 
-    const OWNER_EMAIL = "zheestoreidn@gmail.com";
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const googleProvider = new GoogleAuthProvider();
+        const OWNER_EMAIL = "zheestoreidn@gmail.com";
+        let currentUser = null;
 
-    window.loginWithGoogle = async function() {
-      try {
-        await signInWithPopup(auth, googleProvider);
-        closeAuthModal();
-      } catch (e) { alert("Gagal Login: " + e.message); }
-    };
+        /* ==================== DYNAMIC ISLAND NOTIFICATION ==================== */
+        function showNotification(msg) {
+            const island = document.getElementById('dynamicIsland');
+            document.getElementById('notifMessage').innerText = msg;
+            island.classList.remove('hidden');
+            setTimeout(() => {
+                island.classList.add('hidden');
+            }, 2500);
+        }
 
-    window.logoutOwner = () => { signOut(auth); closeAuthModal(); };
+        /* ==================== SIDEBAR & TAB SYSTEM ==================== */
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const overlay = document.getElementById('sidebarOverlay');
+            const icon = document.getElementById('hamburgerIcon');
 
-    onAuthStateChanged(auth, (user) => {
-      const navBtn = document.getElementById('navAuthBtn');
-      const icon = document.getElementById('navUserIcon');
-      const img = document.getElementById('navUserImg');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                icon.className = 'fas fa-times text-lg transform rotate-90';
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+                icon.className = 'fas fa-bars text-lg transform rotate-0';
+            }
+        }
 
-      if (user) {
-        navBtn.classList.add('logged-in'); icon.style.display = "none";
-        img.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName)}`;
-        img.style.display = "block";
+        function toggleSubmenu(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
 
-        document.getElementById('loggedOutView').style.display = "none";
-        document.getElementById('loggedInView').style.display = "block";
-        document.getElementById('userDisplayName').innerText = user.displayName || "Pengguna";
-        document.getElementById('userDisplayEmail').innerText = user.email || "";
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            const target = document.getElementById(`tab-${tabName}`);
+            if (target) target.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-        if (user.email === OWNER_EMAIL) { document.body.classList.add('is-owner'); } 
-        else { document.body.classList.remove('is-owner'); }
-      } else {
-        document.body.classList.remove('is-owner');
-        navBtn.classList.remove('logged-in');
-        icon.style.display = "block"; img.style.display = "none";
-        document.getElementById('loggedOutView').style.display = "block";
-        document.getElementById('loggedInView').style.display = "none";
-      }
-      renderRooms(); renderCommLinks();
-    });
+        /* ==================== ROOM RENDERER (BOOKING) ==================== */
+        let currentSelectedFee = '1k';
+        let currentSelectedMode = '1v1';
 
-    onSnapshot(doc(db, "app_data", "rooms"), (docSnap) => {
-      if (docSnap.exists()) { window.roomsDatabase = docSnap.data(); renderFilters(); renderRooms(); }
-    });
+        function selectFee(fee) {
+            currentSelectedFee = fee;
+            renderRooms();
+        }
 
-    onSnapshot(doc(db, "app_data", "fee_status"), (docSnap) => {
-      if (docSnap.exists()) { window.feeStatuses = docSnap.data(); renderFilters(); renderRooms(); }
-    });
+        function selectMode(mode) {
+            currentSelectedMode = mode;
+            renderRooms();
+        }
 
-    onSnapshot(doc(db, "app_data", "comm_links"), (docSnap) => {
-      if (docSnap.exists() && docSnap.data().links) { window.commLinks = docSnap.data().links; renderCommLinks(); }
-    });
+        function renderRooms() {
+            const container = document.getElementById('roomContainer');
+            container.innerHTML = '';
 
-    window.saveRoomsToFirestore = async function() { await setDoc(doc(db, "app_data", "rooms"), window.roomsDatabase); };
-    window.saveFeeStatusToFirestore = async function() { await setDoc(doc(db, "app_data", "fee_status"), window.feeStatuses); };
-    window.saveCommToFirestore = async function() { await setDoc(doc(db, "app_data", "comm_links"), { links: window.commLinks }); };
-  </script>
+            // Generate 10 Room
+            for (let i = 1; i <= 10; i++) {
+                // Default Status Ready
+                let status = 'ready'; // ready, full, offline
+                let link = 'https://wa.me/6281234567890';
 
-  <!-- APP INTERACTIVE SCRIPT -->
-  <script>
-    let currentFee = '1K';
-    let currentMode = '1V1';
-    let targetEditRoomNum = 1;
+                let badgeColor = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+                let btnText = 'BOOKING NOW';
+                let disabledAttr = '';
 
-    window.roomsDatabase = {};
-    window.feeStatuses = { '1K': 'open', '2K': 'open' };
-    window.commLinks = [
-      { id: 1, title: 'GB FT BY ZHEFANYA #1', sub: 'Grup Kuota Fastour', img: '', url: 'https://chat.whatsapp.com/example' }
-    ];
+                if (status === 'full') {
+                    badgeColor = 'bg-red-500/20 text-red-400 border-red-500/30';
+                    btnText = 'FULL / IN GAME';
+                    disabledAttr = 'disabled style="pointer-events: none; opacity: 0.5;"';
+                } else if (status === 'offline') {
+                    badgeColor = 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+                    btnText = 'OFFLINE';
+                    disabledAttr = 'disabled style="pointer-events: none; opacity: 0.5;"';
+                }
 
-    const feesList = ['1K', '2K'];
-    const modesList = ['1V1', '2V2', '3V3', '4V4'];
+                container.innerHTML += `
+                    <div class="glass-card p-4 rounded-2xl border border-white/10 flex items-center justify-between">
+                        <div class="space-y-1">
+                            <h4 class="text-xs font-bold text-white uppercase">ROOM ${i}</h4>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeColor} font-bold">${status.toUpperCase()}</span>
+                        </div>
+                        <a href="${link}" target="_blank" ${disabledAttr} class="px-4 py-2 rounded-xl bg-purple-600 active:bg-purple-700 text-white font-bold text-xs shadow-md transition">
+                            ${btnText}
+                        </a>
+                    </div>
+                `;
+            }
+        }
 
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      sidebar.classList.add('active'); overlay.classList.add('active');
-    });
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('active'); overlay.classList.remove('active');
-    });
+        /* ==================== KATALOG MODAL ==================== */
+        function openKatalogModal(title, price, img, desc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = 'Rp ' + price;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalOrderBtn').href = `https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20mau%20order%20${encodeURIComponent(title)}`;
+            
+            const modal = document.getElementById('katalogModal');
+            const card = document.getElementById('katalogModalCard');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
 
-    function toggleAccordion(accId, element) {
-      const target = document.getElementById(accId);
-      const isOpen = target.classList.contains('open');
-      document.querySelectorAll('.sub-menu').forEach(s => s.classList.remove('open'));
-      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('open'));
-      if(!isOpen) {
-        target.classList.add('open');
-        element.classList.add('open');
-      }
-    }
+        function closeKatalogModal() {
+            const modal = document.getElementById('katalogModal');
+            const card = document.getElementById('katalogModalCard');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
 
-    // FORCE AUTOPLAY VIDEO DI BROWSER HP
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('video').forEach(v => {
-        v.muted = true;
-        v.play().catch(() => {});
-      });
-      initDefaultRooms(); renderFilters(); renderRooms(); renderCommLinks();
-    });
+        /* ==================== PROFILE & OWNER AUTH ==================== */
+        function openProfileModal() {
+            document.getElementById('profileModal').classList.remove('hidden');
+        }
 
-    // MORPHING LOGO & PARALLAX ZOOM SCROLL EFFECT
-    window.addEventListener('scroll', () => {
-      const scrollPos = window.scrollY;
-      const headerLogo = document.getElementById('header-logo-mp4');
-      const headerText = document.getElementById('header-logo-text');
-      const bgVideo = document.getElementById('bg-video');
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+        }
 
-      if(bgVideo) {
-        const scaleVal = 1 + (scrollPos * 0.0005);
-        const blurVal = Math.min(scrollPos * 0.015, 8);
-        bgVideo.style.transform = `scale(${scaleVal})`;
-        bgVideo.style.filter = `brightness(0.45) contrast(1.1) blur(${blurVal}px)`;
-      }
+        function loginGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then((result) => {
+                closeProfileModal();
+                showNotification(`Selamat Datang, ${result.user.displayName}!`);
+            }).catch((err) => {
+                showNotification("Login Gagal!");
+            });
+        }
 
-      if(scrollPos > 60) {
-        headerLogo.classList.add('visible');
-        headerText.classList.add('visible');
-      } else {
-        headerLogo.classList.remove('visible');
-        headerText.classList.remove('visible');
-      }
-    });
+        function logoutGoogle() {
+            auth.signOut().then(() => {
+                closeProfileModal();
+                showNotification("Berhasil Logout");
+            });
+        }
 
-    function generateRoomsFor(fee, mode) {
-      let arr = [];
-      for (let i = 1; i <= 5; i++) {
-        arr.push({ roomNum: i, name: `ROOM ${i}`, slot: 0, maxSlot: 4, status: 'online', link: `https://wa.me/628123456789?text=Booking%20Room%20${i}` });
-      }
-      return arr;
-    }
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            const ownerPanel = document.getElementById('ownerPanelContainer');
+            const loginBtn = document.getElementById('loginGoogleBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userImg = document.getElementById('userProfileImg');
 
-    function initDefaultRooms() {
-      feesList.forEach(fee => {
-        modesList.forEach(mode => {
-          const key = `${fee}_${mode}`;
-          if (!window.roomsDatabase[key]) window.roomsDatabase[key] = generateRoomsFor(fee, mode);
+            if (user) {
+                userImg.src = user.photoURL || 'logo-zs.png';
+                document.getElementById('profileName').innerText = user.displayName;
+                loginBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+
+                // Cek Email Khusus Owner
+                if (user.email === OWNER_EMAIL) {
+                    document.getElementById('profileRole').innerText = "Owner Zhee Store";
+                    document.getElementById('profileRole').classList.add('text-purple-400', 'font-bold');
+                    ownerPanel.classList.remove('hidden');
+                } else {
+                    document.getElementById('profileRole').innerText = "Member";
+                    ownerPanel.classList.add('hidden');
+                }
+            } else {
+                userImg.src = 'logo-zs.png';
+                document.getElementById('profileName').innerText = "Guest User";
+                document.getElementById('profileRole').innerText = "Pengunjung";
+                loginBtn.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+                ownerPanel.classList.add('hidden');
+            }
         });
-      });
-    }
 
-    function toggleFab() { document.getElementById('fabWrapper').classList.toggle('active'); }
+        /* ==================== OWNER PANEL FAB (ICON-ONLY) ==================== */
+        let isFabOpen = false;
+        function toggleOwnerFab() {
+            const subMenu = document.getElementById('ownerSubMenu');
+            const fabIcon = document.getElementById('fabIcon');
 
-    function switchPage(pageId, element) {
-      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-      const activePage = document.getElementById(pageId);
-      if(activePage) activePage.classList.add('active');
-      if(element) element.classList.add('active');
-      sidebar.classList.remove('active'); overlay.classList.remove('active');
-      document.getElementById('fabWrapper').classList.remove('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+            if (!isFabOpen) {
+                subMenu.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                fabIcon.className = 'fas fa-times text-lg transform rotate-90';
+                isFabOpen = true;
+            } else {
+                subMenu.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                fabIcon.className = 'fas fa-plus text-lg transform rotate-0';
+                isFabOpen = false;
+            }
+        }
 
-    function renderFilters() {
-      const feeContainer = document.getElementById('fee-buttons-container');
-      feeContainer.innerHTML = '';
-      feesList.forEach(fee => {
-        const isOnline = window.feeStatuses[fee] !== 'off';
-        const activeClass = fee === currentFee ? 'active' : '';
-        feeContainer.innerHTML += `
-          <button class="pill-btn ${activeClass}" onclick="setFee('${fee}')">
-            <span class="btn-dot ${isOnline ? 'online' : 'offline'}"></span> FEE ${fee}
-          </button>`;
-      });
+        function openAdminLinkModal() {
+            document.getElementById('adminLinkModal').classList.remove('hidden');
+        }
+        function closeAdminLinkModal() {
+            document.getElementById('adminLinkModal').classList.add('hidden');
+        }
 
-      const modeContainer = document.getElementById('mode-buttons-container');
-      modeContainer.innerHTML = '';
-      modesList.forEach(mode => {
-        const activeClass = mode === currentMode ? 'active' : '';
-        modeContainer.innerHTML += `
-          <button class="pill-sub-btn ${activeClass}" onclick="setMode('${mode}')">MODE ${mode}</button>`;
-      });
-    }
+        function openAdminToggleModal() {
+            document.getElementById('adminToggleModal').classList.remove('hidden');
+        }
+        function closeAdminToggleModal() {
+            document.getElementById('adminToggleModal').classList.add('hidden');
+        }
 
-    function setFee(feeVal) { currentFee = feeVal; renderFilters(); renderRooms(); }
-    function setMode(modeVal) { currentMode = modeVal; renderFilters(); renderRooms(); }
-
-    function renderRooms() {
-      const container = document.getElementById('room-container');
-      container.innerHTML = '';
-      const key = `${currentFee}_${currentMode}`;
-      let roomList = window.roomsDatabase[key] || generateRoomsFor(currentFee, currentMode);
-      const isFeeOff = window.feeStatuses[currentFee] === 'off';
-
-      roomList.forEach(room => {
-        const isFull = room.slot >= room.maxSlot;
-        const isOffline = room.status === 'offline' || isFeeOff;
-        let btnText = "BOOKING"; let btnClass = "btn-booking";
-        if (isOffline) { btnText = "OFFLINE"; btnClass += " disabled"; }
-        else if (isFull) { btnText = "FULL"; btnClass += " full"; }
-
-        const roomCard = document.createElement('div');
-        roomCard.className = 'room-card';
-        roomCard.innerHTML = `
-          <div class="room-info">
-            <span class="status-dot ${isOffline ? 'offline' : 'online'}"></span>
-            <div class="room-details">
-              <h4>ROOM ${room.roomNum}</h4>
-              <p>${isFeeOff ? 'Layanan OFF' : room.slot + '/' + room.maxSlot + ' Slot Terisi'}</p>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <a href="${room.link}" target="_blank" class="${btnClass}">${btnText}</a>
-            <button class="btn-owner-dots owner-only" onclick="openRoomModal(${room.roomNum})">⋮</button>
-          </div>`;
-        container.appendChild(roomCard);
-      });
-    }
-
-    function renderCommLinks() {
-      const container = document.getElementById('community-links-container');
-      container.innerHTML = '';
-      window.commLinks.forEach(item => {
-        const avatarSrc = item.img && item.img.trim() !== '' ? item.img : 'https://via.placeholder.com/100/22c55e/ffffff?text=WA';
-        const commCard = document.createElement('div');
-        commCard.className = 'room-card';
-        commCard.style.marginBottom = '10px';
-        commCard.innerHTML = `
-          <div class="room-info">
-            <img src="${avatarSrc}" class="wa-avatar-custom" onerror="this.src='https://via.placeholder.com/100/22c55e/ffffff?text=WA';">
-            <div class="room-details">
-              <h4>${item.title}</h4>
-              <p>${item.sub}</p>
-            </div>
-          </div>
-          <a href="${item.url}" target="_blank" class="btn-booking">Buka</a>`;
-        container.appendChild(commCard);
-      });
-    }
-
-    function openAuthModal() { document.getElementById('auth-modal').classList.add('show'); }
-    function closeAuthModal() { document.getElementById('auth-modal').classList.remove('show'); }
-
-    function openRoomModal(roomNum) {
-      targetEditRoomNum = roomNum;
-      document.getElementById('room-modal-title').innerText = `Edit Room ${roomNum} (${currentFee} - ${currentMode})`;
-      const key = `${currentFee}_${currentMode}`;
-      const room = window.roomsDatabase[key].find(r => r.roomNum === roomNum);
-      if (room) {
-        document.getElementById('modal-room-status').value = room.status;
-        document.getElementById('modal-room-slot').value = room.slot;
-        document.getElementById('modal-room-link').value = room.link;
-      }
-      document.getElementById('room-modal').classList.add('show');
-    }
-    function closeRoomModal() { document.getElementById('room-modal').classList.remove('show'); }
-
-    async function saveRoomConfig(e) {
-      e.preventDefault();
-      const key = `${currentFee}_${currentMode}`;
-      const roomIndex = window.roomsDatabase[key].findIndex(r => r.roomNum === targetEditRoomNum);
-      if (roomIndex !== -1) {
-        window.roomsDatabase[key][roomIndex].status = document.getElementById('modal-room-status').value;
-        window.roomsDatabase[key][roomIndex].slot = parseInt(document.getElementById('modal-room-slot').value);
-        window.roomsDatabase[key][roomIndex].link = document.getElementById('modal-room-link').value;
-        if (window.saveRoomsToFirestore) await window.saveRoomsToFirestore();
-        renderFilters(); renderRooms(); closeRoomModal();
-      }
-    }
-
-    function openFeeStatusModal() {
-      document.getElementById('fabWrapper').classList.remove('active');
-      document.getElementById('fee-status-modal').classList.add('show');
-    }
-    function closeFeeStatusModal() { document.getElementById('fee-status-modal').classList.remove('show'); }
-
-    async function saveFeeStatusConfig(e) {
-      e.preventDefault();
-      const selectedFee = document.getElementById('modal-fee-select').value;
-      const selectedStatus = document.getElementById('modal-fee-status').value;
-      window.feeStatuses[selectedFee] = selectedStatus;
-      if (window.saveFeeStatusToFirestore) await window.saveFeeStatusToFirestore();
-      renderFilters(); renderRooms(); closeFeeStatusModal();
-    }
-
-    function openAddCommModal() {
-      document.getElementById('fabWrapper').classList.remove('active');
-      document.getElementById('comm-modal').classList.add('show');
-    }
-    function closeCommModal() { document.getElementById('comm-modal').classList.remove('show'); }
-
-    async function saveCommLinkConfig(e) {
-      e.preventDefault();
-      const title = document.getElementById('modal-comm-title').value;
-      const sub = document.getElementById('modal-comm-sub').value;
-      const img = document.getElementById('modal-comm-img').value;
-      const url = document.getElementById('modal-comm-url').value;
-      const newId = window.commLinks.length > 0 ? Math.max(...window.commLinks.map(c => c.id)) + 1 : 1;
-      window.commLinks.push({ id: newId, title, sub, img, url });
-      if (window.saveCommToFirestore) await window.saveCommToFirestore();
-      renderCommLinks(); closeCommModal();
-    }
-
-    function openOrderModal(name, price) {
-      window.open(`https://wa.me/6281234567890?text=Halo%20Zhee%20Store,%20saya%20mau%20pesan%20${encodeURIComponent(name)}`);
-    }
-  </script>
+        // Init App
+        renderRooms();
+    </script>
 </body>
 </html>
