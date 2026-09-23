@@ -1,17 +1,21 @@
+const OWNER_EMAIL = "zheestoreidn@gmail.com";
+let currentUser = null;
+
+// Struktur Data Independen (Terpisah Total Antar Fee & Mode)
 const roomData = {
   fee1k: {
     status: 'ON',
     modes: {
-      '1v1': { status: 'ON', rooms: [{ id: 1, slot: 3, link: 'https://chat.whatsapp.com/EXAMPLE1' }, { id: 2, slot: 4, link: '' }, { id: 3, slot: 1, link: 'https://chat.whatsapp.com/EXAMPLE3' }, { id: 4, slot: 0, link: 'https://chat.whatsapp.com/EXAMPLE4' }, { id: 5, slot: 4, link: '' }] },
-      '2v2': { status: 'ON', rooms: [{ id: 1, slot: 2, link: 'https://chat.whatsapp.com/EXAMPLE1' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 4, link: '' }, { id: 4, slot: 1, link: '' }, { id: 5, slot: 3, link: '' }] },
+      '1v1': { status: 'ON', rooms: [{ id: 1, slot: 3, link: 'https://chat.whatsapp.com/EXAMPLE1' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 1, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
+      '2v2': { status: 'ON', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
       '3v3': { status: 'OFF', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
-      '4v4': { status: 'ON', rooms: [{ id: 1, slot: 0, link: 'https://chat.whatsapp.com/EXAMPLE1' }, { id: 2, slot: 4, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] }
+      '4v4': { status: 'ON', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] }
     }
   },
   fee2k: {
-    status: 'ON',
+    status: 'OFF',
     modes: {
-      '1v1': { status: 'ON', rooms: [{ id: 1, slot: 1, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
+      '1v1': { status: 'ON', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
       '2v2': { status: 'ON', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
       '3v3': { status: 'OFF', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
       '4v4': { status: 'OFF', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] }
@@ -26,7 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebar();
   initNavigation();
   initTabs();
+  initAuthSimulator();
   initAdminModal();
+  updateModeDots();
   renderRooms();
 });
 
@@ -39,11 +45,13 @@ function initSidebar() {
   openBtn.addEventListener('click', () => {
     sidebar.classList.add('open');
     overlay.classList.add('active');
+    document.body.classList.add('sidebar-locked');
   });
 
   const closeSidebar = () => {
     sidebar.classList.remove('open');
     overlay.classList.remove('active');
+    document.body.classList.remove('sidebar-locked');
   };
 
   closeBtn.addEventListener('click', closeSidebar);
@@ -74,6 +82,7 @@ function navigateToPage(pageName) {
   document.getElementById(`page-${pageName}`).classList.add('active');
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebarOverlay').classList.remove('active');
+  document.body.classList.remove('sidebar-locked');
 }
 
 function initTabs() {
@@ -86,7 +95,11 @@ function initTabs() {
       tab.classList.add('active');
       currentFee = tab.getAttribute('data-fee');
       updateHeaderTitle();
+      updateModeDots();
       renderRooms();
+      if (!document.getElementById('adminModal').classList.contains('hidden')) {
+        renderAdminModalUI();
+      }
     });
   });
 
@@ -97,6 +110,9 @@ function initTabs() {
       currentMode = btn.getAttribute('data-mode');
       updateHeaderTitle();
       renderRooms();
+      if (!document.getElementById('adminModal').classList.contains('hidden')) {
+        renderAdminRoomControls();
+      }
     });
   });
 }
@@ -104,6 +120,23 @@ function initTabs() {
 function updateHeaderTitle() {
   const title = document.getElementById('currentCategoryTitle');
   title.innerText = `FEE ${currentFee.toUpperCase()} • MODE ${currentMode}`;
+}
+
+// Update Titik Indikator Mode (Hijau/Merah) Sesuai Fee Aktif
+function updateModeDots() {
+  const activeModes = roomData[`fee${currentFee}`].modes;
+  const isFeeOn = roomData[`fee${currentFee}`].status === 'ON';
+
+  ['1v1', '2v2', '3v3', '4v4'].forEach(m => {
+    const dot = document.getElementById(`dot${m}`);
+    if (dot) {
+      if (isFeeOn && activeModes[m].status === 'ON') {
+        dot.className = 'mode-status on';
+      } else {
+        dot.className = 'mode-status off';
+      }
+    }
+  });
 }
 
 function renderRooms() {
@@ -161,14 +194,51 @@ function handleBook(roomId, link, isFull) {
   }, 800);
 }
 
-/* Modal Admin Functions */
+/* KONTROL OWNER LOGIN */
+function initAuthSimulator() {
+  const googleAuthBtn = document.getElementById('googleAuthBtn');
+  const userAvatar = document.getElementById('userAvatar');
+  const floatingOwnerBtn = document.getElementById('floatingOwnerBtn');
+
+  googleAuthBtn.addEventListener('click', () => {
+    const emailInput = prompt("Masukkan Email Google (Gunakan zheestoreidn@gmail.com untuk tes Owner):");
+    
+    if (emailInput) {
+      currentUser = { email: emailInput.trim().toLowerCase() };
+      
+      googleAuthBtn.classList.add('hidden');
+      userAvatar.src = "logo-zs.png";
+      userAvatar.classList.remove('hidden');
+
+      if (currentUser.email === OWNER_EMAIL) {
+        floatingOwnerBtn.classList.remove('hidden');
+        showToast("Login Berhasil sebagai OWNER!");
+      } else {
+        floatingOwnerBtn.classList.add('hidden');
+        showToast(`Welcome, ${currentUser.email}!`);
+      }
+    }
+  });
+
+  userAvatar.addEventListener('click', () => {
+    if (confirm("Logout dari Akun?")) {
+      currentUser = null;
+      googleAuthBtn.classList.remove('hidden');
+      userAvatar.classList.add('hidden');
+      floatingOwnerBtn.classList.add('hidden');
+      showToast("Berhasil Logout.");
+    }
+  });
+}
+
+/* Modal Admin Owner Panel */
 function initAdminModal() {
-  const adminBtn = document.getElementById('adminAuthBtn');
+  const floatingOwnerBtn = document.getElementById('floatingOwnerBtn');
   const modal = document.getElementById('adminModal');
   const closeBtn = document.getElementById('closeAdminBtn');
 
-  adminBtn.addEventListener('click', () => {
-    renderAdminRoomControls();
+  floatingOwnerBtn.addEventListener('click', () => {
+    renderAdminModalUI();
     modal.classList.remove('hidden');
   });
 
@@ -177,39 +247,63 @@ function initAdminModal() {
   });
 }
 
+function renderAdminModalUI() {
+  // Update Tombol Fee ON/OFF di Modal
+  const f1 = document.getElementById('toggleFee1k');
+  const f2 = document.getElementById('toggleFee2k');
+  if (f1) { f1.className = `toggle-btn ${roomData.fee1k.status.toLowerCase()}`; f1.innerText = roomData.fee1k.status; }
+  if (f2) { f2.className = `toggle-btn ${roomData.fee2k.status.toLowerCase()}`; f2.innerText = roomData.fee2k.status; }
+
+  // Update Tombol Mode ON/OFF di Modal Sesuai Fee Aktif
+  const activeModes = roomData[`fee${currentFee}`].modes;
+  ['1v1', '2v2', '3v3', '4v4'].forEach(m => {
+    const btn = document.getElementById(`toggleMode${m}`);
+    if (btn) {
+      btn.className = `toggle-btn ${activeModes[m].status.toLowerCase()}`;
+      btn.innerText = activeModes[m].status;
+    }
+  });
+
+  renderAdminRoomControls();
+}
+
 function toggleFeeStatus(fee) {
   const activeFeeData = roomData[`fee${fee}`];
   activeFeeData.status = activeFeeData.status === 'ON' ? 'OFF' : 'ON';
   
-  const btn = document.getElementById(`toggleFee${fee}`);
-  btn.className = `toggle-btn ${activeFeeData.status.toLowerCase()}`;
-  btn.innerText = activeFeeData.status;
-
   const badge = document.getElementById(`statusBadge${fee}`);
-  badge.className = `status-indicator ${activeFeeData.status.toLowerCase()}`;
-  badge.innerText = activeFeeData.status;
+  if (badge) {
+    badge.className = `status-indicator ${activeFeeData.status.toLowerCase()}`;
+    badge.innerText = activeFeeData.status;
+  }
 
-  showToast(`Status FEE ${fee.toUpperCase()} diubah jadi ${activeFeeData.status}`);
+  updateModeDots();
+  renderAdminModalUI();
   renderRooms();
+  showToast(`FEE ${fee.toUpperCase()} diubah jadi ${activeFeeData.status}`);
 }
 
 function toggleModeStatus(mode) {
   const modeObj = roomData[`fee${currentFee}`].modes[mode];
   modeObj.status = modeObj.status === 'ON' ? 'OFF' : 'ON';
 
-  const btn = document.getElementById(`toggleMode${mode}`);
-  btn.className = `toggle-btn ${modeObj.status.toLowerCase()}`;
-  btn.innerText = modeObj.status;
-
-  const dot = document.getElementById(`dot${mode}`);
-  dot.className = `mode-status ${modeObj.status.toLowerCase()}`;
-
-  showToast(`Mode ${mode} (FEE ${currentFee.toUpperCase()}) diubah jadi ${modeObj.status}`);
+  updateModeDots();
+  renderAdminModalUI();
   renderRooms();
+  showToast(`Mode ${mode} (FEE ${currentFee.toUpperCase()}) diubah jadi ${modeObj.status}`);
+}
+
+function saveSaluranLink() {
+  const input = document.getElementById('inputSaluranLink').value;
+  if (input) {
+    document.getElementById('saluranLinkBtn').href = input;
+    showToast("Link Saluran Official Diperbarui!");
+  }
 }
 
 function renderAdminRoomControls() {
   const container = document.getElementById('adminRoomControlList');
+  if (!container) return;
   container.innerHTML = '';
 
   const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
@@ -228,6 +322,7 @@ function renderAdminRoomControls() {
   });
 }
 
+// Update Slot Spesifik Hanya Pada Fee & Mode Yang Aktif
 function updateRoomSlot(roomId, change) {
   const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
   const room = rooms.find(r => r.id === roomId);
@@ -238,7 +333,7 @@ function updateRoomSlot(roomId, change) {
       room.slot = newSlot;
       renderAdminRoomControls();
       renderRooms();
-      showToast(`Room ${roomId} diubah jadi ${newSlot}/4 Tim`);
+      showToast(`FEE ${currentFee.toUpperCase()} ${currentMode} - Room ${roomId} diubah jadi ${newSlot}/4 Tim`);
     }
   }
 }
@@ -253,5 +348,4 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.add('hidden');
   }, 3000);
-  }
-
+      }
