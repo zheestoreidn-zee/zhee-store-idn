@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zhee Store - Fast Tour CS</title>
   
-  <!-- Favicon / App Icon -->
-  <link rel="icon" type="image/png" href="assets/logo.png">
-  <link rel="apple-touch-icon" href="assets/logo.png">
+  <!-- Favicon Memanggil logo-zs.png -->
+  <link rel="icon" type="image/png" href="logo-zs.png">
+  <link rel="apple-touch-icon" href="logo-zs.png">
 
   <!-- Google Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -17,14 +17,14 @@
 </head>
 <body>
 
-  <!-- Liquid Blur Ambient Background -->
+  <!-- Ambient Blur Background -->
   <div class="ambient-blur blur-purple"></div>
   <div class="ambient-blur blur-blue"></div>
 
   <!-- Sidebar Navigasi -->
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
-      <img src="assets/logo.png" alt="Logo Zhee Store" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/50/9D4EDD/FFFFFF?text=ZS'">
+      <img src="logo-zs.png" alt="Logo Zhee Store" class="sidebar-logo">
       <div class="brand-title">
         <h2>ZHEE STORE</h2>
         <span>FAST TOUR CS</span>
@@ -34,22 +34,26 @@
 
     <nav class="sidebar-menu">
       <a href="#" class="menu-item active" data-page="home">
-        <i class="fa-solid fa-gamepad"></i> <span>GB FT CS</span>
+        <i class="fa-solid fa-crosshairs"></i> <span>BOOK SLOT</span>
       </a>
       <a href="#" class="menu-item" data-page="channels">
-        <i class="fa-solid fa-bullhorn"></i> <span>SALURAN</span>
+        <i class="fa-solid fa-bullhorn"></i> <span>SALURAN & GB</span>
       </a>
       <a href="#" class="menu-item" data-page="rules">
-        <i class="fa-solid fa-scroll"></i> <span>RULES</span>
+        <i class="fa-solid fa-scroll"></i> <span>RULES FT CS</span>
       </a>
     </nav>
 
-    <div class="sidebar-footer">
-      <p>© Zhee Store Realtime FT</p>
+    <!-- Footer Sidebar Modern Badge -->
+    <div class="sidebar-footer-badge">
+      <div class="badge-content">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>© Zhee Store • Realtime System</span>
+      </div>
     </div>
   </aside>
 
-  <!-- Overlay saat Sidebar Buka di HP -->
+  <!-- Overlay Sidebar -->
   <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
   <!-- Container Utama -->
@@ -61,20 +65,24 @@
         <i class="fa-solid fa-bars-staggered"></i>
       </button>
 
-      <div class="capsule-brand">ZHEE STORE</div>
+      <div class="capsule-brand-container">
+        <img src="logo-zs.png" alt="ZS" class="header-logo">
+        <span class="capsule-brand">ZHEE STORE</span>
+      </div>
 
+      <!-- User Auth Simpel (Ikon Polos jika belum login) -->
       <div class="capsule-auth">
-        <button id="googleAuthBtn" class="capsule-btn auth-btn">
-          <i class="fa-brands fa-google"></i> <span id="authText">Login</span>
+        <button id="googleAuthBtn" class="auth-icon-btn" title="Login Google">
+          <i class="fa-regular fa-user"></i>
         </button>
         <img id="userAvatar" class="user-avatar hidden" src="" alt="Profile">
       </div>
     </header>
 
-    <!-- Konten Utama (Routing Page) -->
+    <!-- Content Container -->
     <main class="content-container">
 
-      <!-- Halaman 1: GB FT CS (Booking System) -->
+      <!-- Halaman 1: Booking Slot -->
       <section id="page-home" class="page-content active">
 
         <!-- Selector Fee (1K & 2K) -->
@@ -91,47 +99,46 @@
 
         <!-- Mode Switcher (1v1 - 4v4) -->
         <div class="mode-switcher-container">
-          <button class="mode-btn active" data-mode="1v1">1v1</button>
+          <button class="mode-btn" data-mode="1v1">1v1</button>
           <button class="mode-btn" data-mode="2v2">2v2</button>
           <button class="mode-btn" data-mode="3v3">3v3</button>
-          <button class="mode-btn" data-mode="4v4">4v4</button>
+          <button class="mode-btn active" data-mode="4v4">4v4</button>
         </div>
 
-        <!-- Header Info Room Active -->
+        <!-- Title Info -->
         <div class="section-title-box">
-          <h3 id="currentCategoryTitle">FEE 1K • MODE 1v1</h3>
+          <h3 id="currentCategoryTitle">FEE 1K • MODE 4v4</h3>
           <p>Maksimal 4 Tim Per Room (P1, P2, Final)</p>
         </div>
 
-        <!-- List Room 1 s/d 5 -->
+        <!-- List Room -->
         <div id="roomContainer" class="room-grid">
-          <!-- Room Card akan di-render secara otomatis dari script.js -->
+          <!-- Di-render via script.js -->
         </div>
 
       </section>
 
-      <!-- Halaman 2: Saluran & Grup Official -->
+      <!-- Halaman 2: Saluran & GB -->
       <section id="page-channels" class="page-content">
         <div class="glass-card page-card">
           <h3><i class="fa-solid fa-bullhorn"></i> SALURAN & GRUP OFFICIAL</h3>
-          <p>Gabung saluran utama untuk info jadwal on/off dan update link room tercepat.</p>
+          <p>Daftar saluran resmi dan tempat update info Fast Tour CS Zhee Store.</p>
           <div class="channel-list">
             <a href="YOUR_SALURAN_LINK" target="_blank" class="channel-item-btn">
-              <i class="fa-brands fa-whatsapp"></i> SALURAN OFFICIAL ZHEE STORE
+              <i class="fa-brands fa-whatsapp"></i> GABUNG SALURAN OFFICIAL
             </a>
           </div>
         </div>
       </section>
 
-      <!-- Halaman 3: Rules FT CS -->
+      <!-- Halaman 3: Rules -->
       <section id="page-rules" class="page-content">
         <div class="glass-card page-card">
           <h3><i class="fa-solid fa-scroll"></i> RULES FAST TOUR CS</h3>
           <ul class="rules-list">
             <li><strong>Sistem Match:</strong> Knockout 4 Tim (P1 vs P1, Final).</li>
-            <li><strong>No Gun Property:</strong> Sesuai kesepakatan room.</li>
-            <li><strong>Character Skill:</strong> Sesuai settingan custom room.</li>
-            <li><strong>Dilarang:</strong> Bug, Cheat, Emote Spam berlebihan yang memicu keriuhan fatal.</li>
+            <li><strong>Rule Set:</strong> No Gun Property & Skill Sesuai Custom Room.</li>
+            <li><strong>Dilarang:</strong> Bug, Cheat, & Emote Spam berlebihan.</li>
             <li><strong>Keputusan Admin:</strong> Mutlak dan tidak dapat diganggu gugat.</li>
           </ul>
         </div>
@@ -141,10 +148,10 @@
 
   </div>
 
-  <!-- Custom Smooth Bottom Toast Notification -->
+  <!-- Smooth Toast Notification -->
   <div id="toastNotification" class="toast-capsule hidden">
     <i id="toastIcon" class="fa-solid fa-circle-info"></i>
-    <span id="toastMessage">Notifikasi sistem muncul di sini</span>
+    <span id="toastMessage">Notification</span>
   </div>
 
   <script src="script.js"></script>
