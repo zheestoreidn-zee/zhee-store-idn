@@ -1,52 +1,20 @@
-// Data Dummy untuk simulasi awal sebelum disambungkan ke Firebase
 const roomData = {
   fee1k: {
     status: 'ON',
     modes: {
-      '1v1': [
-        { id: 1, slot: 3, link: 'https://chat.whatsapp.com/EXAMPLE1' },
-        { id: 2, slot: 4, link: 'https://chat.whatsapp.com/EXAMPLE2' },
-        { id: 3, slot: 1, link: 'https://chat.whatsapp.com/EXAMPLE3' },
-        { id: 4, slot: 0, link: 'https://chat.whatsapp.com/EXAMPLE4' },
-        { id: 5, slot: 4, link: 'https://chat.whatsapp.com/EXAMPLE5' },
-      ],
-      '2v2': [
-        { id: 1, slot: 2, link: 'https://chat.whatsapp.com/EXAMPLE1' },
-        { id: 2, slot: 0, link: 'https://chat.whatsapp.com/EXAMPLE2' },
-        { id: 3, slot: 4, link: 'https://chat.whatsapp.com/EXAMPLE3' },
-        { id: 4, slot: 1, link: 'https://chat.whatsapp.com/EXAMPLE4' },
-        { id: 5, slot: 3, link: 'https://chat.whatsapp.com/EXAMPLE5' },
-      ],
-      '3v3': [
-        { id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' },
-        { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }
-      ],
-      '4v4': [
-        { id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' },
-        { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }
-      ]
+      '1v1': { status: 'ON', rooms: [{ id: 1, slot: 3, link: 'https://chat.whatsapp.com/EXAMPLE1' }, { id: 2, slot: 4, link: '' }, { id: 3, slot: 1, link: 'https://chat.whatsapp.com/EXAMPLE3' }, { id: 4, slot: 0, link: 'https://chat.whatsapp.com/EXAMPLE4' }, { id: 5, slot: 4, link: '' }] },
+      '2v2': { status: 'ON', rooms: [{ id: 1, slot: 2, link: 'https://chat.whatsapp.com/EXAMPLE1' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 4, link: '' }, { id: 4, slot: 1, link: '' }, { id: 5, slot: 3, link: '' }] },
+      '3v3': { status: 'OFF', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
+      '4v4': { status: 'ON', rooms: [{ id: 1, slot: 0, link: 'https://chat.whatsapp.com/EXAMPLE1' }, { id: 2, slot: 4, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] }
     }
   },
   fee2k: {
     status: 'ON',
     modes: {
-      '1v1': [
-        { id: 1, slot: 1, link: 'https://chat.whatsapp.com/EXAMPLE1' },
-        { id: 2, slot: 0, link: 'https://chat.whatsapp.com/EXAMPLE2' },
-        { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }
-      ],
-      '2v2': [
-        { id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' },
-        { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }
-      ],
-      '3v3': [
-        { id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' },
-        { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }
-      ],
-      '4v4': [
-        { id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' },
-        { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }
-      ]
+      '1v1': { status: 'ON', rooms: [{ id: 1, slot: 1, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
+      '2v2': { status: 'ON', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
+      '3v3': { status: 'OFF', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] },
+      '4v4': { status: 'OFF', rooms: [{ id: 1, slot: 0, link: '' }, { id: 2, slot: 0, link: '' }, { id: 3, slot: 0, link: '' }, { id: 4, slot: 0, link: '' }, { id: 5, slot: 0, link: '' }] }
     }
   }
 };
@@ -59,10 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initTabs();
   renderRooms();
-  showToast('Selamat Datang di Zhee Store!');
 });
 
-// Sidebar Controls
 function initSidebar() {
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebarOverlay');
@@ -83,29 +49,32 @@ function initSidebar() {
   overlay.addEventListener('click', closeSidebar);
 }
 
-// Router Navigasi
 function initNavigation() {
   const menuItems = document.querySelectorAll('.menu-item');
-  const pages = document.querySelectorAll('.page-content');
-
   menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
       e.preventDefault();
       const targetPage = item.getAttribute('data-page');
-
-      menuItems.forEach(m => m.classList.remove('active'));
-      pages.forEach(p => p.classList.remove('active'));
-
-      item.classList.add('active');
-      document.getElementById(`page-${targetPage}`).classList.add('active');
-
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('sidebarOverlay').classList.remove('active');
+      navigateToPage(targetPage);
     });
   });
 }
 
-// Tab Switcher Fee & Mode
+function navigateToPage(pageName) {
+  const menuItems = document.querySelectorAll('.menu-item');
+  const pages = document.querySelectorAll('.page-content');
+
+  menuItems.forEach(m => m.classList.remove('active'));
+  pages.forEach(p => p.classList.remove('active'));
+
+  const activeMenu = document.querySelector(`.menu-item[data-page="${pageName}"]`);
+  if (activeMenu) activeMenu.classList.add('active');
+
+  document.getElementById(`page-${pageName}`).classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
 function initTabs() {
   const feeTabs = document.querySelectorAll('.fee-tab');
   const modeBtns = document.querySelectorAll('.mode-btn');
@@ -136,14 +105,19 @@ function updateHeaderTitle() {
   title.innerText = `FEE ${currentFee.toUpperCase()} • MODE ${currentMode}`;
 }
 
-// Render Room List
 function renderRooms() {
   const container = document.getElementById('roomContainer');
   container.innerHTML = '';
 
   const activeFeeData = roomData[`fee${currentFee}`];
-  const rooms = activeFeeData.modes[currentMode];
+  const modeObj = activeFeeData.modes[currentMode];
 
+  if (modeObj.status === 'OFF') {
+    container.innerHTML = `<div class="glass-card" style="text-align:center; padding:30px;"><i class="fa-solid fa-lock" style="font-size:1.5rem; color:var(--neon-red); margin-bottom:10px;"></i><p>MODE ${currentMode} SEMENTARA TUTUP / OFF</p></div>`;
+    return;
+  }
+
+  const rooms = modeObj.rooms;
   rooms.forEach(room => {
     const isFull = room.slot >= 4;
     const card = document.createElement('div');
@@ -154,7 +128,7 @@ function renderRooms() {
         <h4>ROOM ${room.id}</h4>
         <span>${room.slot}/4 TIM</span>
       </div>
-      <button class="book-btn ${isFull ? 'full' : 'active'}" ${isFull ? 'disabled' : ''} onclick="handleBook(${room.id}, '${room.link}', ${isFull})">
+      <button class="book-btn ${isFull ? 'full' : 'active'}" onclick="handleBook(${room.id}, '${room.link}', ${isFull})">
         ${isFull ? 'FULL' : 'BOOK'}
       </button>
     `;
@@ -163,9 +137,12 @@ function renderRooms() {
   });
 }
 
-// Handler Klik Book
+// Handler Klik Book & Pop-up Toast
 function handleBook(roomId, link, isFull) {
-  if (isFull) return;
+  if (isFull) {
+    showToast(`Room ${roomId} Sudah Full! Silakan pilih room lain.`);
+    return;
+  }
 
   if (!link || link === '') {
     showToast(`Room ${roomId} belum tersedia link!`);
@@ -178,7 +155,6 @@ function handleBook(roomId, link, isFull) {
   }, 800);
 }
 
-// Smooth Toast Notification
 function showToast(message) {
   const toast = document.getElementById('toastNotification');
   const toastText = document.getElementById('toastMessage');
@@ -189,4 +165,4 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.add('hidden');
   }, 3000);
-        }
+      }
