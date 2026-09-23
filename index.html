@@ -2,858 +2,151 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Zhee Store - Official Fastour CS Arena</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zhee Store - Fast Tour CS</title>
+  
+  <!-- Favicon / App Icon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
 
-  <!-- FIX FAVICON LOGO ZHEE STORE (GANTI LOGO BUMI BROWSER) -->
-  <link rel="icon" type="image/png" href="logo-zs.png">
-  <link rel="shortcut icon" type="image/png" href="logo-zs.png">
-  <link rel="apple-touch-icon" href="logo-zs.png">
-
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent !important;
-      outline: none !important; user-select: none;
-    }
-    
-    html, body {
-      background: transparent;
-      color: #f8fafc;
-      min-height: 100vh;
-      padding-bottom: 90px;
-      overflow-x: hidden;
-    }
-
-    /* === BACKGROUND JPG ANIME (TAMPIL FULL TERANG) === */
-    #bg-image {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: url('bg-anime.jpg') no-repeat center center / cover;
-      z-index: -2;
-      filter: brightness(0.75) contrast(1.1);
-    }
-
-    .glass-overlay {
-      position: fixed; inset: 0;
-      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.15), transparent 60%),
-                  radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.15), transparent 60%),
-                  rgba(4, 6, 10, 0.35);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-      z-index: -1;
-    }
-    
-    /* === FLOATING CAPSULE NAVBAR === */
-    .navbar-wrapper {
-      position: fixed; top: 12px; left: 0; right: 0;
-      display: flex; justify-content: center; z-index: 999; padding: 0 14px;
-      pointer-events: none;
-    }
-
-    .navbar-capsule {
-      width: 100%; max-width: 500px; height: 56px;
-      background: rgba(10, 15, 26, 0.55);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: 28px;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; box-shadow: 0 8px 32px rgba(0, 195, 255, 0.2);
-      pointer-events: auto;
-    }
-
-    .brand-box { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-
-    .brand-logo-img {
-      width: 32px; height: 32px; object-fit: contain;
-      opacity: 0; transform: scale(0.5);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.8));
-    }
-    .brand-logo-img.visible { opacity: 1; transform: scale(1); }
-
-    .logo-text {
-      font-size: 1.15rem; font-weight: 800; color: #ffffff; letter-spacing: -0.5px;
-      opacity: 0; transform: translateX(-10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .logo-text.visible { opacity: 1; transform: translateX(0); }
-    .logo-text span { color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.8); }
-
-    .header-right { display: flex; align-items: center; gap: 8px; }
-
-    .nav-auth-btn {
-      width: 36px; height: 36px; border-radius: 50%;
-      border: 1.5px solid rgba(56, 189, 248, 0.5);
-      background: rgba(30, 41, 59, 0.6);
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; overflow: hidden; transition: all 0.2s;
-    }
-    .nav-auth-btn img { width: 100%; height: 100%; object-fit: cover; }
-    .nav-auth-btn i { color: #38bdf8; font-size: 0.95rem; }
-    .nav-auth-btn.logged-in { border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.8); }
-
-    .icon-btn {
-      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff; width: 36px; height: 36px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: transform 0.2s ease;
-    }
-    .icon-btn:active { transform: scale(0.9); }
-
-    /* === ACCORDION SIDEBAR === */
-    .sidebar {
-      position: fixed; top: 0; left: -290px; width: 280px; height: 100vh;
-      background: rgba(8, 12, 22, 0.92);
-      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-      border-right: 1px solid rgba(56, 189, 248, 0.25);
-      z-index: 1000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      padding: 24px 16px; display: flex; flex-direction: column; gap: 16px;
-      overflow-y: auto;
-    }
-    .sidebar.active { left: 0; }
-
-    .sidebar-overlay {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(6px); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
-
-    .menu-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-    
-    .menu-item {
-      padding: 12px 14px; border-radius: 14px;
-      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 0.88rem; color: #cbd5e1; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
-    }
-    .menu-item-main { display: flex; align-items: center; gap: 10px; }
-    .menu-item:active, .menu-item.active {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(168, 85, 247, 0.3));
-      border-color: rgba(56, 189, 248, 0.6); color: #38bdf8;
-    }
-
-    .arrow-icon { transition: transform 0.3s ease; font-size: 0.75rem; color: #64748b; }
-    .menu-item.open .arrow-icon { transform: rotate(180deg); color: #38bdf8; }
-
-    .sub-menu {
-      display: none; flex-direction: column; gap: 4px; padding-left: 12px; margin-top: 4px;
-    }
-    .sub-menu.open { display: flex; }
-
-    .sub-menu-item {
-      padding: 10px 14px; border-radius: 10px; font-size: 0.82rem; color: #94a3b8;
-      display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s;
-    }
-    .sub-menu-item:active { background: rgba(255, 255, 255, 0.1); color: #38bdf8; }
-
-    /* === MAIN CONTENT === */
-    .main-content { max-width: 500px; margin: 110px auto 0; padding: 0 14px; }
-    .page-view { display: none; animation: fadeIn 0.35s ease-in-out; }
-    .page-view.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* KARTU GLASS KACA BENING BENAR-BENAR TEMBUS GAMBAR ANIME */
-    .glass-card {
-      background: rgba(10, 15, 26, 0.38);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 20px; padding: 1.2rem;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(56, 189, 248, 0.1);
-      margin-bottom: 1.2rem; position: relative;
-    }
-
-    .brand-hero-img {
-      width: 90px; height: 90px; object-fit: contain;
-      margin: 0 auto 0.6rem auto; display: block;
-      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
-      transition: all 0.3s ease;
-    }
-
-    /* FOTO PROFIL GRUP WA CUSTOM (profile-grup.jpg) */
-    .wa-avatar-custom {
-      width: 44px; height: 44px; border-radius: 50%;
-      object-fit: cover; border: 2px solid #22c55e;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
-    }
-
-    .filter-section-title {
-      font-size: 1.1rem; font-weight: 800; color: #ffffff;
-      display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;
-      text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-    }
-
-    .filter-container { margin-bottom: 0.9rem; }
-    .filter-label { font-size: 0.72rem; color: #38bdf8; font-weight: 800; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.8px; }
-    .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-    .filter-scroll::-webkit-scrollbar { display: none; }
-    
-    .pill-btn {
-      background: rgba(15, 23, 42, 0.55); border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #cbd5e1; padding: 0.5rem 1.2rem; border-radius: 20px;
-      font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
-      display: inline-flex; align-items: center; gap: 6px;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    }
-    .pill-btn.active { background: linear-gradient(135deg, #0284c7, #8257e5); color: white; border-color: transparent; box-shadow: 0 0 14px rgba(56, 189, 248, 0.6); }
-    
-    .pill-sub-btn {
-      background: rgba(15, 23, 42, 0.55); border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #94a3b8; padding: 0.45rem 0.95rem; border-radius: 12px;
-      font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
-      display: inline-flex; align-items: center; gap: 6px;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    }
-    .pill-sub-btn.active { background: #38bdf8; color: #0f172a; border-color: transparent; font-weight: 800; box-shadow: 0 0 12px rgba(56, 189, 248, 0.7); }
-    
-    .btn-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-    .btn-dot.online { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
-    .btn-dot.offline { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
-
-    .room-list { display: flex; flex-direction: column; gap: 10px; }
-    .room-card {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.85rem 1rem; background: rgba(10, 15, 26, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 14px;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    }
-    .room-info { display: flex; align-items: center; gap: 12px; }
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-    .status-dot.online { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-    .status-dot.offline { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
-    .room-details h4 { font-size: 0.88rem; font-weight: 800; color: #f8fafc; }
-    .room-details p { font-size: 0.72rem; color: #94a3b8; }
-    
-    .btn-booking {
-      background: linear-gradient(135deg, #0284c7, #6366f1); color: white; border: none;
-      padding: 0.5rem 1.1rem; border-radius: 12px; font-weight: 800; font-size: 0.78rem;
-      cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); transition: transform 0.2s;
-    }
-    .btn-booking:active { transform: scale(0.95); }
-    .btn-booking.full { background: linear-gradient(135deg, #ec4899, #8b5cf6) !important; color: white !important; cursor: not-allowed !important; pointer-events: none !important; }
-    .btn-booking.disabled { background: #334155 !important; color: #64748b !important; cursor: not-allowed !important; pointer-events: none !important; }
-    
-    .btn-owner-dots {
-      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #38bdf8; width: 34px; height: 34px; border-radius: 10px;
-      display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem;
-    }
-
-    .owner-only { display: none !important; }
-    body.is-owner .owner-only { display: flex !important; }
-
-    .fab-wrapper { position: fixed; bottom: 25px; right: 20px; z-index: 950; display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 10px; }
-    .fab-main {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, #38bdf8, #8b5cf6); color: white; border: none;
-      font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.5); cursor: pointer;
-      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
-    .fab-wrapper.active .fab-main { transform: rotate(135deg); background: linear-gradient(135deg, #f43f5e, #e11d48); }
-
-    .fab-menu {
-      display: flex; flex-direction: column; gap: 10px;
-      opacity: 0; pointer-events: none; transform: translateY(15px) scale(0.8);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .fab-wrapper.active .fab-menu { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-
-    .fab-icon-btn {
-      width: 42px; height: 42px; border-radius: 50%;
-      background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #38bdf8; display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; cursor: pointer; backdrop-filter: blur(10px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.4); transition: transform 0.15s;
-    }
-    .fab-icon-btn:active { transform: scale(0.9); }
-
-    .modal {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
-      z-index: 1050; align-items: flex-end; justify-content: center;
-    }
-    .modal.show { display: flex; }
-    .bottom-sheet {
-      width: 100%; max-width: 480px; background: rgba(15, 23, 42, 0.96);
-      border-top: 1px solid rgba(56, 189, 248, 0.3); border-radius: 24px 24px 0 0;
-      padding: 20px 20px 30px; position: relative;
-    }
-    .sheet-handle { width: 36px; height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 2px; margin: 0 auto 16px; }
-    
-    .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label { display: block; font-size: 0.78rem; color: #94a3b8; margin-bottom: 0.4rem; font-weight: 600; }
-    .form-group input, .form-group select {
-      width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.85rem;
-    }
-    .btn-save {
-      width: 100%; padding: 0.8rem; background: linear-gradient(135deg, #10b981, #059669);
-      border: none; border-radius: 10px; color: white; font-weight: 700; cursor: pointer; font-size: 0.88rem;
-    }
-    .close-modal { position: absolute; top: 1.2rem; right: 1.2rem; cursor: pointer; font-size: 1.2rem; color: #94a3b8; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- BACKGROUND GAMBAR JPG ANIME -->
-  <div id="bg-image"></div>
-  <div class="glass-overlay"></div>
+  <!-- Liquid Blur Ambient Background -->
+  <div class="ambient-blur blur-purple"></div>
+  <div class="ambient-blur blur-blue"></div>
 
-  <!-- FLOATING CAPSULE HEADER -->
-  <div class="navbar-wrapper">
-    <header class="navbar-capsule">
-      <a href="#" class="brand-box" onclick="switchPage('home')">
-        <img src="logo-zs.png" class="brand-logo-img" id="header-logo-img" alt="Logo">
-        <div class="logo-text" id="header-logo-text">Zhee<span>Store</span></div>
+  <!-- Sidebar Navigasi -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/logo.png" alt="Logo Zhee Store" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/50/9D4EDD/FFFFFF?text=ZS'">
+      <div class="brand-title">
+        <h2>ZHEE STORE</h2>
+        <span>FAST TOUR CS</span>
+      </div>
+      <button id="closeSidebarBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a href="#" class="menu-item active" data-page="home">
+        <i class="fa-solid fa-gamepad"></i> <span>GB FT CS</span>
       </a>
-      
-      <div class="header-right">
-        <div class="nav-auth-btn" id="navAuthBtn" onclick="openAuthModal()">
-          <i class="fa-solid fa-user" id="navUserIcon"></i>
-          <img src="" id="navUserImg" style="display:none;" alt="User">
-        </div>
-        <button class="icon-btn" id="menu-toggle">
-          <i class="fa-solid fa-bars"></i>
+      <a href="#" class="menu-item" data-page="channels">
+        <i class="fa-solid fa-bullhorn"></i> <span>SALURAN</span>
+      </a>
+      <a href="#" class="menu-item" data-page="rules">
+        <i class="fa-solid fa-scroll"></i> <span>RULES</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <p>© Zhee Store Realtime FT</p>
+    </div>
+  </aside>
+
+  <!-- Overlay saat Sidebar Buka di HP -->
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+  <!-- Container Utama -->
+  <div class="main-wrapper">
+
+    <!-- Floating Capsule Header -->
+    <header class="capsule-header">
+      <button id="openSidebarBtn" class="capsule-btn menu-trigger">
+        <i class="fa-solid fa-bars-staggered"></i>
+      </button>
+
+      <div class="capsule-brand">ZHEE STORE</div>
+
+      <div class="capsule-auth">
+        <button id="googleAuthBtn" class="capsule-btn auth-btn">
+          <i class="fa-brands fa-google"></i> <span id="authText">Login</span>
         </button>
+        <img id="userAvatar" class="user-avatar hidden" src="" alt="Profile">
       </div>
     </header>
-  </div>
 
-  <!-- ACCORDION SIDEBAR GLASS -->
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
-  <div class="sidebar" id="sidebar">
-    <div class="brand-box" style="margin-bottom: 8px;">
-      <img src="logo-zs.png" style="width:36px; height:36px; object-fit:contain;" alt="Logo">
-      <div class="logo-text visible">Zhee<span>Store</span></div>
-    </div>
+    <!-- Konten Utama (Routing Page) -->
+    <main class="content-container">
 
-    <ul class="menu-list">
-      <li class="menu-item active" onclick="switchPage('home', this)">
-        <div class="menu-item-main"><i class="fa-solid fa-house"></i> Beranda</div>
-      </li>
+      <!-- Halaman 1: GB FT CS (Booking System) -->
+      <section id="page-home" class="page-content active">
 
-      <li class="menu-item" onclick="toggleAccordion('acc-fastour', this)">
-        <div class="menu-item-main"><i class="fa-solid fa-gamepad"></i> Fastour Game</div>
-        <i class="fa-solid fa-chevron-down arrow-icon"></i>
-      </li>
-      <div class="sub-menu" id="acc-fastour">
-        <div class="sub-menu-item" onclick="switchPage('community')"><i class="fa-solid fa-users"></i> Group & Saluran FT CS</div>
-        <div class="sub-menu-item" onclick="switchPage('booking')"><i class="fa-solid fa-trophy"></i> Booking FT CS FF</div>
-        <div class="sub-menu-item" onclick="switchPage('rules')"><i class="fa-solid fa-scroll"></i> Rules FT CS</div>
-      </div>
-
-      <li class="menu-item" onclick="switchPage('cs-store', this)">
-        <div class="menu-item-main"><i class="fa-solid fa-headset"></i> CS Zhee Store</div>
-      </li>
-    </ul>
-  </div>
-
-  <!-- MAIN CONTAINER -->
-  <main class="main-content">
-    
-    <!-- 1. BERANDA -->
-    <section id="home" class="page-view active">
-      <div class="glass-card" style="text-align: center; padding: 1.8rem 1rem;">
-        <img src="logo-zs.png" class="brand-hero-img" id="hero-logo-img" alt="Zhee Store Logo">
-        <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.73rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);">
-          <i class="fa-solid fa-circle-check"></i> Official Zhee Store
-        </span>
-        <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; color:#ffffff;">Fastour CS Arena</h1>
-        <p style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.5;">Platform Match Clash Squad Free Fire Terpercaya & Real-Time Kuota Room.</p>
-
-        <div style="margin-top: 1.2rem;">
-          <button class="btn-booking" style="width: 100%; padding: 0.85rem; font-size: 0.88rem;" onclick="switchPage('booking')">
-            <i class="fa-solid fa-trophy" style="margin-right: 6px;"></i> Masuk Arena Booking Room
+        <!-- Selector Fee (1K & 2K) -->
+        <div class="fee-selector-container">
+          <button class="fee-tab active" data-fee="1k">
+            <span>FEE 1K</span>
+            <div id="statusBadge1k" class="status-indicator on">ON</div>
+          </button>
+          <button class="fee-tab" data-fee="2k">
+            <span>FEE 2K</span>
+            <div id="statusBadge2k" class="status-indicator on">ON</div>
           </button>
         </div>
-      </div>
 
-      <div class="glass-card">
-        <h3 style="font-size: 0.95rem; color: #38bdf8; margin-bottom: 0.5rem;"><i class="fa-solid fa-gamepad"></i> Sistem Pertandingan Fastour</h3>
-        <p style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.6;">Wadah turnamen mini Clash Squad (CS) cepat & intens. Menggunakan sistem room kuota real-time yang transparan, jadwal fleksibel, dan hasil pertandingan yang terpercaya oleh Zhefanya.</p>
-      </div>
-    </section>
+        <!-- Mode Switcher (1v1 - 4v4) -->
+        <div class="mode-switcher-container">
+          <button class="mode-btn active" data-mode="1v1">1v1</button>
+          <button class="mode-btn" data-mode="2v2">2v2</button>
+          <button class="mode-btn" data-mode="3v3">3v3</button>
+          <button class="mode-btn" data-mode="4v4">4v4</button>
+        </div>
 
-    <!-- 2. FASTOUR GAME -->
-    <section id="booking" class="page-view">
-      <div class="filter-section-title">
-        <i class="fa-solid fa-trophy" style="color:#38bdf8;"></i> Booking FT CS FF
-      </div>
+        <!-- Header Info Room Active -->
+        <div class="section-title-box">
+          <h3 id="currentCategoryTitle">FEE 1K • MODE 1v1</h3>
+          <p>Maksimal 4 Tim Per Room (P1, P2, Final)</p>
+        </div>
 
-      <div class="filter-container">
-        <div class="filter-label">1. PILIH FEE MATCH</div>
-        <div class="filter-scroll" id="fee-buttons-container"></div>
-      </div>
+        <!-- List Room 1 s/d 5 -->
+        <div id="roomContainer" class="room-grid">
+          <!-- Room Card akan di-render secara otomatis dari script.js -->
+        </div>
 
-      <div class="filter-container" style="margin-bottom: 1.2rem;">
-        <div class="filter-label">2. PILIH MODE MATCH</div>
-        <div class="filter-scroll" id="mode-buttons-container"></div>
-      </div>
+      </section>
 
-      <div id="room-container" class="room-list"></div>
-    </section>
-
-    <!-- 3. RULES MATCH -->
-    <section id="rules" class="page-view">
-      <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #f43f5e; margin-bottom: 0.8rem;"><i class="fa-solid fa-scroll"></i> Rules FT CS</h3>
-        <p style="color: #cbd5e1; font-size: 0.85rem; line-height: 1.6;">Aturan pertandingan resmi Fastour CS Zhee Store. Keputusan Admin bersifat Mutlak.</p>
-      </div>
-    </section>
-
-    <!-- 4. GROUP & SALURAN FT CS -->
-    <section id="community" class="page-view">
-      <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem;"><i class="fa-solid fa-comments"></i> Group & Saluran FT CS</h3>
-        <div id="community-links-container"></div>
-      </div>
-    </section>
-
-    <!-- 5. CS ZHEE STORE -->
-    <section id="cs-store" class="page-view">
-      <div class="glass-card">
-        <h3 style="font-size: 1.05rem; color: #38bdf8; margin-bottom: 0.8rem; text-align: center;"><i class="fa-solid fa-headset"></i> Customer Service Zhee Store</h3>
-        <p style="color: #94a3b8; font-size: 0.82rem; text-align: center; margin-bottom: 1rem;">Hubungi Customer Service resmi kami di bawah ini jika ada kendala slot atau pemesanan:</p>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <div class="room-card">
-            <div class="room-info">
-              <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.4rem;"></i>
-              <div class="room-details">
-                <h4>CS Main Admin (Zhefanya)</h4>
-                <p>Layanan Booking & Fastour CS</p>
-              </div>
-            </div>
-            <a href="https://wa.me/6281234567890" target="_blank" class="btn-booking">Chat CS 1</a>
-          </div>
-          <div class="room-card">
-            <div class="room-info">
-              <i class="fa-brands fa-whatsapp" style="color:#22c55e; font-size:1.4rem;"></i>
-              <div class="room-details">
-                <h4>CS Bantuan Web</h4>
-                <p>Kendala Sistem & Fitur Website</p>
-              </div>
-            </div>
-            <a href="https://wa.me/6289876543210" target="_blank" class="btn-booking" style="background: linear-gradient(135deg, #a855f7, #6366f1);">Chat CS 2</a>
+      <!-- Halaman 2: Saluran & Grup Official -->
+      <section id="page-channels" class="page-content">
+        <div class="glass-card page-card">
+          <h3><i class="fa-solid fa-bullhorn"></i> SALURAN & GRUP OFFICIAL</h3>
+          <p>Gabung saluran utama untuk info jadwal on/off dan update link room tercepat.</p>
+          <div class="channel-list">
+            <a href="YOUR_SALURAN_LINK" target="_blank" class="channel-item-btn">
+              <i class="fa-brands fa-whatsapp"></i> SALURAN OFFICIAL ZHEE STORE
+            </a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-  </main>
+      <!-- Halaman 3: Rules FT CS -->
+      <section id="page-rules" class="page-content">
+        <div class="glass-card page-card">
+          <h3><i class="fa-solid fa-scroll"></i> RULES FAST TOUR CS</h3>
+          <ul class="rules-list">
+            <li><strong>Sistem Match:</strong> Knockout 4 Tim (P1 vs P1, Final).</li>
+            <li><strong>No Gun Property:</strong> Sesuai kesepakatan room.</li>
+            <li><strong>Character Skill:</strong> Sesuai settingan custom room.</li>
+            <li><strong>Dilarang:</strong> Bug, Cheat, Emote Spam berlebihan yang memicu keriuhan fatal.</li>
+            <li><strong>Keputusan Admin:</strong> Mutlak dan tidak dapat diganggu gugat.</li>
+          </ul>
+        </div>
+      </section>
 
-  <!-- OWNER SPEED DIAL -->
-  <div class="fab-wrapper owner-only" id="fabWrapper">
-    <button class="fab-main" onclick="toggleFab()"><i class="fa-solid fa-plus"></i></button>
-    <div class="fab-menu">
-      <div class="fab-icon-btn" onclick="openFeeStatusModal()" title="Edit Status Fee"><i class="fa-solid fa-bolt"></i></div>
-      <div class="fab-icon-btn" onclick="openAddCommModal()" title="Tambah Link Grup WA"><i class="fa-solid fa-link"></i></div>
-    </div>
+    </main>
+
   </div>
 
-  <!-- MODAL AUTH GOOGLE -->
-  <div id="auth-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeAuthModal()">&times;</span>
-      <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color:#38bdf8; text-align:center;">Akun Pengguna</h3>
-      <div id="loggedOutView">
-        <button class="btn-save" style="background:#ffffff; color:#0f172a; margin-top:1rem;" onclick="loginWithGoogle()">
-          <i class="fa-brands fa-google" style="color:#ea4335; margin-right:8px;"></i> Masuk dengan Google
-        </button>
-      </div>
-      <div id="loggedInView" style="display:none; text-align:center;">
-        <p style="color:#f8fafc; font-weight:700; margin-bottom:0.2rem;" id="userDisplayName">-</p>
-        <p style="color:#94a3b8; font-size:0.75rem; margin-bottom:1.2rem;" id="userDisplayEmail">-</p>
-        <button class="btn-save" style="background:#ef4444;" onclick="logoutOwner()">Keluar (Logout)</button>
-      </div>
-    </div>
+  <!-- Custom Smooth Bottom Toast Notification -->
+  <div id="toastNotification" class="toast-capsule hidden">
+    <i id="toastIcon" class="fa-solid fa-circle-info"></i>
+    <span id="toastMessage">Notifikasi sistem muncul di sini</span>
   </div>
 
-  <!-- MODAL EDIT ROOM -->
-  <div id="room-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeRoomModal()">&times;</span>
-      <h3 id="room-modal-title" style="margin-bottom: 1rem; font-size: 1rem; color:#38bdf8;">Edit Room</h3>
-      <form onsubmit="saveRoomConfig(event)">
-        <div class="form-group">
-          <label>Status Room</label>
-          <select id="modal-room-status">
-            <option value="online">ONLINE</option>
-            <option value="offline">OFFLINE</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Jumlah Slot Terisi (Maks 4)</label>
-          <input type="number" id="modal-room-slot" min="0" max="4" value="0">
-        </div>
-        <div class="form-group">
-          <label>Link WA Booking / Grup Room</label>
-          <input type="text" id="modal-room-link" placeholder="https://chat.whatsapp.com/...">
-        </div>
-        <button type="submit" class="btn-save">Simpan Perubahan Room</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL EDIT STATUS FEE -->
-  <div id="fee-status-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeFeeStatusModal()">&times;</span>
-      <h3 style="margin-bottom: 1rem; font-size: 1rem; color:#38bdf8;">Pengaturan Status Fee</h3>
-      <form onsubmit="saveFeeStatusConfig(event)">
-        <div class="form-group">
-          <label>Pilih Fee</label>
-          <select id="modal-fee-select">
-            <option value="1K">FEE 1K</option>
-            <option value="2K">FEE 2K</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Status Fee Layanan</label>
-          <select id="modal-fee-status">
-            <option value="open">🟢 OPEN</option>
-            <option value="off">🔴 OFF</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-save">Simpan Status Fee</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL LINK KOMUNITAS -->
-  <div id="comm-modal" class="modal">
-    <div class="bottom-sheet">
-      <div class="sheet-handle"></div>
-      <span class="close-modal" onclick="closeCommModal()">&times;</span>
-      <h3 id="comm-modal-title" style="margin-bottom: 1rem; font-size: 1rem; color:#38bdf8;">Tambah Link Komunitas</h3>
-      <form onsubmit="saveCommLinkConfig(event)">
-        <div class="form-group">
-          <label>Nama Layanan / Grup</label>
-          <input type="text" id="modal-comm-title" placeholder="Contoh: GB FT BY ZHEFANYA #1" required>
-        </div>
-        <div class="form-group">
-          <label>Keterangan Singkat</label>
-          <input type="text" id="modal-comm-sub" placeholder="Contoh: Grup Kuota Fastour" required>
-        </div>
-        <div class="form-group">
-          <label>URL Gambar Profil Grup (Kosongkan agar memakai profile-grup.jpg)</label>
-          <input type="text" id="modal-comm-img" placeholder="profile-grup.jpg">
-        </div>
-        <div class="form-group">
-          <label>URL Link WA / Saluran</label>
-          <input type="text" id="modal-comm-url" placeholder="https://chat.whatsapp.com/..." required>
-        </div>
-        <button type="submit" class="btn-save">Simpan Link Grup</button>
-      </form>
-    </div>
-  </div>
-
-    <!-- FIREBASE SDK V10 -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBOjjCIAxJp0XAEj_INqSsXRohBaeqGx6M",
-      authDomain: "zeroframe-aa543.firebaseapp.com",
-      projectId: "zeroframe-aa543",
-      storageBucket: "zeroframe-aa543.firebasestorage.app",
-      messagingSenderId: "510693037479",
-      appId: "1:510693037479:web:cc308913334759024f5282",
-      measurementId: "G-FMKGE1QLBM"
-    };
-
-    const OWNER_EMAIL = "zheestoreidn@gmail.com";
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const googleProvider = new GoogleAuthProvider();
-
-    window.loginWithGoogle = async function() {
-      try {
-        await signInWithPopup(auth, googleProvider);
-        closeAuthModal();
-      } catch (e) { alert("Gagal Login: " + e.message); }
-    };
-
-    window.logoutOwner = () => { signOut(auth); closeAuthModal(); };
-
-    onAuthStateChanged(auth, (user) => {
-      const navBtn = document.getElementById('navAuthBtn');
-      const icon = document.getElementById('navUserIcon');
-      const img = document.getElementById('navUserImg');
-
-      if (user) {
-        navBtn.classList.add('logged-in'); icon.style.display = "none";
-        img.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName)}`;
-        img.style.display = "block";
-
-        document.getElementById('loggedOutView').style.display = "none";
-        document.getElementById('loggedInView').style.display = "block";
-        document.getElementById('userDisplayName').innerText = user.displayName || "Pengguna";
-        document.getElementById('userDisplayEmail').innerText = user.email || "";
-
-        if (user.email === OWNER_EMAIL) { document.body.classList.add('is-owner'); } 
-        else { document.body.classList.remove('is-owner'); }
-      } else {
-        document.body.classList.remove('is-owner');
-        navBtn.classList.remove('logged-in');
-        icon.style.display = "block"; img.style.display = "none";
-        document.getElementById('loggedOutView').style.display = "block";
-        document.getElementById('loggedInView').style.display = "none";
-      }
-      renderRooms(); renderCommLinks();
-    });
-
-    onSnapshot(doc(db, "app_data", "rooms"), (docSnap) => {
-      if (docSnap.exists()) { window.roomsDatabase = docSnap.data(); renderFilters(); renderRooms(); }
-    });
-
-    onSnapshot(doc(db, "app_data", "fee_status"), (docSnap) => {
-      if (docSnap.exists()) { window.feeStatuses = docSnap.data(); renderFilters(); renderRooms(); }
-    });
-
-    onSnapshot(doc(db, "app_data", "comm_links"), (docSnap) => {
-      if (docSnap.exists() && docSnap.data().links) { window.commLinks = docSnap.data().links; renderCommLinks(); }
-    });
-
-    window.saveRoomsToFirestore = async function() { await setDoc(doc(db, "app_data", "rooms"), window.roomsDatabase); };
-    window.saveFeeStatusToFirestore = async function() { await setDoc(doc(db, "app_data", "fee_status"), window.feeStatuses); };
-    window.saveCommToFirestore = async function() { await setDoc(doc(db, "app_data", "comm_links"), { links: window.commLinks }); };
-  </script>
-
-  <!-- APP INTERACTIVE SCRIPT -->
-  <script>
-    let currentFee = '1K';
-    let currentMode = '1V1';
-    let targetEditRoomNum = 1;
-
-    window.roomsDatabase = {};
-    window.feeStatuses = { '1K': 'open', '2K': 'open' };
-    window.commLinks = [
-      { id: 1, title: 'GB FT BY ZHEFANYA #1', sub: 'Grup Kuota Fastour', img: 'profile-grup.jpg', url: 'https://chat.whatsapp.com/example' }
-    ];
-
-    const feesList = ['1K', '2K'];
-    const modesList = ['1V1', '2V2', '3V3', '4V4'];
-
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      sidebar.classList.add('active'); overlay.classList.add('active');
-    });
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('active'); overlay.classList.remove('active');
-    });
-
-    function toggleAccordion(accId, element) {
-      const target = document.getElementById(accId);
-      const isOpen = target.classList.contains('open');
-      document.querySelectorAll('.sub-menu').forEach(s => s.classList.remove('open'));
-      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('open'));
-      if(!isOpen) {
-        target.classList.add('open');
-        element.classList.add('open');
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      initDefaultRooms(); renderFilters(); renderRooms(); renderCommLinks();
-    });
-
-    /* SCROLL MORPHING LOGO HEADER */
-    window.addEventListener('scroll', () => {
-      const scrollPos = window.scrollY;
-      const headerLogo = document.getElementById('header-logo-img');
-      const headerText = document.getElementById('header-logo-text');
-
-      if(scrollPos > 60) {
-        headerLogo.classList.add('visible');
-        headerText.classList.add('visible');
-      } else {
-        headerLogo.classList.remove('visible');
-        headerText.classList.remove('visible');
-      }
-    });
-
-    function generateRoomsFor(fee, mode) {
-      let arr = [];
-      for (let i = 1; i <= 5; i++) {
-        arr.push({ roomNum: i, name: `ROOM ${i}`, slot: 0, maxSlot: 4, status: 'online', link: `https://wa.me/628123456789?text=Booking%20Room%20${i}` });
-      }
-      return arr;
-    }
-
-    function initDefaultRooms() {
-      feesList.forEach(fee => {
-        modesList.forEach(mode => {
-          const key = `${fee}_${mode}`;
-          if (!window.roomsDatabase[key]) window.roomsDatabase[key] = generateRoomsFor(fee, mode);
-        });
-      });
-    }
-
-    function toggleFab() { document.getElementById('fabWrapper').classList.toggle('active'); }
-
-    function switchPage(pageId, element) {
-      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-      const activePage = document.getElementById(pageId);
-      if(activePage) activePage.classList.add('active');
-      if(element) element.classList.add('active');
-      sidebar.classList.remove('active'); overlay.classList.remove('active');
-      document.getElementById('fabWrapper').classList.remove('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function renderFilters() {
-      const feeContainer = document.getElementById('fee-buttons-container');
-      feeContainer.innerHTML = '';
-      feesList.forEach(fee => {
-        const isOnline = window.feeStatuses[fee] !== 'off';
-        const activeClass = fee === currentFee ? 'active' : '';
-        feeContainer.innerHTML += `
-          <button class="pill-btn ${activeClass}" onclick="setFee('${fee}')">
-            <span class="btn-dot ${isOnline ? 'online' : 'offline'}"></span> FEE ${fee}
-          </button>`;
-      });
-
-      const modeContainer = document.getElementById('mode-buttons-container');
-      modeContainer.innerHTML = '';
-      modesList.forEach(mode => {
-        const activeClass = mode === currentMode ? 'active' : '';
-        modeContainer.innerHTML += `
-          <button class="pill-sub-btn ${activeClass}" onclick="setMode('${mode}')">MODE ${mode}</button>`;
-      });
-    }
-
-    function setFee(feeVal) { currentFee = feeVal; renderFilters(); renderRooms(); }
-    function setMode(modeVal) { currentMode = modeVal; renderFilters(); renderRooms(); }
-
-    function renderRooms() {
-      const container = document.getElementById('room-container');
-      container.innerHTML = '';
-      const key = `${currentFee}_${currentMode}`;
-      let roomList = window.roomsDatabase[key] || generateRoomsFor(currentFee, currentMode);
-      const isFeeOff = window.feeStatuses[currentFee] === 'off';
-
-      roomList.forEach(room => {
-        const isFull = room.slot >= room.maxSlot;
-        const isOffline = room.status === 'offline' || isFeeOff;
-        let btnText = "BOOKING"; let btnClass = "btn-booking";
-        if (isOffline) { btnText = "OFFLINE"; btnClass += " disabled"; }
-        else if (isFull) { btnText = "FULL"; btnClass += " full"; }
-
-        const roomCard = document.createElement('div');
-        roomCard.className = 'room-card';
-        roomCard.innerHTML = `
-          <div class="room-info">
-            <span class="status-dot ${isOffline ? 'offline' : 'online'}"></span>
-            <div class="room-details">
-              <h4>ROOM ${room.roomNum}</h4>
-              <p>${isFeeOff ? 'Layanan OFF' : room.slot + '/' + room.maxSlot + ' Slot Terisi'}</p>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <a href="${room.link}" target="_blank" class="${btnClass}">${btnText}</a>
-            <button class="btn-owner-dots owner-only" onclick="openRoomModal(${room.roomNum})">⋮</button>
-          </div>`;
-        container.appendChild(roomCard);
-      });
-    }
-
-    /* RENDER LINK GRUP WA DENGAN GAMBAR PROFIL profile-grup.jpg */
-    function renderCommLinks() {
-      const container = document.getElementById('community-links-container');
-      container.innerHTML = '';
-      window.commLinks.forEach(item => {
-        const avatarSrc = (item.img && item.img.trim() !== '') ? item.img : 'profile-grup.jpg';
-        const commCard = document.createElement('div');
-        commCard.className = 'room-card';
-        commCard.style.marginBottom = '10px';
-        commCard.innerHTML = `
-          <div class="room-info">
-            <img src="${avatarSrc}" class="wa-avatar-custom" onerror="this.src='profile-grup.jpg';">
-            <div class="room-details">
-              <h4>${item.title}</h4>
-              <p>${item.sub}</p>
-            </div>
-          </div>
-          <a href="${item.url}" target="_blank" class="btn-booking">Buka</a>`;
-        container.appendChild(commCard);
-      });
-    }
-
-    function openAuthModal() { document.getElementById('auth-modal').classList.add('show'); }
-    function closeAuthModal() { document.getElementById('auth-modal').classList.remove('show'); }
-
-    function openRoomModal(roomNum) {
-      targetEditRoomNum = roomNum;
-      document.getElementById('room-modal-title').innerText = `Edit Room ${roomNum} (${currentFee} - ${currentMode})`;
-      const key = `${currentFee}_${currentMode}`;
-      const room = window.roomsDatabase[key].find(r => r.roomNum === roomNum);
-      if (room) {
-        document.getElementById('modal-room-status').value = room.status;
-        document.getElementById('modal-room-slot').value = room.slot;
-        document.getElementById('modal-room-link').value = room.link;
-      }
-      document.getElementById('room-modal').classList.add('show');
-    }
-    function closeRoomModal() { document.getElementById('room-modal').classList.remove('show'); }
-
-    async function saveRoomConfig(e) {
-      e.preventDefault();
-      const key = `${currentFee}_${currentMode}`;
-      const roomIndex = window.roomsDatabase[key].findIndex(r => r.roomNum === targetEditRoomNum);
-      if (roomIndex !== -1) {
-        window.roomsDatabase[key][roomIndex].status = document.getElementById('modal-room-status').value;
-        window.roomsDatabase[key][roomIndex].slot = parseInt(document.getElementById('modal-room-slot').value);
-        window.roomsDatabase[key][roomIndex].link = document.getElementById('modal-room-link').value;
-        if (window.saveRoomsToFirestore) await window.saveRoomsToFirestore();
-        renderFilters(); renderRooms(); closeRoomModal();
-      }
-    }
-
-    function openFeeStatusModal() {
-      document.getElementById('fabWrapper').classList.remove('active');
-      document.getElementById('fee-status-modal').classList.add('show');
-    }
-    function closeFeeStatusModal() { document.getElementById('fee-status-modal').classList.remove('show'); }
-
-    async function saveFeeStatusConfig(e) {
-      e.preventDefault();
-      const selectedFee = document.getElementById('modal-fee-select').value;
-      const selectedStatus = document.getElementById('modal-fee-status').value;
-      window.feeStatuses[selectedFee] = selectedStatus;
-      if (window.saveFeeStatusToFirestore) await window.saveFeeStatusToFirestore();
-      renderFilters(); renderRooms(); closeFeeStatusModal();
-    }
-
-    function openAddCommModal() {
-      document.getElementById('fabWrapper').classList.remove('active');
-      document.getElementById('comm-modal').classList.add('show');
-    }
-    function closeCommModal() { document.getElementById('comm-modal').classList.remove('show'); }
-
-    async function saveCommLinkConfig(e) {
-      e.preventDefault();
-      const title = document.getElementById('modal-comm-title').value;
-      const sub = document.getElementById('modal-comm-sub').value;
-      let img = document.getElementById('modal-comm-img').value;
-      if (!img || img.trim() === '') img = 'profile-grup.jpg';
-      const url = document.getElementById('modal-comm-url').value;
-      const newId = window.commLinks.length > 0 ? Math.max(...window.commLinks.map(c => c.id)) + 1 : 1;
-      window.commLinks.push({ id: newId, title, sub, img, url });
-      if (window.saveCommToFirestore) await window.saveCommToFirestore();
-      renderCommLinks(); closeCommModal();
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
