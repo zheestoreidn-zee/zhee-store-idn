@@ -44,7 +44,6 @@
       </a>
     </nav>
 
-    <!-- Tanda © Profesional di Bawah Sidebar -->
     <div class="sidebar-footer-badge">
       <p>© 2026 Zhee Store • All Rights Reserved</p>
     </div>
@@ -65,11 +64,12 @@
         <span class="capsule-brand">ZHEE STORE</span>
       </div>
 
-      <!-- Tombol Admin/Owner -->
+      <!-- User Auth (Google Login) -->
       <div class="capsule-auth">
-        <button id="adminAuthBtn" class="auth-icon-btn" title="Panel Admin">
+        <button id="googleAuthBtn" class="auth-icon-btn" title="Login Google">
           <i class="fa-regular fa-user"></i>
         </button>
+        <img id="userAvatar" class="user-avatar hidden" src="" alt="Profile">
       </div>
     </header>
 
@@ -148,7 +148,7 @@
           <h3><i class="fa-solid fa-bullhorn"></i> SALURAN & GRUP OFFICIAL</h3>
           <p>Daftar saluran resmi untuk info jadwal on/off dan update link room.</p>
           <div class="channel-list">
-            <a href="YOUR_SALURAN_LINK" target="_blank" class="channel-item-btn">
+            <a id="saluranLinkBtn" href="https://whatsapp.com/channel/EXAMPLE" target="_blank" class="channel-item-btn">
               <i class="fa-brands fa-whatsapp"></i> GABUNG SALURAN OFFICIAL
             </a>
           </div>
@@ -172,17 +172,22 @@
 
   </div>
 
-  <!-- MODAL ADMIN PANEL (Uji Coba Owner) -->
+  <!-- Tombol Melayang Floating Owner (+) (Hanya muncul jika zheestoreidn@gmail.com login) -->
+  <button id="floatingOwnerBtn" class="floating-owner-btn hidden" title="Pengaturan Owner">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+
+  <!-- MODAL ADMIN PANEL OWNER -->
   <div id="adminModal" class="admin-modal hidden">
     <div class="admin-modal-content">
       <div class="admin-modal-header">
-        <h3><i class="fa-solid fa-sliders"></i> PANEL KONTROL OWNER</h3>
+        <h3><i class="fa-solid fa-sliders"></i> PANEL OWNER (ZHEE STORE)</h3>
         <button id="closeAdminBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="admin-modal-body">
         
         <div class="admin-control-group">
-          <h4>Status Fee</h4>
+          <h4>Status Fee Utama</h4>
           <div class="admin-toggle-row">
             <span>FEE 1K</span>
             <button id="toggleFee1k" class="toggle-btn on" onclick="toggleFeeStatus('1k')">ON</button>
@@ -214,7 +219,13 @@
         </div>
 
         <div class="admin-control-group">
-          <h4>Uji Kuota Room (Mode Aktif)</h4>
+          <h4>Edit Link Saluran Official</h4>
+          <input type="text" id="inputSaluranLink" class="admin-input" placeholder="Masukkan Link Saluran WA Baru...">
+          <button class="admin-save-btn" onclick="saveSaluranLink()">Simpan Link Saluran</button>
+        </div>
+
+        <div class="admin-control-group">
+          <h4>Atur Kuota Tim (Mode Aktif)</h4>
           <div id="adminRoomControlList"></div>
         </div>
 
