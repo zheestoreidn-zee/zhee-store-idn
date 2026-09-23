@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zhee Store - Fast Tour CS</title>
   
-  <!-- Favicon Memanggil logo-zs.png -->
   <link rel="icon" type="image/png" href="logo-zs.png">
   <link rel="apple-touch-icon" href="logo-zs.png">
 
-  <!-- Google Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -17,11 +15,10 @@
 </head>
 <body>
 
-  <!-- Ambient Blur Background -->
   <div class="ambient-blur blur-purple"></div>
   <div class="ambient-blur blur-blue"></div>
 
-  <!-- Sidebar Navigasi -->
+  <!-- Sidebar Navigasi Lengkap -->
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
       <img src="logo-zs.png" alt="Logo Zhee Store" class="sidebar-logo">
@@ -33,7 +30,10 @@
     </div>
 
     <nav class="sidebar-menu">
-      <a href="#" class="menu-item active" data-page="home">
+      <a href="#" class="menu-item active" data-page="dashboard">
+        <i class="fa-solid fa-house"></i> <span>DASHBOARD</span>
+      </a>
+      <a href="#" class="menu-item" data-page="home">
         <i class="fa-solid fa-crosshairs"></i> <span>BOOK SLOT</span>
       </a>
       <a href="#" class="menu-item" data-page="channels">
@@ -44,22 +44,16 @@
       </a>
     </nav>
 
-    <!-- Footer Sidebar Modern Badge -->
     <div class="sidebar-footer-badge">
-      <div class="badge-content">
-        <i class="fa-solid fa-shield-halved"></i>
-        <span>© Zhee Store • Realtime System</span>
-      </div>
+      <p>© 2026 Zhee Store • All Rights Reserved</p>
     </div>
   </aside>
 
-  <!-- Overlay Sidebar -->
   <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
-  <!-- Container Utama -->
   <div class="main-wrapper">
 
-    <!-- Floating Capsule Header -->
+    <!-- Capsule Header -->
     <header class="capsule-header">
       <button id="openSidebarBtn" class="capsule-btn menu-trigger">
         <i class="fa-solid fa-bars-staggered"></i>
@@ -70,7 +64,6 @@
         <span class="capsule-brand">ZHEE STORE</span>
       </div>
 
-      <!-- User Auth Simpel (Ikon Polos jika belum login) -->
       <div class="capsule-auth">
         <button id="googleAuthBtn" class="auth-icon-btn" title="Login Google">
           <i class="fa-regular fa-user"></i>
@@ -79,11 +72,39 @@
       </div>
     </header>
 
-    <!-- Content Container -->
     <main class="content-container">
 
-      <!-- Halaman 1: Booking Slot -->
-      <section id="page-home" class="page-content active">
+      <!-- Halaman 1: DASHBOARD UTAMA (Tampilan Awal Landing Page) -->
+      <section id="page-dashboard" class="page-content active">
+        <div class="hero-glass-card">
+          <div class="hero-status">
+            <span class="pulse-dot"></span>
+            <span>SYSTEM ONLINE • OPEN SLOT</span>
+          </div>
+          <h2>WELCOME TO ZHEE STORE</h2>
+          <p>Platform Fast Tour CS Free Fire tercepat, real-time sync, dan anti kenon.</p>
+          
+          <button class="cta-book-btn" onclick="navigateToPage('home')">
+            <i class="fa-solid fa-gamepad"></i> ENTER BOOKING ROOM
+          </button>
+        </div>
+
+        <div class="dashboard-stats-grid">
+          <div class="stat-card">
+            <i class="fa-solid fa-bolt"></i>
+            <h4>FAST PROCESS</h4>
+            <p>Direct Link WA Room</p>
+          </div>
+          <div class="stat-card">
+            <i class="fa-solid fa-shield-cat"></i>
+            <h4>ANTI KENON</h4>
+            <p>Sistem Kuota 4 Tim</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Halaman 2: BOOK SLOT (Area Booking Room) -->
+      <section id="page-home" class="page-content">
 
         <!-- Selector Fee (1K & 2K) -->
         <div class="fee-selector-container">
@@ -97,32 +118,38 @@
           </button>
         </div>
 
-        <!-- Mode Switcher (1v1 - 4v4) -->
+        <!-- Mode Switcher dengan Indikator Status ON/OFF Per Mode -->
         <div class="mode-switcher-container">
-          <button class="mode-btn" data-mode="1v1">1v1</button>
-          <button class="mode-btn" data-mode="2v2">2v2</button>
-          <button class="mode-btn" data-mode="3v3">3v3</button>
-          <button class="mode-btn active" data-mode="4v4">4v4</button>
+          <button class="mode-btn" data-mode="1v1">
+            1v1 <span class="mode-status on"></span>
+          </button>
+          <button class="mode-btn" data-mode="2v2">
+            2v2 <span class="mode-status on"></span>
+          </button>
+          <button class="mode-btn" data-mode="3v3">
+            3v3 <span class="mode-status off"></span>
+          </button>
+          <button class="mode-btn active" data-mode="4v4">
+            4v4 <span class="mode-status on"></span>
+          </button>
         </div>
 
-        <!-- Title Info -->
         <div class="section-title-box">
           <h3 id="currentCategoryTitle">FEE 1K • MODE 4v4</h3>
           <p>Maksimal 4 Tim Per Room (P1, P2, Final)</p>
         </div>
 
-        <!-- List Room -->
         <div id="roomContainer" class="room-grid">
           <!-- Di-render via script.js -->
         </div>
 
       </section>
 
-      <!-- Halaman 2: Saluran & GB -->
+      <!-- Halaman 3: Saluran & GB -->
       <section id="page-channels" class="page-content">
         <div class="glass-card page-card">
           <h3><i class="fa-solid fa-bullhorn"></i> SALURAN & GRUP OFFICIAL</h3>
-          <p>Daftar saluran resmi dan tempat update info Fast Tour CS Zhee Store.</p>
+          <p>Daftar saluran resmi untuk info jadwal on/off dan update link room.</p>
           <div class="channel-list">
             <a href="YOUR_SALURAN_LINK" target="_blank" class="channel-item-btn">
               <i class="fa-brands fa-whatsapp"></i> GABUNG SALURAN OFFICIAL
@@ -131,7 +158,7 @@
         </div>
       </section>
 
-      <!-- Halaman 3: Rules -->
+      <!-- Halaman 4: Rules -->
       <section id="page-rules" class="page-content">
         <div class="glass-card page-card">
           <h3><i class="fa-solid fa-scroll"></i> RULES FAST TOUR CS</h3>
@@ -148,7 +175,6 @@
 
   </div>
 
-  <!-- Smooth Toast Notification -->
   <div id="toastNotification" class="toast-capsule hidden">
     <i id="toastIcon" class="fa-solid fa-circle-info"></i>
     <span id="toastMessage">Notification</span>
