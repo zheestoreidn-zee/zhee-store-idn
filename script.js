@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebar();
   initNavigation();
   initTabs();
+  initAdminModal();
   renderRooms();
 });
 
@@ -110,6 +111,12 @@ function renderRooms() {
   container.innerHTML = '';
 
   const activeFeeData = roomData[`fee${currentFee}`];
+  
+  if (activeFeeData.status === 'OFF') {
+    container.innerHTML = `<div class="glass-card" style="text-align:center; padding:30px;"><i class="fa-solid fa-lock" style="font-size:1.5rem; color:var(--neon-red); margin-bottom:10px;"></i><p>FEE ${currentFee.toUpperCase()} SEMENTARA TUTUP / OFF</p></div>`;
+    return;
+  }
+
   const modeObj = activeFeeData.modes[currentMode];
 
   if (modeObj.status === 'OFF') {
@@ -137,7 +144,6 @@ function renderRooms() {
   });
 }
 
-// Handler Klik Book & Pop-up Toast
 function handleBook(roomId, link, isFull) {
   if (isFull) {
     showToast(`Room ${roomId} Sudah Full! Silakan pilih room lain.`);
@@ -149,10 +155,92 @@ function handleBook(roomId, link, isFull) {
     return;
   }
 
-  showToast(`Mengarahkan ke GB Slot Room ${roomId}...`);
+  showToast(`Mengarahkan ke GB Room ${roomId}...`);
   setTimeout(() => {
     window.open(link, '_blank');
   }, 800);
+}
+
+/* Modal Admin Functions */
+function initAdminModal() {
+  const adminBtn = document.getElementById('adminAuthBtn');
+  const modal = document.getElementById('adminModal');
+  const closeBtn = document.getElementById('closeAdminBtn');
+
+  adminBtn.addEventListener('click', () => {
+    renderAdminRoomControls();
+    modal.classList.remove('hidden');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+}
+
+function toggleFeeStatus(fee) {
+  const activeFeeData = roomData[`fee${fee}`];
+  activeFeeData.status = activeFeeData.status === 'ON' ? 'OFF' : 'ON';
+  
+  const btn = document.getElementById(`toggleFee${fee}`);
+  btn.className = `toggle-btn ${activeFeeData.status.toLowerCase()}`;
+  btn.innerText = activeFeeData.status;
+
+  const badge = document.getElementById(`statusBadge${fee}`);
+  badge.className = `status-indicator ${activeFeeData.status.toLowerCase()}`;
+  badge.innerText = activeFeeData.status;
+
+  showToast(`Status FEE ${fee.toUpperCase()} diubah jadi ${activeFeeData.status}`);
+  renderRooms();
+}
+
+function toggleModeStatus(mode) {
+  const modeObj = roomData[`fee${currentFee}`].modes[mode];
+  modeObj.status = modeObj.status === 'ON' ? 'OFF' : 'ON';
+
+  const btn = document.getElementById(`toggleMode${mode}`);
+  btn.className = `toggle-btn ${modeObj.status.toLowerCase()}`;
+  btn.innerText = modeObj.status;
+
+  const dot = document.getElementById(`dot${mode}`);
+  dot.className = `mode-status ${modeObj.status.toLowerCase()}`;
+
+  showToast(`Mode ${mode} (FEE ${currentFee.toUpperCase()}) diubah jadi ${modeObj.status}`);
+  renderRooms();
+}
+
+function renderAdminRoomControls() {
+  const container = document.getElementById('adminRoomControlList');
+  container.innerHTML = '';
+
+  const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
+
+  rooms.forEach(room => {
+    const row = document.createElement('div');
+    row.className = 'admin-room-row';
+    row.innerHTML = `
+      <span>Room ${room.id} (${room.slot}/4 Tim)</span>
+      <div>
+        <button class="admin-room-btn" onclick="updateRoomSlot(${room.id}, -1)">-</button>
+        <button class="admin-room-btn" onclick="updateRoomSlot(${room.id}, 1)">+</button>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function updateRoomSlot(roomId, change) {
+  const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
+  const room = rooms.find(r => r.id === roomId);
+
+  if (room) {
+    let newSlot = room.slot + change;
+    if (newSlot >= 0 && newSlot <= 4) {
+      room.slot = newSlot;
+      renderAdminRoomControls();
+      renderRooms();
+      showToast(`Room ${roomId} diubah jadi ${newSlot}/4 Tim`);
+    }
+  }
 }
 
 function showToast(message) {
@@ -165,4 +253,5 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.add('hidden');
   }, 3000);
-      }
+  }
+
