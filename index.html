@@ -18,7 +18,7 @@
   <div class="ambient-blur blur-purple"></div>
   <div class="ambient-blur blur-blue"></div>
 
-  <!-- Sidebar Navigasi Lengkap -->
+  <!-- Sidebar Navigasi -->
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-header">
       <img src="logo-zs.png" alt="Logo Zhee Store" class="sidebar-logo">
@@ -34,7 +34,7 @@
         <i class="fa-solid fa-house"></i> <span>DASHBOARD</span>
       </a>
       <a href="#" class="menu-item" data-page="home">
-        <i class="fa-solid fa-crosshairs"></i> <span>BOOK SLOT</span>
+        <i class="fa-solid fa-crosshairs"></i> <span>BOOK ROOM</span>
       </a>
       <a href="#" class="menu-item" data-page="channels">
         <i class="fa-solid fa-bullhorn"></i> <span>SALURAN & GB</span>
@@ -44,6 +44,7 @@
       </a>
     </nav>
 
+    <!-- Tanda © Profesional di Bawah Sidebar -->
     <div class="sidebar-footer-badge">
       <p>© 2026 Zhee Store • All Rights Reserved</p>
     </div>
@@ -64,22 +65,22 @@
         <span class="capsule-brand">ZHEE STORE</span>
       </div>
 
+      <!-- Tombol Admin/Owner -->
       <div class="capsule-auth">
-        <button id="googleAuthBtn" class="auth-icon-btn" title="Login Google">
+        <button id="adminAuthBtn" class="auth-icon-btn" title="Panel Admin">
           <i class="fa-regular fa-user"></i>
         </button>
-        <img id="userAvatar" class="user-avatar hidden" src="" alt="Profile">
       </div>
     </header>
 
     <main class="content-container">
 
-      <!-- Halaman 1: DASHBOARD UTAMA (Tampilan Awal Landing Page) -->
+      <!-- Halaman 1: DASHBOARD -->
       <section id="page-dashboard" class="page-content active">
         <div class="hero-glass-card">
           <div class="hero-status">
             <span class="pulse-dot"></span>
-            <span>SYSTEM ONLINE • OPEN SLOT</span>
+            <span>SYSTEM ONLINE • OPEN KUOTA</span>
           </div>
           <h2>WELCOME TO ZHEE STORE</h2>
           <p>Platform Fast Tour CS Free Fire tercepat, real-time sync, dan anti kenon.</p>
@@ -103,10 +104,9 @@
         </div>
       </section>
 
-      <!-- Halaman 2: BOOK SLOT (Area Booking Room) -->
+      <!-- Halaman 2: BOOK ROOM -->
       <section id="page-home" class="page-content">
 
-        <!-- Selector Fee (1K & 2K) -->
         <div class="fee-selector-container">
           <button class="fee-tab active" data-fee="1k">
             <span>FEE 1K</span>
@@ -118,19 +118,18 @@
           </button>
         </div>
 
-        <!-- Mode Switcher dengan Indikator Status ON/OFF Per Mode -->
         <div class="mode-switcher-container">
           <button class="mode-btn" data-mode="1v1">
-            1v1 <span class="mode-status on"></span>
+            1v1 <span id="dot1v1" class="mode-status on"></span>
           </button>
           <button class="mode-btn" data-mode="2v2">
-            2v2 <span class="mode-status on"></span>
+            2v2 <span id="dot2v2" class="mode-status on"></span>
           </button>
           <button class="mode-btn" data-mode="3v3">
-            3v3 <span class="mode-status off"></span>
+            3v3 <span id="dot3v3" class="mode-status off"></span>
           </button>
           <button class="mode-btn active" data-mode="4v4">
-            4v4 <span class="mode-status on"></span>
+            4v4 <span id="dot4v4" class="mode-status on"></span>
           </button>
         </div>
 
@@ -139,9 +138,7 @@
           <p>Maksimal 4 Tim Per Room (P1, P2, Final)</p>
         </div>
 
-        <div id="roomContainer" class="room-grid">
-          <!-- Di-render via script.js -->
-        </div>
+        <div id="roomContainer" class="room-grid"></div>
 
       </section>
 
@@ -173,6 +170,56 @@
 
     </main>
 
+  </div>
+
+  <!-- MODAL ADMIN PANEL (Uji Coba Owner) -->
+  <div id="adminModal" class="admin-modal hidden">
+    <div class="admin-modal-content">
+      <div class="admin-modal-header">
+        <h3><i class="fa-solid fa-sliders"></i> PANEL KONTROL OWNER</h3>
+        <button id="closeAdminBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="admin-modal-body">
+        
+        <div class="admin-control-group">
+          <h4>Status Fee</h4>
+          <div class="admin-toggle-row">
+            <span>FEE 1K</span>
+            <button id="toggleFee1k" class="toggle-btn on" onclick="toggleFeeStatus('1k')">ON</button>
+          </div>
+          <div class="admin-toggle-row">
+            <span>FEE 2K</span>
+            <button id="toggleFee2k" class="toggle-btn on" onclick="toggleFeeStatus('2k')">ON</button>
+          </div>
+        </div>
+
+        <div class="admin-control-group">
+          <h4>Status Mode (FEE 1K)</h4>
+          <div class="admin-toggle-row">
+            <span>Mode 1v1</span>
+            <button id="toggleMode1v1" class="toggle-btn on" onclick="toggleModeStatus('1v1')">ON</button>
+          </div>
+          <div class="admin-toggle-row">
+            <span>Mode 2v2</span>
+            <button id="toggleMode2v2" class="toggle-btn on" onclick="toggleModeStatus('2v2')">ON</button>
+          </div>
+          <div class="admin-toggle-row">
+            <span>Mode 3v3</span>
+            <button id="toggleMode3v3" class="toggle-btn off" onclick="toggleModeStatus('3v3')">OFF</button>
+          </div>
+          <div class="admin-toggle-row">
+            <span>Mode 4v4</span>
+            <button id="toggleMode4v4" class="toggle-btn on" onclick="toggleModeStatus('4v4')">ON</button>
+          </div>
+        </div>
+
+        <div class="admin-control-group">
+          <h4>Uji Kuota Room (Mode Aktif)</h4>
+          <div id="adminRoomControlList"></div>
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <div id="toastNotification" class="toast-capsule hidden">
