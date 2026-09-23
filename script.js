@@ -1,7 +1,7 @@
 const OWNER_EMAIL = "zheestoreidn@gmail.com";
 let currentUser = null;
+let activeEditingRoomId = null;
 
-// Struktur Data Independen (Terpisah Total Antar Fee & Mode)
 const roomData = {
   fee1k: {
     status: 'ON',
@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebar();
   initNavigation();
   initTabs();
-  initAuthSimulator();
-  initAdminModal();
+  initCustomLoginModal();
+  initOwnerModals();
   updateModeDots();
   renderRooms();
 });
@@ -97,9 +97,6 @@ function initTabs() {
       updateHeaderTitle();
       updateModeDots();
       renderRooms();
-      if (!document.getElementById('adminModal').classList.contains('hidden')) {
-        renderAdminModalUI();
-      }
     });
   });
 
@@ -110,9 +107,6 @@ function initTabs() {
       currentMode = btn.getAttribute('data-mode');
       updateHeaderTitle();
       renderRooms();
-      if (!document.getElementById('adminModal').classList.contains('hidden')) {
-        renderAdminRoomControls();
-      }
     });
   });
 }
@@ -122,7 +116,6 @@ function updateHeaderTitle() {
   title.innerText = `FEE ${currentFee.toUpperCase()} • MODE ${currentMode}`;
 }
 
-// Update Titik Indikator Mode (Hijau/Merah) Sesuai Fee Aktif
 function updateModeDots() {
   const activeModes = roomData[`fee${currentFee}`].modes;
   const isFeeOn = roomData[`fee${currentFee}`].status === 'ON';
@@ -157,7 +150,9 @@ function renderRooms() {
     return;
   }
 
+  const isOwner = currentUser && currentUser.email === OWNER_EMAIL;
   const rooms = modeObj.rooms;
+
   rooms.forEach(room => {
     const isFull = room.slot >= 4;
     const card = document.createElement('div');
@@ -168,9 +163,12 @@ function renderRooms() {
         <h4>ROOM ${room.id}</h4>
         <span>${room.slot}/4 TIM</span>
       </div>
-      <button class="book-btn ${isFull ? 'full' : 'active'}" onclick="handleBook(${room.id}, '${room.link}', ${isFull})">
-        ${isFull ? 'FULL' : 'BOOK'}
-      </button>
+      <div class="room-action-group">
+        <button class="book-btn ${isFull ? 'full' : 'active'}" onclick="handleBook(${room.id}, '${room.link}', ${isFull})">
+          ${isFull ? 'FULL' : 'BOOK'}
+        </button>
+        ${isOwner ? `<button class="dots-owner-btn" onclick="openQuickEditRoom(${room.id})"><i class="fa-solid fa-ellipsis-vertical"></i></button>` : ''}
+      </div>
     `;
 
     container.appendChild(card);
@@ -194,67 +192,94 @@ function handleBook(roomId, link, isFull) {
   }, 800);
 }
 
-/* KONTROL OWNER LOGIN */
-function initAuthSimulator() {
-  const googleAuthBtn = document.getElementById('googleAuthBtn');
+/* CUSTOM LIQUID GLASS LOGIN MODAL */
+function initCustomLoginModal() {
+  const openBtn = document.getElementById('openLoginBtn');
+  const closeBtn = document.getElementById('closeLoginBtn');
+  const modal = document.getElementById('loginModal');
   const userAvatar = document.getElementById('userAvatar');
-  const floatingOwnerBtn = document.getElementById('floatingOwnerBtn');
 
-  googleAuthBtn.addEventListener('click', () => {
-    const emailInput = prompt("Masukkan Email Google (Gunakan zheestoreidn@gmail.com untuk tes Owner):");
-    
-    if (emailInput) {
-      currentUser = { email: emailInput.trim().toLowerCase() };
-      
-      googleAuthBtn.classList.add('hidden');
-      userAvatar.src = "logo-zs.png";
-      userAvatar.classList.remove('hidden');
-
-      if (currentUser.email === OWNER_EMAIL) {
-        floatingOwnerBtn.classList.remove('hidden');
-        showToast("Login Berhasil sebagai OWNER!");
-      } else {
-        floatingOwnerBtn.classList.add('hidden');
-        showToast(`Welcome, ${currentUser.email}!`);
-      }
-    }
-  });
-
-  userAvatar.addEventListener('click', () => {
-    if (confirm("Logout dari Akun?")) {
-      currentUser = null;
-      googleAuthBtn.classList.remove('hidden');
-      userAvatar.classList.add('hidden');
-      floatingOwnerBtn.classList.add('hidden');
-      showToast("Berhasil Logout.");
-    }
-  });
-}
-
-/* Modal Admin Owner Panel */
-function initAdminModal() {
-  const floatingOwnerBtn = document.getElementById('floatingOwnerBtn');
-  const modal = document.getElementById('adminModal');
-  const closeBtn = document.getElementById('closeAdminBtn');
-
-  floatingOwnerBtn.addEventListener('click', () => {
-    renderAdminModalUI();
+  openBtn.addEventListener('click', () => {
     modal.classList.remove('hidden');
   });
 
   closeBtn.addEventListener('click', () => {
     modal.classList.add('hidden');
   });
+
+  userAvatar.addEventListener('click', () => {
+    if (confirm("Logout dari akun Zhee Store?")) {
+      currentUser = null;
+      openBtn.classList.remove('hidden');
+      userAvatar.classList.add('hidden');
+      document.getElementById('floatingOwnerBtn').classList.add('hidden');
+      renderRooms();
+      showToast("Berhasil Logout.");
+    }
+  });
+}
+
+function processCustomLogin() {
+  const emailInput = document.getElementById('loginEmailInput').value.trim().toLowerCase();
+  
+  if (!emailInput) {
+    showToast("Silakan masukkan email kamu!");
+    return;
+  }
+
+  currentUser = { email: emailInput };
+  document.getElementById('loginModal').classList.add('hidden');
+  document.getElementById('openLoginBtn').classList.add('hidden');
+  document.getElementById('userAvatar').classList.remove('hidden');
+
+  const floatingOwnerBtn = document.getElementById('floatingOwnerBtn');
+
+  if (currentUser.email === OWNER_EMAIL) {
+    floatingOwnerBtn.classList.remove('hidden');
+    showToast("Login Berhasil sebagai OWNER!");
+  } else {
+    floatingOwnerBtn.classList.add('hidden');
+    showToast(`Selamat datang, ${currentUser.email}!`);
+  }
+
+  renderRooms();
+}
+
+/* OWNER MODALS & QUICK EDIT */
+function initOwnerModals() {
+  const floatingOwnerBtn = document.getElementById('floatingOwnerBtn');
+  const adminModal = document.getElementById('adminModal');
+  const closeAdminBtn = document.getElementById('closeAdminBtn');
+  const roomEditModal = document.getElementById('roomEditModal');
+  const closeRoomEditBtn = document.getElementById('closeRoomEditBtn');
+
+  floatingOwnerBtn.addEventListener('click', () => {
+    floatingOwnerBtn.classList.toggle('active');
+    if (adminModal.classList.contains('hidden')) {
+      renderAdminModalUI();
+      adminModal.classList.remove('hidden');
+    } else {
+      adminModal.classList.add('hidden');
+      floatingOwnerBtn.classList.remove('active');
+    }
+  });
+
+  closeAdminBtn.addEventListener('click', () => {
+    adminModal.classList.add('hidden');
+    floatingOwnerBtn.classList.remove('active');
+  });
+
+  closeRoomEditBtn.addEventListener('click', () => {
+    roomEditModal.classList.add('hidden');
+  });
 }
 
 function renderAdminModalUI() {
-  // Update Tombol Fee ON/OFF di Modal
   const f1 = document.getElementById('toggleFee1k');
   const f2 = document.getElementById('toggleFee2k');
   if (f1) { f1.className = `toggle-btn ${roomData.fee1k.status.toLowerCase()}`; f1.innerText = roomData.fee1k.status; }
   if (f2) { f2.className = `toggle-btn ${roomData.fee2k.status.toLowerCase()}`; f2.innerText = roomData.fee2k.status; }
 
-  // Update Tombol Mode ON/OFF di Modal Sesuai Fee Aktif
   const activeModes = roomData[`fee${currentFee}`].modes;
   ['1v1', '2v2', '3v3', '4v4'].forEach(m => {
     const btn = document.getElementById(`toggleMode${m}`);
@@ -263,14 +288,12 @@ function renderAdminModalUI() {
       btn.innerText = activeModes[m].status;
     }
   });
-
-  renderAdminRoomControls();
 }
 
 function toggleFeeStatus(fee) {
   const activeFeeData = roomData[`fee${fee}`];
   activeFeeData.status = activeFeeData.status === 'ON' ? 'OFF' : 'ON';
-  
+
   const badge = document.getElementById(`statusBadge${fee}`);
   if (badge) {
     badge.className = `status-indicator ${activeFeeData.status.toLowerCase()}`;
@@ -301,40 +324,45 @@ function saveSaluranLink() {
   }
 }
 
-function renderAdminRoomControls() {
-  const container = document.getElementById('adminRoomControlList');
-  if (!container) return;
-  container.innerHTML = '';
-
-  const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
-
-  rooms.forEach(room => {
-    const row = document.createElement('div');
-    row.className = 'admin-room-row';
-    row.innerHTML = `
-      <span>Room ${room.id} (${room.slot}/4 Tim)</span>
-      <div>
-        <button class="admin-room-btn" onclick="updateRoomSlot(${room.id}, -1)">-</button>
-        <button class="admin-room-btn" onclick="updateRoomSlot(${room.id}, 1)">+</button>
-      </div>
-    `;
-    container.appendChild(row);
-  });
-}
-
-// Update Slot Spesifik Hanya Pada Fee & Mode Yang Aktif
-function updateRoomSlot(roomId, change) {
+/* QUICK EDIT ROOM VIA TITIK TIGA */
+function openQuickEditRoom(roomId) {
+  activeEditingRoomId = roomId;
   const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
   const room = rooms.find(r => r.id === roomId);
+
+  if (room) {
+    document.getElementById('roomEditTitle').innerText = `EDIT FEE ${currentFee.toUpperCase()} ${currentMode} - ROOM ${roomId}`;
+    document.getElementById('quickSlotDisplay').innerText = `${room.slot}/4 TIM`;
+    document.getElementById('quickLinkInput').value = room.link || '';
+    document.getElementById('roomEditModal').classList.remove('hidden');
+  }
+}
+
+function adjustQuickSlot(change) {
+  if (!activeEditingRoomId) return;
+  const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
+  const room = rooms.find(r => r.id === activeEditingRoomId);
 
   if (room) {
     let newSlot = room.slot + change;
     if (newSlot >= 0 && newSlot <= 4) {
       room.slot = newSlot;
-      renderAdminRoomControls();
-      renderRooms();
-      showToast(`FEE ${currentFee.toUpperCase()} ${currentMode} - Room ${roomId} diubah jadi ${newSlot}/4 Tim`);
+      document.getElementById('quickSlotDisplay').innerText = `${newSlot}/4 TIM`;
     }
+  }
+}
+
+function saveQuickRoomData() {
+  if (!activeEditingRoomId) return;
+  const rooms = roomData[`fee${currentFee}`].modes[currentMode].rooms;
+  const room = rooms.find(r => r.id === activeEditingRoomId);
+
+  if (room) {
+    const newLink = document.getElementById('quickLinkInput').value.trim();
+    room.link = newLink;
+    document.getElementById('roomEditModal').classList.add('hidden');
+    renderRooms();
+    showToast(`Data Room ${activeEditingRoomId} Berhasil Disimpan!`);
   }
 }
 
@@ -348,4 +376,4 @@ function showToast(message) {
   setTimeout(() => {
     toast.classList.add('hidden');
   }, 3000);
-      }
+    }
