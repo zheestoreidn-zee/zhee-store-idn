@@ -44,6 +44,7 @@
       </a>
     </nav>
 
+    <!-- Hak Cipta Dikunci di Bawah Sidebar -->
     <div class="sidebar-footer-badge">
       <p>© 2026 Zhee Store • All Rights Reserved</p>
     </div>
@@ -64,12 +65,11 @@
         <span class="capsule-brand">ZHEE STORE</span>
       </div>
 
-      <!-- User Auth (Google Login) -->
       <div class="capsule-auth">
-        <button id="googleAuthBtn" class="auth-icon-btn" title="Login Google">
+        <button id="openLoginBtn" class="auth-icon-btn" title="Login Acc">
           <i class="fa-regular fa-user"></i>
         </button>
-        <img id="userAvatar" class="user-avatar hidden" src="" alt="Profile">
+        <img id="userAvatar" class="user-avatar hidden" src="logo-zs.png" alt="Profile">
       </div>
     </header>
 
@@ -83,7 +83,7 @@
             <span>SYSTEM ONLINE • OPEN KUOTA</span>
           </div>
           <h2>WELCOME TO ZHEE STORE</h2>
-          <p>Platform Fast Tour CS Free Fire tercepat, real-time sync, dan anti kenon.</p>
+          <p>Platform Fast Tour CS Free Fire tercepat, real-time sync, dan bebas kenon massal.</p>
           
           <button class="cta-book-btn" onclick="navigateToPage('home')">
             <i class="fa-solid fa-gamepad"></i> ENTER BOOKING ROOM
@@ -92,14 +92,24 @@
 
         <div class="dashboard-stats-grid">
           <div class="stat-card">
-            <i class="fa-solid fa-bolt"></i>
-            <h4>FAST PROCESS</h4>
-            <p>Direct Link WA Room</p>
+            <i class="fa-solid fa-shield-halved"></i>
+            <h4>ANTI KENON</h4>
+            <p>Direct ke grup kuota 4 tim kecil tanpa takut banned</p>
           </div>
           <div class="stat-card">
-            <i class="fa-solid fa-shield-cat"></i>
-            <h4>ANTI KENON</h4>
-            <p>Sistem Kuota 4 Tim</p>
+            <i class="fa-solid fa-bolt"></i>
+            <h4>OTOMATIS & FAST</h4>
+            <p>Klik BOOK langsung tanding tanpa usah PM admin</p>
+          </div>
+          <div class="stat-card">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <h4>SYNC REAL-TIME</h4>
+            <p>Sisa kuota tim ter-update otomatis tanpa refresh</p>
+          </div>
+          <div class="stat-card">
+            <i class="fa-solid fa-users"></i>
+            <h4>RUANG AMAN</h4>
+            <p>Sistem tanding resmi & transparan untuk player CS</p>
           </div>
         </div>
       </section>
@@ -114,12 +124,12 @@
           </button>
           <button class="fee-tab" data-fee="2k">
             <span>FEE 2K</span>
-            <div id="statusBadge2k" class="status-indicator on">ON</div>
+            <div id="statusBadge2k" class="status-indicator off">OFF</div>
           </button>
         </div>
 
         <div class="mode-switcher-container">
-          <button class="mode-btn" data-mode="1v1">
+          <button class="mode-btn active" data-mode="1v1">
             1v1 <span id="dot1v1" class="mode-status on"></span>
           </button>
           <button class="mode-btn" data-mode="2v2">
@@ -128,13 +138,13 @@
           <button class="mode-btn" data-mode="3v3">
             3v3 <span id="dot3v3" class="mode-status off"></span>
           </button>
-          <button class="mode-btn active" data-mode="4v4">
+          <button class="mode-btn" data-mode="4v4">
             4v4 <span id="dot4v4" class="mode-status on"></span>
           </button>
         </div>
 
         <div class="section-title-box">
-          <h3 id="currentCategoryTitle">FEE 1K • MODE 4v4</h3>
+          <h3 id="currentCategoryTitle">FEE 1K • MODE 1v1</h3>
           <p>Maksimal 4 Tim Per Room (P1, P2, Final)</p>
         </div>
 
@@ -155,16 +165,55 @@
         </div>
       </section>
 
-      <!-- Halaman 4: Rules -->
+      <!-- Halaman 4: Rules FT CS -->
       <section id="page-rules" class="page-content">
         <div class="glass-card page-card">
-          <h3><i class="fa-solid fa-scroll"></i> RULES FAST TOUR CS</h3>
-          <ul class="rules-list">
-            <li><strong>Sistem Match:</strong> Knockout 4 Tim (P1 vs P1, Final).</li>
-            <li><strong>Rule Set:</strong> No Gun Property & Skill Sesuai Custom Room.</li>
-            <li><strong>Dilarang:</strong> Bug, Cheat, & Emote Spam berlebihan.</li>
-            <li><strong>Keputusan Admin:</strong> Mutlak dan tidak dapat diganggu gugat.</li>
-          </ul>
+          <h3><i class="fa-solid fa-scroll"></i> RULES FT CS BY ZHEFANYA</h3>
+          
+          <div class="rules-accordion">
+            <details open>
+              <summary><i class="fa-solid fa-sliders"></i> FORMAT ROOM</summary>
+              <p>Crazy Store • Coin 1.500 • Round 13 • Ammo Limited OFF • Fall Damage ON • Throwable Limit OFF • Weapon Attribute ON</p>
+            </details>
+
+            <details>
+              <summary><i class="fa-solid fa-dog"></i> RULES PET</summary>
+              <p>Falco & Panther Only (Selain ini wajib kosong). Template Skill No Pet: <code>#FF#YnlnZ39yZ359aXNtbXB0eWVtd2JwfnVvcmR/cWd/</code></p>
+            </details>
+
+            <details>
+              <summary><i class="fa-solid fa-gun"></i> WEAPON & SS 00</summary>
+              <p>SG All Skin • Waktu 00 SG 1 Only • Akun Lvl 1-29 WAJIB SS 00 (Lvl 30+ Bebas SS 00)</p>
+            </details>
+
+            <details>
+              <summary><i class="fa-solid fa-ban"></i> DILARANG IN-GAME</summary>
+              <ul>
+                <li>Atap / Lantai 2 / Kolong CT</li>
+                <li>DMG Tinju / USP / Sepatu Terbang</li>
+                <li>Helmet/Vest/Gloo Wall saat 00</li>
+                <li>Zona untuk Mode 1v1 & 2v2</li>
+                <li>Char Cewek / Bundle Balap, Hiu, Bencong</li>
+                <li>Script / Rege / Cheat / FF Mod / Kipas</li>
+                <li>Surcin (Auto Diss, AFK bukan diss)</li>
+              </ul>
+            </details>
+
+            <details>
+              <summary><i class="fa-solid fa-circle-check"></i> DIPERBOLEHKAN</summary>
+              <p>Boleh Macro • End Animasi • Bundle Berubah • Main Zona Mode 3v3 & 4v4 • Taunting / Emote</p>
+            </details>
+
+            <details>
+              <summary><i class="fa-solid fa-video"></i> DRAMA, REPLAY & REMATCH</summary>
+              <ul>
+                <li>Rematch Max 3x (Salah skill/format room jika belum ada DMG, atau Crash)</li>
+                <li><strong>WAJIB SAVE REPLAY & RECORDING LAYAR!</strong> Hanya SS foto = TIDAK VALID / AUTO DISS!</li>
+                <li>Rasio HS Maksimal 75% (Di atas 6 Kill)</li>
+                <li>Toleransi Telat: 15 Menit (25 Menit jika sholat/kendala khusus)</li>
+              </ul>
+            </details>
+          </div>
         </div>
       </section>
 
@@ -172,19 +221,34 @@
 
   </div>
 
-  <!-- Tombol Melayang Floating Owner (+) (Hanya muncul jika zheestoreidn@gmail.com login) -->
-  <button id="floatingOwnerBtn" class="floating-owner-btn hidden" title="Pengaturan Owner">
+  <!-- Tombol Floating Owner (+) Animasi Muter (Hanya jika Owner Login) -->
+  <button id="floatingOwnerBtn" class="floating-owner-btn hidden" title="Owner Switch">
     <i class="fa-solid fa-plus"></i>
   </button>
 
-  <!-- MODAL ADMIN PANEL OWNER -->
-  <div id="adminModal" class="admin-modal hidden">
-    <div class="admin-modal-content">
-      <div class="admin-modal-header">
-        <h3><i class="fa-solid fa-sliders"></i> PANEL OWNER (ZHEE STORE)</h3>
+  <!-- MODAL CUSTOM LOGIN LIQUID GLASS -->
+  <div id="loginModal" class="custom-modal hidden">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <h3><i class="fa-solid fa-user-lock"></i> LOGIN ACCOUNT</h3>
+        <button id="closeLoginBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="custom-modal-body">
+        <p style="font-size:0.75rem; color:var(--text-dim); margin-bottom:12px;">Masukkan Email Google untuk akses (Gunakan zheestoreidn@gmail.com untuk Owner):</p>
+        <input type="email" id="loginEmailInput" class="custom-input" placeholder="contoh: zheestoreidn@gmail.com">
+        <button class="custom-submit-btn" onclick="processCustomLogin()">LOGIN NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PANEL OWNER SAKLAR UTAMA -->
+  <div id="adminModal" class="custom-modal hidden">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <h3><i class="fa-solid fa-sliders"></i> PANEL OWNER (SAKLAR UTAMA)</h3>
         <button id="closeAdminBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="admin-modal-body">
+      <div class="custom-modal-body">
         
         <div class="admin-control-group">
           <h4>Status Fee Utama</h4>
@@ -194,12 +258,12 @@
           </div>
           <div class="admin-toggle-row">
             <span>FEE 2K</span>
-            <button id="toggleFee2k" class="toggle-btn on" onclick="toggleFeeStatus('2k')">ON</button>
+            <button id="toggleFee2k" class="toggle-btn off" onclick="toggleFeeStatus('2k')">OFF</button>
           </div>
         </div>
 
         <div class="admin-control-group">
-          <h4>Status Mode (FEE 1K)</h4>
+          <h4>Status Mode (FEE AKTIF)</h4>
           <div class="admin-toggle-row">
             <span>Mode 1v1</span>
             <button id="toggleMode1v1" class="toggle-btn on" onclick="toggleModeStatus('1v1')">ON</button>
@@ -220,19 +284,41 @@
 
         <div class="admin-control-group">
           <h4>Edit Link Saluran Official</h4>
-          <input type="text" id="inputSaluranLink" class="admin-input" placeholder="Masukkan Link Saluran WA Baru...">
-          <button class="admin-save-btn" onclick="saveSaluranLink()">Simpan Link Saluran</button>
-        </div>
-
-        <div class="admin-control-group">
-          <h4>Atur Kuota Tim (Mode Aktif)</h4>
-          <div id="adminRoomControlList"></div>
+          <input type="text" id="inputSaluranLink" class="custom-input" placeholder="Masukkan Link Saluran WA Baru...">
+          <button class="custom-submit-btn" onclick="saveSaluranLink()">SIMPAN LINK</button>
         </div>
 
       </div>
     </div>
   </div>
 
+  <!-- MODAL QUICK EDIT ROOM (TITIK TIGA OWNER) -->
+  <div id="roomEditModal" class="custom-modal hidden">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <h3 id="roomEditTitle"><i class="fa-solid fa-pen-to-square"></i> EDIT ROOM</h3>
+        <button id="closeRoomEditBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="custom-modal-body">
+        <div class="admin-control-group">
+          <h4>Kuota Tim Terisi</h4>
+          <div style="display:flex; gap:10px; align-items:center; justify-content:center; margin:15px 0;">
+            <button class="step-btn" onclick="adjustQuickSlot(-1)">-</button>
+            <span id="quickSlotDisplay" style="font-size:1.2rem; font-weight:800; min-width:60px; text-align:center;">0/4 TIM</span>
+            <button class="step-btn" onclick="adjustQuickSlot(1)">+</button>
+          </div>
+        </div>
+
+        <div class="admin-control-group">
+          <h4>Link Grup WA Room</h4>
+          <input type="text" id="quickLinkInput" class="custom-input" placeholder="https://chat.whatsapp.com/...">
+          <button class="custom-submit-btn" onclick="saveQuickRoomData()">SIMPAN DATA ROOM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Capsule -->
   <div id="toastNotification" class="toast-capsule hidden">
     <i id="toastIcon" class="fa-solid fa-circle-info"></i>
     <span id="toastMessage">Notification</span>
@@ -241,3 +327,5 @@
   <script src="script.js"></script>
 </body>
 </html>
+
+              
