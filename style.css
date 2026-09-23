@@ -26,47 +26,34 @@ img {
   display: block;
 }
 
+/* FIX SCROLL BUG: Hapus overscroll-behavior-y & kuncioverflow yang merusak scroll HP */
 html, body {
   background-color: var(--bg-black) !important;
   color: var(--text-white);
   min-height: 100vh;
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
+  width: 100%;
+  position: relative;
+}
+
+/* FIX SIDEBAR SCROLL: Hanya kunci body jika sidebar terbuka */
+body.sidebar-locked {
+  overflow: hidden !important;
 }
 
 .ambient-blur {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.4;
+  position: fixed; border-radius: 50%; filter: blur(120px); z-index: -1; pointer-events: none; opacity: 0.4;
 }
 .blur-purple { width: 300px; height: 300px; background: var(--neon-purple); top: -50px; right: -50px; }
 .blur-blue { width: 250px; height: 250px; background: var(--neon-blue); bottom: 50px; left: -50px; }
 
 .main-wrapper {
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100vh;
-  position: relative;
-  padding-bottom: 40px;
+  max-width: 480px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 40px;
 }
 
 .capsule-header {
-  position: sticky;
-  top: 15px;
-  margin: 0 15px;
-  padding: 8px 16px;
-  background: rgba(18, 14, 28, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 90;
+  position: sticky; top: 15px; margin: 0 15px; padding: 8px 16px;
+  background: rgba(18, 14, 28, 0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border); border-radius: 50px; display: flex; justify-content: space-between; align-items: center; z-index: 90;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
 
@@ -80,17 +67,20 @@ html, body {
 .capsule-btn { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-white); padding: 8px 14px; border-radius: 30px; font-size: 0.85rem; cursor: pointer; }
 
 .auth-icon-btn {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
-  color: var(--text-white); display: flex; align-items: center; justify-content: center; cursor: pointer;
+  width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border); color: var(--text-white); display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+
+.user-avatar {
+  width: 34px !important; height: 34px !important; border-radius: 50%; border: 2px solid var(--neon-purple); object-fit: cover; cursor: pointer;
 }
 
 .sidebar {
   position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
   background: rgba(13, 11, 20, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
   border-right: 1px solid var(--glass-border); z-index: 100;
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex; flex-direction: column; padding: 24px;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 24px;
+  overflow-y: auto;
 }
 .sidebar.open { left: 0; }
 .sidebar-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 95; display: none; }
@@ -157,7 +147,16 @@ html, body {
 .channel-item-btn { display: block; margin-top: 15px; padding: 12px; background: #25d366; color: #fff; text-align: center; text-decoration: none; font-weight: 700; border-radius: 12px; font-size: 0.85rem; }
 .rules-list { margin-top: 15px; padding-left: 20px; font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
 
-/* MODAL ADMIN PANEL STYLING */
+/* TOMBOL FLOATING OWNER (+) KANAN BAWAH */
+.floating-owner-btn {
+  position: fixed; bottom: 25px; right: 20px; width: 50px; height: 50px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); border: none; color: #fff;
+  font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(157, 78, 221, 0.5); cursor: pointer; z-index: 150; transition: transform 0.2s;
+}
+.floating-owner-btn:active { transform: scale(0.9); }
+
+/* MODAL ADMIN PANEL OWNER */
 .admin-modal {
   position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
   z-index: 300; display: flex; align-items: center; justify-content: center; padding: 20px;
@@ -168,10 +167,18 @@ html, body {
   box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
 }
 .admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
-.admin-modal-header h3 { font-size: 0.9rem; font-weight: 800; color: var(--neon-blue); display: flex; align-items: center; gap: 8px; }
+.admin-modal-header h3 { font-size: 0.85rem; font-weight: 800; color: var(--neon-blue); display: flex; align-items: center; gap: 8px; }
 .admin-control-group { margin-bottom: 20px; }
 .admin-control-group h4 { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
 .admin-toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.85rem; font-weight: 600; }
+
+.admin-input {
+  width: 100%; padding: 10px 14px; border-radius: 10px; background: var(--glass-bg); border: 1px solid var(--glass-border);
+  color: #fff; font-size: 0.8rem; margin-bottom: 8px; outline: none;
+}
+.admin-save-btn {
+  width: 100%; padding: 10px; border-radius: 10px; background: var(--neon-blue); border: none; color: #000; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+}
 
 .toggle-btn { padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; border: none; cursor: pointer; }
 .toggle-btn.on { background: rgba(0, 245, 212, 0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
@@ -188,4 +195,3 @@ html, body {
 }
 .toast-capsule.hidden { opacity: 0; pointer-events: none; transform: translate(-50%, 20px); }
 .hidden { display: none !important; }
-  
